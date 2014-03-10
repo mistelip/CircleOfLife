@@ -1,5 +1,4 @@
 # Doc Folder
-changing other file
 
 Your project report goes here. It is mandatory to use one of the templates (latex or word) that you find herein.
 
