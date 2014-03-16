@@ -34,20 +34,24 @@ Instead of having simple Cells that can either be Dead or alive we introduce A f
     int maxStomach      //Organism will not feed if it's stomach reaches this constant
 	int lifespan	    //-1 after each turn, when reaching 0 organism becomes "becomeID"
 	int fatness	        //How many organisms can be fed by this organism
-    int minStomachRepInd // How "full" the organism has to be to be able to reproduce
+    int minStomachRepInd //How "full" the organism has to be to be able to reproduce
 
     
 Updating Rules:
 As in game of life we look at the 8-neighbourhood. We adapt the rules to our model:
 
-If neighbourhood includes:
-    1: Pray
+Updating organism field:
+	If neighbourhood includes pray
         --> Remove 1 from fatness of the pray
         --> Mark pray so it will be dead at the end of the round
         --> Add +1 to stomach
-    2: The same organism AND (our stomach and the other organisms Stomach is > MinFoodToRep) AND includes an "nothing" field
-        --> Change the "Nothing" field to our organism 
-        
+    
+Updating "Nothing" field:  
+	1: If neignbourhood includes two organisms of the same kind with both (stomach > MinFoodToRep)
+		--> If there are multiple potential pairs
+			--> Randomly choose one
+        --> Change the "Nothing" field to the chosen organism type
+		--> The variables of the new organism contain either default values or depend on the variables of the parents 
         
 Additions: Probability that organism can successfully eat pray/ Reproduce.
 
