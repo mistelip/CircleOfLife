@@ -1,0 +1,184 @@
+% Simulate Circle Of life
+
+%------CONSTANTS---------------------------------
+TIMESTEPS = 200;
+
+
+% 0 = Nothing
+% 1 = Grass
+% 2 = Antilope
+% 3 = Lion
+NUMBER_OF_VARIABLES = 10;
+typeInd = 1;
+preyTypeInd = 2;    %The type of the prey
+becomesInd = 3; %What type does this organism become after death
+
+foodDigestInd = 4;   %Food digested in a day
+stomachInd = 5; %Subtract "foodDigest" each day, +1 when eating, when equal to 0 organism becomes "becomesID"
+maxStomachInd = 6;  %Organism will not feed if it's stomach reaches this constant
+
+lifeInd = 7;    %-1 after each turn, when reaching 0 organism becomes "becomeID"
+fatnessInd = 8; %How many organisms can be fed by this organism
+aliveInd = 9; %1 if alive, 0 if bitten
+minStomachRepInd = 10; %minimum stomach required to reproduce;
+
+NOTHING =   [0, -1, 0, 0, inf, 0, inf, 0, 0, inf];
+GRASS =     [1, -1, 0, 0, inf, 0, 100, 5, 1, 0];
+ANTILOPE =  [2, 1, 1, 1, 10, 30, 50, 2, 1, 2];
+LION =      [3, 2, 1, 1, 10, 15, 50, 0, 1, 5];
+%---------------------------------------------------
+
+
+
+% Set parameter values
+X=20;              % Grid size (XxY)
+Y =20;
+beta=0.01;          % Infection rate
+gamma=0.01;         % Immunity rate
+
+
+%create empty land
+organismMat = zeros(Y,X);
+for i=2:NUMBER_OF_VARIABLES
+    organismMat(:,:,i) = zeros(Y,X);
+end
+
+%--------populate land
+
+%manual
+organismMat(1,1,:) = GRASS;
+organismMat(10,10,:) = GRASS;
+organismMat(10,9,:) = GRASS;
+organismMat(8,8,:) = GRASS;
+organismMat(7,8,:) = GRASS;
+
+organismMat(2,3,:) = ANTILOPE;
+organismMat(5,5,:) = ANTILOPE;
+organismMat(2,4,:) = ANTILOPE;
+organismMat(5,4,:) = ANTILOPE;
+
+
+organismMat(6,5,:) = LION;
+organismMat(15,15,:) = LION;
+
+%{
+%random Grass
+rng('shuffle');
+for i=1:400
+    x =  randi([1 X]);
+    y =  randi([1 Y]);
+    disp(x);
+    disp(y);
+    organismMat(x,y,:) = GRASS;
+end
+
+
+%random Antilope
+rng('shuffle');
+for i=1:15
+    x =  randi([1 X]);
+    y =  randi([1 Y]);
+    disp(x);
+    disp(y);
+    organismMat(x,y,:) = ANTILOPE;
+end
+
+%random Lion
+rng('shuffle');
+for i=1:15
+    x =  randi([1 X]);
+    y =  randi([1 Y]);
+    disp(x);
+    disp(y);
+    organismMat(x,y,:) = LION;
+end
+%}
+
+%figure;
+printLand(organismMat(:,:,1));
+
+
+% Define the Moore neighborhood, i.e. the 8 nearest neighbors
+neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
+
+% main loop, iterating the time variable, t
+for t=1:TIMESTEPS
+    deathlist = [];
+    % iterate over all cells in grid x, for index i=1..N and j=1..N
+    for i=1:X
+        for j=1:Y
+            
+            %Dead?
+            if(organismMat(i,j,aliveInd) == 0)
+                continue
+            end
+            
+            %Adjust Age
+            
+            organismMat(i,j,lifeInd) = organismMat(i,j,lifeInd) - 1;
+            if (organismMat(i,j,lifeInd) < 0)
+                organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd));
+            end
+            
+            % Iterate over the neighbors
+            potentialMatingLocaction = [inf,inf];
+            potentialMate = [inf,inf];
+            currentAnimal = organismMat(i,j,:);
+            
+            for k=1:8
+                i2 = i+neigh(k, 1);
+                j2 = j+neigh(k, 2);
+                % Check that the cell is within the grid boundaries
+                if ( i2>=1 && j2>=1 && i2<=X && j2<=Y )
+                    neighOrganism = organismMat(i2,j2,:);
+                    
+                    switch neighOrganism(typeInd)
+                        case NOTHING(typeInd)   %Found Mating Loc
+                            potentialMatingLocaction = [i2,j2];
+                        case currentAnimal(preyTypeInd) %Found Food
+                            if (currentAnimal(stomachInd) < currentAnimal(maxStomachInd))
+                                if (organismMat(i2,j2,fatnessInd) > 0)
+                                    organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) + 1;
+                                    organismMat(i2,j2,aliveInd) = 0;
+                                    organismMat(i2,j2,fatnessInd) = organismMat(i2,j2,fatnessInd) - 1;
+                                    deathlist = [deathlist; [i2,j2]];
+                                end
+                            end
+                        case currentAnimal(typeInd) %found other mate
+                            if ((currentAnimal(stomachInd) >= currentAnimal(minStomachRepInd))...
+                                    && (neighOrganism(stomachInd) >= neighOrganism(minStomachRepInd))...
+                                    && (neighOrganism(aliveInd) == 1))
+                                potentialMate = [i2,j2];
+                            end
+                    end
+                end
+            end
+            
+            %Mating
+            if ((potentialMate(1) ~= inf) && (potentialMatingLocaction(1) ~= inf))
+                %Reproduce
+                organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),:)...
+                    = typeToOrganism(currentAnimal(typeInd));
+                
+                %Subtract from Stomach
+                organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) -1;
+                organismMat(potentialMate(1),potentialMate(2),stomachInd)...
+                    = organismMat(potentialMate(1),potentialMate(2),stomachInd) -1;
+                
+            end
+            
+            
+        end
+        
+    end
+    
+    %remove dead organisms
+    
+    % Animate
+    printLand(organismMat(:,:,1));
+    pause(0.5)
+    
+    
+end
+%}
+
