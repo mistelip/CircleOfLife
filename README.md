@@ -55,7 +55,8 @@ Updating "Nothing" field:
         
 Additions: Probability that organism can successfully eat pray/ Reproduce.
 
-It captures a realistic model of nature. It lacks the ability for organisms to travel and "look" for a potental mate. 
+It lacks the ability for organisms to travel and "look" for a potental mate. 
+An organism is able to reproduce from the first day it is born. 
 
 ## Fundamental Questions
 (At the end of the project you want to find the answer to these questions)
