@@ -1,4 +1,4 @@
-# MATLAB Spring 2014 – Research Plan (Template)
+# MATLAB Spring 2014 – Research Plan
 > * Group Name: Children Of Scar
 > * Group participants names: Kaelin Ruben, Misteli Patrick
 > * Project Title: Circle Of Life
