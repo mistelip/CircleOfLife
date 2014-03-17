@@ -1,7 +1,7 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
-TIMESTEPS = 2000;
+TIMESTEPS = 10000;
 NUMBER_OF_SPECIES = 3;
 
 % 0 = Nothing
@@ -9,6 +9,8 @@ NUMBER_OF_SPECIES = 3;
 % 2 = Antilope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 11;
+SETUPINDEX = 1;
+
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
 becomesInd = 3; %What type does this organism become after death
@@ -23,102 +25,20 @@ aliveInd = 9; %1 if alive, 0 if bitten
 minStomachRepInd = 10; %minimum stomach required to reproduce;
 repProbInd = 11;    %Probability of Reproduction
 
-NOTHING =   typeToOrganism(0);
-GRASS =     typeToOrganism(1);
-ANTILOPE =  typeToOrganism(2);
-LION =      typeToOrganism(3);
+NOTHING =   typeToOrganism(0,SETUPINDEX);
+GRASS =     typeToOrganism(1,SETUPINDEX);
+ANTILOPE =  typeToOrganism(2,SETUPINDEX);
+LION =      typeToOrganism(3,SETUPINDEX);
 %---------------------------------------------------
 
 
+[X,Y,organismMat] = getLand(1,NUMBER_OF_VARIABLES,SETUPINDEX);
 
-% Set parameter values
-X=60;              % Grid size (XxY)
-Y =60;
-beta=0.01;          % Infection rate
-gamma=0.01;         % Immunity rate
-
-
-%create empty land
-organismMat = zeros(Y,X);
-for i=2:NUMBER_OF_VARIABLES
-    organismMat(:,:,i) = zeros(Y,X);
-end
-
-
-for i=1:X
-    for j=1:Y
-        organismMat(i,j,:) = ANTILOPE;
-    end
-end
-
-organismMat(30,30,:) = LION;
-organismMat(31,30,:) = LION;
-organismMat(30,31,:) = LION;
-organismMat(31,31,:) = LION;
-organismMat(32,32,:) = LION;
-
-%--------populate land
-
-%manual
-%{
-organismMat(1,1,:) = GRASS;
-organismMat(10,10,:) = GRASS;
-organismMat(10,9,:) = GRASS;
-organismMat(8,8,:) = GRASS;
-organismMat(7,8,:) = GRASS;
-
-%%}
-
-organismMat(2,3,:) = ANTILOPE;
-organismMat(5,5,:) = ANTILOPE;
-organismMat(2,4,:) = ANTILOPE;
-organismMat(5,4,:) = ANTILOPE;
-organismMat(14,15,:) = ANTILOPE;
-organismMat(15,17,:) = ANTILOPE;
-
-
-organismMat(6,5,:) = LION;
-organismMat(15,15,:) = LION;
-organismMat(6,6,:) = LION;
-organismMat(15,16,:) = LION;
-
-%}
-
-%{
-%random Grass
-rng('shuffle');
-for i=1:400
-    x =  randi([1 X]);
-    y =  randi([1 Y]);
-    disp(x);
-    disp(y);
-    organismMat(x,y,:) = GRASS;
-end
-
-
-%random Antilope
-rng('shuffle');
-for i=1:15
-    x =  randi([1 X]);
-    y =  randi([1 Y]);
-    disp(x);
-    disp(y);
-    organismMat(x,y,:) = ANTILOPE;
-end
-
-%random Lion
-rng('shuffle');
-for i=1:15
-    x =  randi([1 X]);
-    y =  randi([1 Y]);
-    disp(x);
-    disp(y);
-    organismMat(x,y,:) = LION;
-end
-%}
-
+%Print initial Land
 %figure;
 printLand(organismMat(:,:,1));
+disp('Initial Land Printed, Press any Key to start');
+pause;;
 
 
 % Define the Moore neighborhood, i.e. the 8 nearest neighbors
@@ -135,7 +55,7 @@ for t=1:TIMESTEPS
             %Adjust stomach
             organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - 1;
             if (organismMat(i,j,deathProbInd) > rand) || (organismMat(i,j,stomachInd) < 0)
-                organismMat(i,j,:) = typeToOrganism(oldOrganismMat(i,j,becomesInd));
+                organismMat(i,j,:) = typeToOrganism(oldOrganismMat(i,j,becomesInd),SETUPINDEX);
             end
             
             % Iterate over the neighbors
@@ -167,9 +87,9 @@ for t=1:TIMESTEPS
                     %TODO: store locations and subtract stomachs from
                     %breeding animals
 
-                    temp = typeToOrganism(index);
+                    temp = typeToOrganism(index,SETUPINDEX);
                     if(rand <= temp(repProbInd))
-                        organismMat(i,j,:) = typeToOrganism(index);
+                        organismMat(i,j,:) = typeToOrganism(index,SETUPINDEX);
                         %disp('birth');
                     else
                         %disp('no birth');
@@ -215,7 +135,7 @@ for t=1:TIMESTEPS
     
     % Animate
     printLand(oldOrganismMat(:,:,1));
-    pause(0.05)
+    pause(0.00001)
     
     
 end
