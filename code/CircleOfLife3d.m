@@ -1,7 +1,7 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
-TIMESTEPS = 200;
+TIMESTEPS = 2000;
 NUMBER_OF_SPECIES = 3;
 
 % 0 = Nothing
@@ -17,7 +17,7 @@ foodDigestInd = 4;   %Food digested in a day
 stomachInd = 5; %Subtract "foodDigest" each day, +1 when eating, when equal to 0 organism becomes "becomesID"
 maxStomachInd = 6;  %Organism will not feed if it's stomach reaches this constant
 
-lifeInd = 7;    %-1 after each turn, when reaching 0 organism becomes "becomeID"
+deathProbInd = 7;    %-1 after each turn, when reaching 0 organism becomes "becomeID"
 fatnessInd = 8; %How many organisms can be fed by this organism
 aliveInd = 9; %1 if alive, 0 if bitten
 minStomachRepInd = 10; %minimum stomach required to reproduce;
@@ -32,8 +32,8 @@ LION =      typeToOrganism(3);
 
 
 % Set parameter values
-X=20;              % Grid size (XxY)
-Y =20;
+X=60;              % Grid size (XxY)
+Y =60;
 beta=0.01;          % Infection rate
 gamma=0.01;         % Immunity rate
 
@@ -44,23 +44,45 @@ for i=2:NUMBER_OF_VARIABLES
     organismMat(:,:,i) = zeros(Y,X);
 end
 
+
+for i=1:X
+    for j=1:Y
+        organismMat(i,j,:) = ANTILOPE;
+    end
+end
+
+organismMat(30,30,:) = LION;
+organismMat(31,30,:) = LION;
+organismMat(30,31,:) = LION;
+organismMat(31,31,:) = LION;
+organismMat(32,32,:) = LION;
+
 %--------populate land
 
 %manual
+%{
 organismMat(1,1,:) = GRASS;
 organismMat(10,10,:) = GRASS;
 organismMat(10,9,:) = GRASS;
 organismMat(8,8,:) = GRASS;
 organismMat(7,8,:) = GRASS;
 
+%%}
+
 organismMat(2,3,:) = ANTILOPE;
 organismMat(5,5,:) = ANTILOPE;
 organismMat(2,4,:) = ANTILOPE;
 organismMat(5,4,:) = ANTILOPE;
+organismMat(14,15,:) = ANTILOPE;
+organismMat(15,17,:) = ANTILOPE;
 
 
 organismMat(6,5,:) = LION;
 organismMat(15,15,:) = LION;
+organismMat(6,6,:) = LION;
+organismMat(15,16,:) = LION;
+
+%}
 
 %{
 %random Grass
@@ -110,10 +132,9 @@ for t=1:TIMESTEPS
     for i=1:X
         for j=1:Y
             
-            %Adjust Age and stomach
+            %Adjust stomach
             organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - 1;
-            organismMat(i,j,lifeInd) = oldOrganismMat(i,j,lifeInd) - 1;
-            if (organismMat(i,j,lifeInd) < 0) || (organismMat(i,j,stomachInd) < 0)
+            if (organismMat(i,j,deathProbInd) > rand) || (organismMat(i,j,stomachInd) < 0)
                 organismMat(i,j,:) = typeToOrganism(oldOrganismMat(i,j,becomesInd));
             end
             
@@ -149,9 +170,9 @@ for t=1:TIMESTEPS
                     temp = typeToOrganism(index);
                     if(rand <= temp(repProbInd))
                         organismMat(i,j,:) = typeToOrganism(index);
-                        disp('birth');
+                        %disp('birth');
                     else
-                        disp('no birth');
+                        %disp('no birth');
                     end
                     
                     
@@ -194,7 +215,7 @@ for t=1:TIMESTEPS
     
     % Animate
     printLand(oldOrganismMat(:,:,1));
-    pause(0.5)
+    pause(0.05)
     
     
 end
