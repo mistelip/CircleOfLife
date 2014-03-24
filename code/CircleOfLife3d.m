@@ -32,13 +32,13 @@ LION =      typeToOrganism(3,SETUPINDEX);
 %---------------------------------------------------
 
 
-[X,Y,organismMat] = getLand(1,NUMBER_OF_VARIABLES,SETUPINDEX);
+[X,Y,organismMat] = getLand(4,NUMBER_OF_VARIABLES,SETUPINDEX);
 
 %Print initial Land
 %figure;
 printLand(organismMat(:,:,1));
-disp('Initial Land Printed, Press any Key to start');
-pause;;
+disp('Initial Land Printed, Press 1 sec before start');
+pause(1);
 
 
 % Define the Moore neighborhood, i.e. the 8 nearest neighbors
@@ -66,39 +66,11 @@ for t=1:TIMESTEPS
             
             if (currentAnimal(typeInd) == NOTHING(typeInd))
                 %NOTHING
-                %count all neighbors to see if they can mate
-                typeCount = zeros(1,NUMBER_OF_SPECIES);
-                for k=1:8
-                    i2 = i+neigh(k, 1);
-                    j2 = j+neigh(k, 2);
-                    % Check that the cell is within the grid boundaries
-                    if ( i2>=1 && j2>=1 && i2<=X && j2<=Y )
-                        neighOrganism = oldOrganismMat(i2,j2,:);
-                        if (neighOrganism(typeInd) ~= 0)
-                            if(neighOrganism(stomachInd) > neighOrganism(minStomachRepInd)...
-                                    && neighOrganism(aliveInd) == 1)
-                                typeCount(neighOrganism(typeInd)) = typeCount(neighOrganism(typeInd)) + 1;
-                            end
-                        end
-                    end
-                end
-                [maxAmount,index] = max(typeCount);
-                if (maxAmount >= 2)
-                    %TODO: store locations and subtract stomachs from
-                    %breeding animals
-
-                    temp = typeToOrganism(index,SETUPINDEX);
-                    if(rand <= temp(repProbInd))
-                        organismMat(i,j,:) = typeToOrganism(index,SETUPINDEX);
-                        %disp('birth');
-                    else
-                        %disp('no birth');
-                    end
-                    
-                    
-                end
+                continue;
             else
                 %Organism
+                potentialMatingLocaction = [-1,-1];
+                potentialMate = [-1,-1];
                 for k=1:8
                     i2 = i+neigh(k, 1);
                     j2 = j+neigh(k, 2);
@@ -118,9 +90,32 @@ for t=1:TIMESTEPS
                                         deathlist = [deathlist; [i2,j2]];
                                     end
                                 end
+                            case currentAnimal(typeInd) %Found Mate
+                                if neighOrganism(stomachInd) > neighOrganism(minStomachRepInd)
+                                    %Has enough stomach,Is enough fed
+                                    potentialMate = [i2,j2];
+                                end
+                            case GRASS(typeInd)
+                                if potentialMatingLocaction(1) == -1 %Found Mating Loc
+                                    potentialMatingLocaction = [i2,j2];
+                                end
                         end
                     end
                 end
+                
+                %Check if we can mate
+                if (potentialMate(1) ~= -1) && (potentialMatingLocaction(1) ~= -1)
+                    %Check our stomach is enough
+                   if currentAnimal(stomachInd) > currentAnimal(minStomachRepInd)
+                       if (rand < currentAnimal(repProbInd))
+                           %Reproduce
+                           organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - 1;
+                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = organismMat(potentialMate(1),potentialMate(2),stomachInd) - 1;
+                           organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),:) = typeToOrganism(currentAnimal(typeInd),SETUPINDEX);
+                       end
+                   end
+                end
+                    
             end
             
         end
@@ -135,9 +130,13 @@ for t=1:TIMESTEPS
     
     % Animate
     printLand(oldOrganismMat(:,:,1));
-    pause(0.00001)
+    %pause(0.00001);
+    pause(0.3)
     
     
 end
+
+disp('Finished');
+
 %}
 
