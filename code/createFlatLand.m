@@ -1,4 +1,4 @@
-function [organismMat] = createEmptyLand( X,Y,NUMBER_OF_VARIABLES,setupIndex)
+function [organismMat] = createFlatLand(X,Y,NUMBER_OF_VARIABLES,setupIndex,LandType)
 %CREATEEMPTYLAND Creates 0,0,0 matrix
 %   Detailed explanation goes here
 organismMat = zeros(Y,X);
@@ -8,7 +8,7 @@ end
 
 for i=1:X
     for j=1:Y
-        organismMat(i,j,:) = typeToOrganism(0,setupIndex);
+        organismMat(i,j,:) = typeToOrganism(LandType,setupIndex);
     end
 end
 

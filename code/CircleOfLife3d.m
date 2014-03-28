@@ -4,12 +4,15 @@
 TIMESTEPS = 10000;
 NUMBER_OF_SPECIES = 3;
 
+
+
 % 0 = Nothing
 % 1 = Grass
 % 2 = Antilope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 11;
-SETUPINDEX = 1;
+SETUPINDEX = 2;
+LAND_NUMBER = 8;
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
@@ -32,7 +35,7 @@ LION =      typeToOrganism(3,SETUPINDEX);
 %---------------------------------------------------
 
 
-[X,Y,organismMat] = getLand(4,NUMBER_OF_VARIABLES,SETUPINDEX);
+[X,Y,organismMat] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
 
 %Print initial Land
 %figure;
@@ -46,28 +49,52 @@ neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
 
 % main loop, iterating the time variable, t
 for t=1:TIMESTEPS
+    
+    %{
+    if t == 50
+        for i=1:X
+            for j=1:Y
+                if i > 20 && i < 25 &&...
+                        j >= 20 && j <= 25
+                    organismMat(i,j,:) = LION;
+                end
+            end
+        end 
+    end
+    %}
+    
     deathlist = [];
-    oldOrganismMat = organismMat;
+    
     % iterate over all cells in grid x, for index i=1..N and j=1..N
     for i=1:X
         for j=1:Y
+
             
-            %Adjust stomach
-            organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - 1;
-            if (organismMat(i,j,deathProbInd) > rand) || (organismMat(i,j,stomachInd) < 0)
-                organismMat(i,j,:) = typeToOrganism(oldOrganismMat(i,j,becomesInd),SETUPINDEX);
-            end
-            
-            % Iterate over the neighbors
-            potentialMatingLocaction = [inf,inf];
-            potentialMate = [inf,inf];
-            currentAnimal = oldOrganismMat(i,j,:);
-            
-            
-            if (currentAnimal(typeInd) == NOTHING(typeInd))
+            if organismMat(i,j,typeInd) == NOTHING(typeInd)
                 %NOTHING
                 continue;
             else
+            %Adjust stomach
+            organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - organismMat(i,j,foodDigestInd);
+            if (organismMat(i,j,deathProbInd) > rand)
+                if organismMat(i,j,typeInd) ~= 1
+                    disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
+                end
+                organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
+                continue;
+            end
+            if (organismMat(i,j,stomachInd) < 0)
+                disp(['Starved ' , int2str(organismMat(i,j,typeInd))]);
+               organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
+               continue;
+            end
+            oldOrganismMat = organismMat;
+            
+            % Iterate over the neighbors
+            currentAnimal = oldOrganismMat(i,j,:);
+            
+            
+           
                 %Organism
                 potentialMatingLocaction = [-1,-1];
                 potentialMate = [-1,-1];
@@ -96,8 +123,10 @@ for t=1:TIMESTEPS
                                     potentialMate = [i2,j2];
                                 end
                             case GRASS(typeInd)
-                                if potentialMatingLocaction(1) == -1 %Found Mating Loc
-                                    potentialMatingLocaction = [i2,j2];
+                                if currentAnimal(typeInd) ~= GRASS(typeInd)
+                                    if potentialMatingLocaction(1) == -1 %Found Mating Loc
+                                        potentialMatingLocaction = [i2,j2];
+                                    end
                                 end
                         end
                     end
@@ -109,9 +138,26 @@ for t=1:TIMESTEPS
                    if currentAnimal(stomachInd) > currentAnimal(minStomachRepInd)
                        if (rand < currentAnimal(repProbInd))
                            %Reproduce
-                           organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - 1;
-                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = organismMat(potentialMate(1),potentialMate(2),stomachInd) - 1;
+                           
+                           organismMat(i,j,stomachInd) = currentAnimal(stomachInd) - 1;
+                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = oldOrganismMat(potentialMate(1),potentialMate(2),stomachInd) - 1;
                            organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),:) = typeToOrganism(currentAnimal(typeInd),SETUPINDEX);
+                           organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),stomachInd) = (oldOrganismMat(potentialMate(1),potentialMate(2),stomachInd) + oldOrganismMat(i,j,stomachInd))/2;
+                           
+                           %{
+                           if organismMat(i,j,typeInd) == 3
+                               disp(organismMat(potentialMate(1),potentialMate(2),stomachInd));
+                               disp(organismMat(i,j,stomachInd));
+                                disp(organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),stomachInd));
+                                disp('---------');
+                                if organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),stomachInd) == inf
+                                    disp('inf');
+                                    disp(organismMat(i,j,typeInd));
+                                    disp(organismMat(potentialMate(1),potentialMate(2),typeInd));
+                                end
+                           end
+                           %}
+                           
                        end
                    end
                 end
@@ -129,9 +175,9 @@ for t=1:TIMESTEPS
     end
     
     % Animate
-    printLand(oldOrganismMat(:,:,1));
+    printLand(organismMat(:,:,1));
     %pause(0.00001);
-    pause(0.3)
+    pause(0.02)
     
     
 end

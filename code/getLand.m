@@ -9,7 +9,7 @@ switch landNumber
     case 1 %All Antilopes with Lions in middle
         X=60;              % Grid size (XxY)
         Y =60;
-        organismMat = createEmptyLand(X,Y,NUM_OF_VARIABLES, setupIndex);
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,0);
         
         for i=1:X
             for j=1:Y
@@ -24,7 +24,7 @@ switch landNumber
     case 2 %Manual Random
         X = 20;
         Y = 20;
-        organismMat = createEmptyLand(X,Y,NUM_OF_VARIABLES,setupIndex);
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
         
         organismMat(1,1,:) = GRASS;
         organismMat(10,10,:) = GRASS;
@@ -47,7 +47,7 @@ switch landNumber
     case 3 %Randomized
         X = 30;
         Y = 30;
-        organismMat = createEmptyLand(X,Y,NUM_OF_VARIABLES,setupIndex);
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
         
         %random Grass
         rng('shuffle');
@@ -79,12 +79,48 @@ switch landNumber
     case 4  %Small Antilope Herd in Middle
         X=20;              % Grid size (XxY)
         Y =20;
-        organismMat = createEmptyLand(X,Y,NUM_OF_VARIABLES,setupIndex);
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
         
         for i=1:X
             for j=1:Y
                 if i > 8 && i < 12 &&...
                         j >= 8 && j <= 12
+                    organismMat(i,j,:) = ANTILOPE;
+                end
+            end
+        end
+    case 5 %Grass Land with herd of antilope in the middle
+        X=20;              % Grid size (XxY)
+        Y =20;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        
+        %{
+        for i=1:X
+            for j=1:Y
+                if i > 8 && i < 12 &&...
+                        j >= 8 && j <= 12
+                    organismMat(i,j,:) = ANTILOPE;
+                end
+            end
+        end
+        %}
+    case 6 %Only Antilipes
+        X = 50;
+        Y = 50;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
+        
+   case 7 %Only Lions
+        X = 10;
+        Y = 10;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,3);
+    case 8 %Only Grass + 4 antilopes
+        X = 10;
+        Y = 10;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        for i=1:X
+            for j=1:Y
+                if i >= 5 && i <= 6 &&...
+                        j >= 5 && j <= 6
                     organismMat(i,j,:) = ANTILOPE;
                 end
             end
