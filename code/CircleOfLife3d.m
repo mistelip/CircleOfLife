@@ -1,7 +1,7 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
-TIMESTEPS = 10000;
+TIMESTEPS = 20;
 NUMBER_OF_SPECIES = 3;
 
 
@@ -37,9 +37,18 @@ LION =      typeToOrganism(3,SETUPINDEX);
 
 [X,Y,organismMat] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
 
+%Initialize Video Writer
+fig = figure;
+vidObj = VideoWriter('sample.avi');
+vidObj.Quality= 100;
+%vidObj.FrameRate= 2;
+open(vidObj);
+
+
 %Print initial Land
-%figure;
 printLand(organismMat(:,:,1));
+
+
 disp('Initial Land Printed, Press 1 sec before start');
 pause(1);
 
@@ -48,6 +57,7 @@ pause(1);
 neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
 
 % main loop, iterating the time variable, t
+
 for t=1:TIMESTEPS
     
     %{
@@ -64,7 +74,7 @@ for t=1:TIMESTEPS
     %}
     
     deathlist = [];
-    
+    allEmpty = 1;
     % iterate over all cells in grid x, for index i=1..N and j=1..N
     for i=1:X
         for j=1:Y
@@ -74,17 +84,18 @@ for t=1:TIMESTEPS
                 %NOTHING
                 continue;
             else
+            allEmpty = 0;    
             %Adjust stomach
             organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - organismMat(i,j,foodDigestInd);
             if (organismMat(i,j,deathProbInd) > rand)
                 if organismMat(i,j,typeInd) ~= 1
-                    disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
+                    %disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
                 end
                 organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
                 continue;
             end
             if (organismMat(i,j,stomachInd) < 0)
-                disp(['Starved ' , int2str(organismMat(i,j,typeInd))]);
+                %disp(['Starved ' , int2str(organismMat(i,j,typeInd))]);
                organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
                continue;
             end
@@ -168,6 +179,9 @@ for t=1:TIMESTEPS
         
     end
     
+    if allEmpty == 1
+        break;
+    end
     %remove dead organisms
     [nDeaths,temp] = size(deathlist);
     for i=1:nDeaths
@@ -176,11 +190,14 @@ for t=1:TIMESTEPS
     
     % Animate
     printLand(organismMat(:,:,1));
-    %pause(0.00001);
-    pause(0.02)
+    pause(0.00001);
+    %pause(0.02)
     
+    writeVideo(vidObj,getframe(fig));
     
 end
+close(vidObj);
+winopen('sample.avi');
 
 disp('Finished');
 

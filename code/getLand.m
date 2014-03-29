@@ -7,14 +7,14 @@ LION =      typeToOrganism(3, setupIndex);
 
 switch landNumber
     case 1 %All Antilopes with Lions in middle
-        X=60;              % Grid size (XxY)
-        Y =60;
+        X=50;              % Grid size (XxY)
+        Y =50;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,0);
         
         for i=1:X
             for j=1:Y
-                if i > 27 && i < 30 &&...
-                        j > 27 && j < 30
+                if i >= 25 && i <= 30 &&...
+                        j >= 25 && j <= 30
                     organismMat(i,j,:) = LION;
                 else
                     organismMat(i,j,:) = ANTILOPE;
@@ -83,7 +83,7 @@ switch landNumber
         
         for i=1:X
             for j=1:Y
-                if i > 8 && i < 12 &&...
+                if i >= 8 && i <= 12 &&...
                         j >= 8 && j <= 12
                     organismMat(i,j,:) = ANTILOPE;
                 end
@@ -113,14 +113,14 @@ switch landNumber
         X = 10;
         Y = 10;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,3);
-    case 8 %Only Grass + 4 antilopes
-        X = 10;
-        Y = 10;
+    case 8 %Only Grass + antilopes herd
+        X = 100;
+        Y = 100;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
         for i=1:X
             for j=1:Y
-                if i >= 5 && i <= 6 &&...
-                        j >= 5 && j <= 6
+                if i >= 20 && i <= 30 &&...
+                        j >= 20 && j <= 30
                     organismMat(i,j,:) = ANTILOPE;
                 end
             end

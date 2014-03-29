@@ -7,8 +7,8 @@ function [] = printLand( mat )
     color_Grass = [0 1 0];
     color_Nothing = [0 0 0];
     clf                                 % Clear figure
-    imagesc(mat, [0 3])                   % Display grid
-                        % Pause for 0.01 s
+    imagesc(mat, [0 3]);                   % Display grid
+                    
     colormap([color_Nothing; color_Grass; color_Antilope; color_Lion]);    
     
 
