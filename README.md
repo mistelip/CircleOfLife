@@ -54,6 +54,12 @@ Is it necessary to have a food chain?
     What if we remove the Lions or the Lions and the Antilopes?
     What if organisms do NOT eat each other?
 
+How many animals does it initially take to keep the species alive?
+	Is it enough to have 2 animals initially?
+How many animals does can the land support?
+	Is there a maximum?
+
+
 
 ## Expected Results
 In theory the result should be similar to the Lotka-Volterra equations. Using the parameters we can alter the species and create a super-organism which should wipe out the land and eventually die of starvation. 
