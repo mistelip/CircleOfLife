@@ -105,8 +105,8 @@ switch landNumber
         end
         %}
     case 6 %Only Antilipes
-        X = 50;
-        Y = 50;
+        X = 40;
+        Y = 40;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
         
    case 7 %Only Lions
@@ -114,8 +114,8 @@ switch landNumber
         Y = 10;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,3);
     case 8 %Only Grass + antilopes herd
-        X = 100;
-        Y = 100;
+        X = 50;
+        Y = 50;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
         for i=1:X
             for j=1:Y
@@ -125,5 +125,57 @@ switch landNumber
                 end
             end
         end
+    case 9 %Half Antilope, Half Grass
+        X = 50;
+        Y = 50;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        for i=X/2:X
+            for j=1:Y
+                organismMat(i,j,:) = ANTILOPE;
+            end
+        end
+    case 10 %All Antilopes  + stripe of grass
+        X = 50;
+        Y = 50;
+        numStripes = 1;
+        
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
+        for i=X/2:(X/2 + numStripes)
+            for j=1:Y
+                organismMat(i,j,:) = GRASS;
+            end
+        end
+        
+    case 11 %All Grass + stripe of antilope
+        X = 50;
+        Y = 50;
+        numStripes = 1;
+        
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        for i=X/2:(X/2 + numStripes)
+            for j=1:Y
+                organismMat(i,j,:) = ANTILOPE;
+            end
+        end
+        
+case 12 %All Grass + stripe of antilope + stripe of lion
+        X = 50;
+        Y = 50;
+        numAntilopStripes = 12;
+        numLionStripes = 2;
+        
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        for i=X/2:(X/2 + numAntilopStripes)
+            for j=1:Y
+                organismMat(i,j,:) = ANTILOPE;
+            end
+        end
+        
+        for i=(X/2+(numAntilopStripes/2)-(numLionStripes/2)):(X/2+(numAntilopStripes/2)+(numLionStripes/2))
+            for j=Y/2:Y
+                organismMat(i,j,:) = LION;
+            end
+        end
+        
 end
 

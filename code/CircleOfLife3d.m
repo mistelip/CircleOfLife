@@ -1,7 +1,7 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
-TIMESTEPS = 20;
+TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
 
 
@@ -12,7 +12,7 @@ NUMBER_OF_SPECIES = 3;
 % 3 = Lion
 NUMBER_OF_VARIABLES = 11;
 SETUPINDEX = 2;
-LAND_NUMBER = 8;
+LAND_NUMBER = 1;
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
@@ -193,11 +193,11 @@ for t=1:TIMESTEPS
     pause(0.00001);
     %pause(0.02)
     
-    writeVideo(vidObj,getframe(fig));
+    %writeVideo(vidObj,getframe(fig));
     
 end
 close(vidObj);
-winopen('sample.avi');
+%winopen('sample.avi');
 
 disp('Finished');
 
