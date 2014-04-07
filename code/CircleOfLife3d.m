@@ -1,6 +1,7 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
+
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
 
@@ -75,40 +76,35 @@ for t=1:TIMESTEPS
     
     deathlist = [];
     allEmpty = 1;
+    
+    %Adjust stomach -> vectorized for performance
+    organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
+    
     % iterate over all cells in grid x, for index i=1..N and j=1..N
     for i=1:X
         for j=1:Y
 
-            
-            if organismMat(i,j,typeInd) == NOTHING(typeInd)
-                %NOTHING
-                continue;
-            else
-            allEmpty = 0;    
-            %Adjust stomach
-            organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - organismMat(i,j,foodDigestInd);
-            if (organismMat(i,j,deathProbInd) > rand)
-                if organismMat(i,j,typeInd) ~= 1
-                    %disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
+            if organismMat(i,j,typeInd) ~= NOTHING(typeInd)
+                allEmpty = 0;
+                if (organismMat(i,j,deathProbInd) > rand || organismMat(i,j,stomachInd) < 0) %combined both death causes
+                    %{
+                    if organismMat(i,j,typeInd) ~= 1
+                        %disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
+                    end
+                    %}
+                    organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
+                    continue;
                 end
-                organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
-                continue;
-            end
-            if (organismMat(i,j,stomachInd) < 0)
-                %disp(['Starved ' , int2str(organismMat(i,j,typeInd))]);
-               organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
-               continue;
-            end
-            oldOrganismMat = organismMat;
-            
-            % Iterate over the neighbors
-            currentAnimal = oldOrganismMat(i,j,:);
-            
-            
+                % this shoud not be inside the loop, inefficient
+                oldOrganismMat = organismMat;
+
+                % Iterate over the neighbors
+                currentAnimal = oldOrganismMat(i,j,:);
            
                 %Organism
                 potentialMatingLocaction = [-1,-1];
                 potentialMate = [-1,-1];
+                
                 for k=1:8
                     i2 = i+neigh(k, 1);
                     j2 = j+neigh(k, 2);
