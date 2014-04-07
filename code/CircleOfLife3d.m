@@ -33,10 +33,12 @@ NOTHING =   typeToOrganism(0,SETUPINDEX);
 GRASS =     typeToOrganism(1,SETUPINDEX);
 ANTILOPE =  typeToOrganism(2,SETUPINDEX);
 LION =      typeToOrganism(3,SETUPINDEX);
+
 %---------------------------------------------------
 
 
-[X,Y,organismMat] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
+[X,Y,organismMat,organismCounter] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
+
 
 %Initialize Video Writer
 fig = figure;
@@ -47,10 +49,10 @@ open(vidObj);
 
 
 %Print initial Land
-printLand(organismMat(:,:,1));
+printLand(organismMat(:,:,1),organismCounter);
 
 
-disp('Initial Land Printed, Press 1 sec before start');
+disp('Initial Land Printed, 1 sec before start');
 pause(1);
 
 
@@ -92,7 +94,10 @@ for t=1:TIMESTEPS
                         %disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
                     end
                     %}
+                    organismCounter(organismMat(i,j,typeInd)) = organismCounter(organismMat(i,j,typeInd)) -1;
+                    organismCounter(organismMat(i,j,becomesInd)) = organismCounter(organismMat(i,j,becomesInd)) + 1;
                     organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
+                    
                     continue;
                 end
                 % this shoud not be inside the loop, inefficient
@@ -185,7 +190,7 @@ for t=1:TIMESTEPS
     end
     
     % Animate
-    printLand(organismMat(:,:,1));
+    printLand(organismMat(:,:,1),organismCounter);
     pause(0.00001);
     %pause(0.02)
     

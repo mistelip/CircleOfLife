@@ -1,22 +1,30 @@
-function [X,Y,organismMat] = getLand(landNumber,NUM_OF_VARIABLES, setupIndex)
+function [X,Y,organismMat, organismCounter] = getLand(landNumber,NUM_OF_VARIABLES, setupIndex)
 
 NOTHING =   typeToOrganism(0, setupIndex);
 GRASS =     typeToOrganism(1, setupIndex);
 ANTILOPE =  typeToOrganism(2, setupIndex);
 LION =      typeToOrganism(3, setupIndex);
+organismCounter = zeros(3,1);
 
 switch landNumber
     case 1 %All Antilopes with Lions in middle
         X=50;              % Grid size (XxY)
         Y =50;
+        
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,0);
+        organismCounter(1) = 50*50;
         
         for i=1:X
             for j=1:Y
                 if i >= 25 && i <= 30 &&...
                         j >= 25 && j <= 30
                     organismMat(i,j,:) = LION;
+                    organismCounter(3) = organismCounter(3) + 1;
+                    organismCounter(1) = organismCounter(1) - 1;
+                    
                 else
+                    organismCounter(2) = organismCounter(2) + 1;
+                    organismCounter(1) = organismCounter(1) - 1;
                     organismMat(i,j,:) = ANTILOPE;
                 end
             end
