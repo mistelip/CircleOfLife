@@ -1,12 +1,8 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
-<<<<<<< HEAD
 
 TIMESTEPS = 1000;
-=======
-TIMESTEPS = 500;
->>>>>>> 02c5096eed7726cbcedf8fcd227e3c9b280dda64
 NUMBER_OF_SPECIES = 3;
 
 
