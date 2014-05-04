@@ -11,7 +11,7 @@ NUMBER_OF_SPECIES = 3;
 % 1 = Grass
 % 2 = Antilope
 % 3 = Lion
-NUMBER_OF_VARIABLES = 11;
+NUMBER_OF_VARIABLES = 12;
 SETUPINDEX = 2;
 LAND_NUMBER = 1;
 
@@ -28,6 +28,7 @@ fatnessInd = 8; %How many organisms can be fed by this organism
 aliveInd = 9; %1 if alive, 0 if bitten
 minStomachRepInd = 10; %minimum stomach required to reproduce;
 repProbInd = 11;    %Probability of Reproduction
+isOffspring = 12;    %0 = Cannot Reproduce?
 
 NOTHING =   typeToOrganism(0,SETUPINDEX);
 GRASS =     typeToOrganism(1,SETUPINDEX);
@@ -63,81 +64,113 @@ neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
 
 for t=1:TIMESTEPS
     
-    %{
+    %Add lions after t timesteps
+    %{ 
     if t == 50
         for i=1:X
             for j=1:Y
                 if i > 20 && i < 25 &&...
                         j >= 20 && j <= 25
                     organismMat(i,j,:) = LION;
+    
                 end
             end
         end 
     end
     %}
     
-    deathlist = [];
+
+  
     allEmpty = 1;
+    
+    deathlist = ones(X*Y,2);
+    deathlistIndex = 0;
+    offspringList = ones(X*Y,2);
+    offspringListIndex = 0;
+
+    
     
     %Adjust stomach -> vectorized for performance
     organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
-    
-    % iterate over all cells in grid x, for index i=1..N and j=1..N
     for i=1:X
         for j=1:Y
-
-            if organismMat(i,j,typeInd) ~= NOTHING(typeInd)
+            currentAnimal = organismMat(i,j,:);
+            
+            if (currentAnimal(aliveInd) == 0)
+                continue; %Animal is dead and is on deathlist
+            end
+            
+            if currentAnimal(typeInd) ~= NOTHING(typeInd)
+                % Still Alive? (Age & Hunger)-----------------------------------
                 allEmpty = 0;
-                if (organismMat(i,j,deathProbInd) > rand || organismMat(i,j,stomachInd) < 0) %combined both death causes
-                    %{
-                    if organismMat(i,j,typeInd) ~= 1
-                        %disp(['Deathed ' , int2str(organismMat(i,j,typeInd)), ' Stomach ' , int2str(organismMat(i,j,stomachInd))]);
-                    end
-                    %}
-                    organismCounter(organismMat(i,j,typeInd)) = organismCounter(organismMat(i,j,typeInd)) -1;
-                    organismCounter(organismMat(i,j,becomesInd)) = organismCounter(organismMat(i,j,becomesInd)) + 1;
-                    organismMat(i,j,:) = typeToOrganism(organismMat(i,j,becomesInd),SETUPINDEX);
-                    
+                iDie = 0;
+                if (organismMat(i,j,stomachInd) < 0)
+                    %Died of hunger
+                    iDie = 1;
+                end
+                if ((organismMat(i,j,deathProbInd) > rand) < 0)
+                    %Died of Age
+                    iDie = 1;
+                end
+                if (iDie == 1)
+                    organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) -1;
+                    organismCounter(currentAnimal(becomesInd)) = organismCounter(currentAnimal(becomesInd)) + 1;
+                    newOrganism = typeToOrganism(currentAnimal(becomesInd),SETUPINDEX);
+                    organismMat(i,j,:) = newOrganism;
                     continue;
                 end
-                % this shoud not be inside the loop, inefficient
-                oldOrganismMat = organismMat;
-
-                % Iterate over the neighbors
-                currentAnimal = oldOrganismMat(i,j,:);
-           
+                
+                %Check Neighborhood                
                 %Organism
                 potentialMatingLocaction = [-1,-1];
                 potentialMate = [-1,-1];
+                matingOnGrass = 0;
                 
                 for k=1:8
                     i2 = i+neigh(k, 1);
                     j2 = j+neigh(k, 2);
                     % Check that the cell is within the grid boundaries
                     if ( i2>=1 && j2>=1 && i2<=X && j2<=Y )
-                        neighOrganism = oldOrganismMat(i2,j2,:);
+                        neighOrganism = organismMat(i2,j2,:);
                         
                         switch neighOrganism(typeInd)
+                            
                             case NOTHING(typeInd)   %Found Mating Loc
                                 potentialMatingLocaction = [i2,j2];
-                            case currentAnimal(preyTypeInd) %Found Food
+                                
+                            case currentAnimal(preyTypeInd) %Found Food/Prey
                                 if (currentAnimal(stomachInd) < currentAnimal(maxStomachInd))
-                                    if (oldOrganismMat(i2,j2,fatnessInd) > 0)
-                                        organismMat(i,j,stomachInd) = oldOrganismMat(i,j,stomachInd) + 1;
-                                        organismMat(i2,j2,aliveInd) = 0;
-                                        organismMat(i2,j2,fatnessInd) = oldOrganismMat(i2,j2,fatnessInd) - 1;
-                                        deathlist = [deathlist; [i2,j2]];
+                                    if (neighOrganism(fatnessInd) > 0)
+                                        organismMat(i,j,stomachInd) = currentAnimal(stomachInd) + 1;
+                                        organismMat(i2,j2,fatnessInd) = neighOrganism(fatnessInd) - 1;
+                                        
+                                        if (neighOrganism(aliveInd) == 1)   %Alive or already dead?
+                                            organismMat(i2,j2,aliveInd) = 0;
+                                            
+                                            deathlistIndex = deathlistIndex + 1;
+                                            deathlist(deathlistIndex,:) = [i2,j2];
+                                            disp('i1')
+                                            i2
+                                            disp('j2')
+                                            j2
+                                        end
                                     end
                                 end
+                                
                             case currentAnimal(typeInd) %Found Mate
-                                if neighOrganism(stomachInd) > neighOrganism(minStomachRepInd)
-                                    %Has enough stomach,Is enough fed
+                                if (neighOrganism(aliveInd) == 1 &&...
+                                    neighOrganism(stomachInd) > neighOrganism(minStomachRepInd) &&...
+                                    neighOrganism(isOffspring) == 0)
+                                    %Is alive, has enough stomach and is not
+                                    %offspring
                                     potentialMate = [i2,j2];
                                 end
-                            case GRASS(typeInd)
+                                
+                            case GRASS(typeInd)  %Found Grass Mating Loc
                                 if currentAnimal(typeInd) ~= GRASS(typeInd)
-                                    if potentialMatingLocaction(1) == -1 %Found Mating Loc
+                                    if potentialMatingLocaction(1) == -1    %No Empty Location exists
                                         potentialMatingLocaction = [i2,j2];
+                                        matingOnGrass = 1;
                                     end
                                 end
                         end
@@ -150,11 +183,22 @@ for t=1:TIMESTEPS
                    if currentAnimal(stomachInd) > currentAnimal(minStomachRepInd)
                        if (rand < currentAnimal(repProbInd))
                            %Reproduce
+                           currentMate = organismMat(potentialMate(1),potentialMate(2),:);
+                           a = potentialMatingLocaction(1);
+                           b = potentialMatingLocaction(2);
                            
                            organismMat(i,j,stomachInd) = currentAnimal(stomachInd) - 1;
-                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = oldOrganismMat(potentialMate(1),potentialMate(2),stomachInd) - 1;
-                           organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),:) = typeToOrganism(currentAnimal(typeInd),SETUPINDEX);
-                           organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),stomachInd) = (oldOrganismMat(potentialMate(1),potentialMate(2),stomachInd) + oldOrganismMat(i,j,stomachInd))/2;
+                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = currentMate(stomachInd) - 1;
+                           organismMat(a,b,:) = typeToOrganism(currentAnimal(typeInd),SETUPINDEX);
+                           organismMat(a,b,stomachInd) = (currentMate(stomachInd) + currentAnimal(stomachInd))/2;
+
+                           offspringListIndex = offspringListIndex + 1;
+                           offspringList (offspringListIndex,:) = [a,b];
+                           
+                           organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) + 1;
+                           if (matingOnGrass == 1)
+                               organismCounter(1) = organismCounter(1) - 1;
+                           end
                            
                            %{
                            if organismMat(i,j,typeInd) == 3
@@ -173,21 +217,34 @@ for t=1:TIMESTEPS
                        end
                    end
                 end
-                    
+                
+                
             end
-            
         end
-        
     end
+    
     
     if allEmpty == 1
         break;
     end
+    
     %remove dead organisms
-    [nDeaths,temp] = size(deathlist);
-    for i=1:nDeaths
-        organismMat(deathlist(i,1),deathlist(i,2),:) = NOTHING;
+    deathlist([1:deathlistIndex],:)
+    for i=1:deathlistIndex
+        a = deathlist(i,1);
+        b = deathlist(i,2);
+        organismType = organismMat(a,b,typeInd);
+        organismCounter(organismType) = organismCounter(organismType) - 1;
+        organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
     end
+   
+    %Upgrade Offsprings
+    for i=1:offspringListIndex
+        a = offspringList(i,1);
+        b = offspringList(i,2);
+        organismMat(a,b,isOffspring) = 0; %becomes adult
+    end
+    
     
     % Animate
     printLand(organismMat(:,:,1),organismCounter);

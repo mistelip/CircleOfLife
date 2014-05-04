@@ -1,0 +1,60 @@
+Lion --> Grass --> Antilope
+
+
+L	L	L
+L	A	L
+L	L	L
+
+
+global arguments
+int minFoodToReproduce
+
+abstract Organism
+	int foodDigest		//Food digested in a day
+	int stomach		//0-->Grass (-foodDigest each turn, +1 when eating)
+	int lifespan	//0-->Grass	(-1 after each turn)
+	
+	int fatness	//How much can be eaten from it
+	boolean dead	//As soon as 1 predator takes a bite
+	
+	int type	//1: Lion,2: Antilope,3: Grass, 4:Nothing
+	int predatorType	
+	int becomesID	//What happens after lifeSpan = 0
+	
+Lion extends Organism
+Antilope extends Organism
+Grass extends Organism
+Nothing	extends Organism
+
+A	L		--> N L
+L	A	L	--> L N L
+LLL		LLL
+LAL	-->	LNL
+LLL		LLL
+
+
+A G		-->	A A
+A G A	--> A A A
+
+
+#Rules
+Every Round:
+if dead change to becomeID
+lifespan -= 1;
+	if == 0 --> change to becomeID
+	
+else	
+For each Animal get 8-neighborhood:
+	includes Pray	
+		--> Change 1 Pray to Nothing//Can only eat one
+		--> Add +1 to stomach
+	
+	includes A AND (stomach,A.stomach >= minFoodToRep) AND includes N
+		--> change N to A with A.stomach = ave of the two.
+		--> stomach = -1 for both A
+		
+		
+		
+Addition:
+	Probablility that animal gets caught
+	int MaxStomach

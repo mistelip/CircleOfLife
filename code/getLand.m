@@ -184,6 +184,13 @@ case 12 %All Grass + stripe of antilope + stripe of lion
                 organismMat(i,j,:) = LION;
             end
         end
-        
 end
+
+for i=1:X
+    for j=1:Y                
+        organismMat(i,j,12) = 0; %No one isOffpsring    
+    end
+end
+
+
 

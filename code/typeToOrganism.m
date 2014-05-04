@@ -1,30 +1,28 @@
 function [ret] = typeToOrganism( type, setupIndex )
-%TYPETOORGANISM Summary of this function goes here
-%   Detailed explanation goes here
 
 switch setupIndex
     case 1
         switch type
-            case 0      %1     2       3       4       5       6       7       8       9   10      11
-                ret =   [0,   -1,     0,      0,      inf,    0,      inf,    0,      0,  inf,    0];
+            case 0      %1     2       3       4       5       6       7       8       9   10      11       12
+                ret =   [0,   -1,     0,      0,      inf,    0,      inf,    0,      0,  inf,    0,         1];
             case 1
-                ret =   [1,   -1,     0,      0,      inf,    0,      0.3,    2,      1,  0,      0.5];
+                ret =   [1,   -1,     0,      0,      inf,    0,      0.3,    2,      1,  0,      0.5,       1];
             case 2
-                ret =   [2,   1,      1,      0.5,      10,     30,     0.1,    2,      1,  10,      0.3];
+                ret =   [2,   1,      1,      0.5,      10,     30,     0.1,    2,      1,  10,      0.3,    1];
             case 3
-                ret =   [3,   2,      1,      0.5,      10,     inf,    0.02,   0,      1,  5,      0.2];
+                ret =   [3,   2,      1,      0.5,      10,     inf,    0.02,   0,      1,  5,      0.2,     1];
         end
     case 2 %Super Reproduction
         
         switch type
-            case 0      %1     2       3       4       5       6       7       8       9   10      11
-                ret =   [0,   -1,     0,      0,      inf,    0,      inf,    0,      0,  inf,    0];
+            case 0      %1     2       3       4       5       6       7       8       9   10      11       12
+                ret =   [0,   -1,     0,      0,      inf,    0,      inf,    0,      0,  inf,    0,         1];
             case 1
-                ret =   [1,   -1,     0,      0,      inf,    0,      0.3,    8,      1,  0,      0.9];
+                ret =   [1,   -1,     0,      0,      inf,    0,      0.3,    8,      1,  0,      0.9 ,       1];
             case 2
-                ret =   [2,   1,      3,      0.1,      10,     30,     0.01,    2,      1,  10,      0.9];
+                ret =   [2,   1,      3,      0.1,      10,     30,     0.01,    2,      1,  10,      0.9,    1];
             case 3
-                ret =   [3,   2,      1,      0.2,      10,     5,    0.02,   0,      1,  1,      0.5];
+                ret =   [3,   2,      1,      0.2,      10,     5,    0.02,   0,      1,  1,      0.5 ,          1];
         end
 end
 end
@@ -43,4 +41,6 @@ fatnessInd = 8; %How many organisms can be fed by this organism
 aliveInd = 9; %1 if alive, 0 if bitten
 minStomachRepInd = 10; %minimum stomach required to reproduce;
 repProbInd = 11;    %Probability of Reproduction
+
+isOffspring = 12    %Can we reproduce?
 %}
