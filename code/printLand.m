@@ -29,7 +29,7 @@ function [] = printLand( mat, organismCountMat, t, deathCauseMat)
     ylabel('Total Deaths');
     set(gca,'XTickLabel',XLABELS)
     set(barPlot,{'FaceColor'},{[1,204/255,0];[0,153/255,1];[1,0,0]});
-    legend('Hunger', 'Age', 'Eaten');
+    legend({'Hunger', 'Age', 'Eaten'});
     set(gca,'Color',[0,0,0]);
     set(legend,'Color','none');
     set(legend,'TextColor',[1,1,1]);
@@ -48,7 +48,7 @@ function [] = printLand( mat, organismCountMat, t, deathCauseMat)
     ylabel('Percentage (%)');
     set(gca,'XTickLabel',XLABELS)
     set(barPlot,{'FaceColor'},{[1,204/255,0];[0,153/255,1];[1,0,0]});
-    legend('Hunger', 'Age', 'Eaten');
+    legend({'Hunger', 'Age', 'Eaten'});
     set(gca,'Color',[0,0,0]);
     set(legend,'Color','none');
     set(legend,'TextColor',[1,1,1]);

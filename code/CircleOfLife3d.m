@@ -29,8 +29,8 @@ NUMBER_OF_SPECIES = 3;
 % 2 = Antilope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
-SETUPINDEX = 2;
-LAND_NUMBER = 0;
+SETUPINDEX = 3;
+LAND_NUMBER = 1;
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
