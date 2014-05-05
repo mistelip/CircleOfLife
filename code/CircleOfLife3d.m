@@ -1,3 +1,20 @@
+%{
+TODO: 
+    Label Axes
+    Line Chart for Counter
+    Death by age vs hunger
+    
+
+    Report:
+        Question in Intro
+        Answer in Conclusion
+    
+    Possible Question:
+        Why sequential update, not random?
+
+    (Random Seed store)
+%}
+
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
@@ -13,7 +30,7 @@ NUMBER_OF_SPECIES = 3;
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
 SETUPINDEX = 2;
-LAND_NUMBER = 1;
+LAND_NUMBER = 0;
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
@@ -42,7 +59,7 @@ LION =      typeToOrganism(3,SETUPINDEX);
 
 
 %Initialize Video Writer
-fig = figure;
+%fig = figure;
 vidObj = VideoWriter('sample.avi');
 vidObj.Quality= 100;
 %vidObj.FrameRate= 2;
@@ -63,6 +80,7 @@ neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
 % main loop, iterating the time variable, t
 
 for t=1:TIMESTEPS
+    disp(['t: ',int2str(t)])
     
     %Add lions after t timesteps
     %{ 
@@ -94,6 +112,7 @@ for t=1:TIMESTEPS
     organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
     for i=1:X
         for j=1:Y
+            organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - organismMat(i,j,foodDigestInd);
             currentAnimal = organismMat(i,j,:);
             
             if (currentAnimal(aliveInd) == 0)
@@ -104,18 +123,23 @@ for t=1:TIMESTEPS
                 % Still Alive? (Age & Hunger)-----------------------------------
                 allEmpty = 0;
                 iDie = 0;
-                if (organismMat(i,j,stomachInd) < 0)
+                
+                if (currentAnimal(stomachInd) < 0)
                     %Died of hunger
                     iDie = 1;
                 end
-                if ((organismMat(i,j,deathProbInd) > rand) < 0)
+                
+                if (currentAnimal(deathProbInd) > rand)
                     %Died of Age
                     iDie = 1;
                 end
                 if (iDie == 1)
                     organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) -1;
-                    organismCounter(currentAnimal(becomesInd)) = organismCounter(currentAnimal(becomesInd)) + 1;
-                    newOrganism = typeToOrganism(currentAnimal(becomesInd),SETUPINDEX);
+                    newType = currentAnimal(becomesInd);
+                    if (newType > 0)
+                        organismCounter(newType) = organismCounter(newType) + 1;
+                    end
+                    newOrganism = typeToOrganism(newType,SETUPINDEX);
                     organismMat(i,j,:) = newOrganism;
                     continue;
                 end
@@ -142,6 +166,7 @@ for t=1:TIMESTEPS
                                 if (currentAnimal(stomachInd) < currentAnimal(maxStomachInd))
                                     if (neighOrganism(fatnessInd) > 0)
                                         organismMat(i,j,stomachInd) = currentAnimal(stomachInd) + 1;
+                                        currentAnimal(stomachInd) = currentAnimal(stomachInd) + 1;
                                         organismMat(i2,j2,fatnessInd) = neighOrganism(fatnessInd) - 1;
                                         
                                         if (neighOrganism(aliveInd) == 1)   %Alive or already dead?
@@ -149,10 +174,10 @@ for t=1:TIMESTEPS
                                             
                                             deathlistIndex = deathlistIndex + 1;
                                             deathlist(deathlistIndex,:) = [i2,j2];
-                                            disp('i1')
-                                            i2
-                                            disp('j2')
-                                            j2
+                                           % disp('i1')
+                                           % i2
+                                           % disp('j2')
+                                           % j2
                                         end
                                     end
                                 end
@@ -229,7 +254,7 @@ for t=1:TIMESTEPS
     end
     
     %remove dead organisms
-    deathlist([1:deathlistIndex],:)
+    %deathlist([1:deathlistIndex],:)
     for i=1:deathlistIndex
         a = deathlist(i,1);
         b = deathlist(i,2);
@@ -249,7 +274,7 @@ for t=1:TIMESTEPS
     % Animate
     printLand(organismMat(:,:,1),organismCounter);
     pause(0.00001);
-    %pause(0.02)
+    pause(0.5)
     
     %writeVideo(vidObj,getframe(fig));
     

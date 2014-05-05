@@ -7,6 +7,14 @@ LION =      typeToOrganism(3, setupIndex);
 organismCounter = zeros(3,1);
 
 switch landNumber
+    case 0 %Simple 3x3 Grass with 1 Antilope
+        X=3;              % Grid size (XxY)
+        Y =3;
+        
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,0);
+        organismMat(2,2,:) = ANTILOPE;
+        organismMat(2,3,:) = ANTILOPE;
+        organismCounter(2) = 2;
     case 1 %All Antilopes with Lions in middle
         X=50;              % Grid size (XxY)
         Y =50;
