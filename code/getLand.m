@@ -4,7 +4,7 @@ NOTHING =   typeToOrganism(0, setupIndex);
 GRASS =     typeToOrganism(1, setupIndex);
 ANTILOPE =  typeToOrganism(2, setupIndex);
 LION =      typeToOrganism(3, setupIndex);
-organismCounter = zeros(3,1);
+organismCounter = zeros(1,3);
 
 switch landNumber
     case 0 %Simple 3x3 Grass with 1 Antilope

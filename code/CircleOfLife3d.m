@@ -55,7 +55,7 @@ LION =      typeToOrganism(3,SETUPINDEX);
 %---------------------------------------------------
 
 
-[X,Y,organismMat,organismCounter] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
+[X,Y,organismMat,organismCountMat] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
 
 
 %Initialize Video Writer
@@ -67,7 +67,7 @@ open(vidObj);
 
 
 %Print initial Land
-printLand(organismMat(:,:,1),organismCounter);
+printLand(organismMat(:,:,1),organismCountMat(1,:),1);
 
 
 disp('Initial Land Printed, 1 sec before start');
@@ -105,8 +105,7 @@ for t=1:TIMESTEPS
     deathlistIndex = 0;
     offspringList = ones(X*Y,2);
     offspringListIndex = 0;
-
-    
+    organismCounter = organismCountMat(t,:);
     
     %Adjust stomach -> vectorized for performance
     organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
@@ -272,9 +271,10 @@ for t=1:TIMESTEPS
     
     
     % Animate
-    printLand(organismMat(:,:,1),organismCounter);
+    organismCountMat = [organismCountMat;organismCounter];
+    printLand(organismMat(:,:,1),organismCountMat,t+1);
     pause(0.00001);
-    pause(0.5)
+    pause(0.2)
     
     %writeVideo(vidObj,getframe(fig));
     
