@@ -11,10 +11,10 @@ switch landNumber
         X=3;              % Grid size (XxY)
         Y =3;
         
-        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,0);
-        organismMat(2,2,:) = ANTILOPE;
-        organismMat(2,3,:) = ANTILOPE;
-        organismCounter(2) = 2;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,2);
+        organismMat(2,2,:) = NOTHING;
+        organismMat(2,3,:) = NOTHING;
+        organismCounter(2) = 7;
     case 1 %All Antilopes with Lions in middle
         X=50;              % Grid size (XxY)
         Y =50;

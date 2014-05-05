@@ -56,7 +56,7 @@ LION =      typeToOrganism(3,SETUPINDEX);
 
 
 [X,Y,organismMat,organismCountMat] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
-
+deathCauseMat = zeros(3,3);
 
 %Initialize Video Writer
 %fig = figure;
@@ -67,7 +67,7 @@ open(vidObj);
 
 
 %Print initial Land
-printLand(organismMat(:,:,1),organismCountMat(1,:),1);
+printLand(organismMat(:,:,1),organismCountMat(1,:),1,deathCauseMat);
 
 
 disp('Initial Land Printed, 1 sec before start');
@@ -79,9 +79,7 @@ neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
 
 % main loop, iterating the time variable, t
 
-for t=1:TIMESTEPS
-    disp(['t: ',int2str(t)])
-    
+for t=1:TIMESTEPS    
     %Add lions after t timesteps
     %{ 
     if t == 50
@@ -126,11 +124,13 @@ for t=1:TIMESTEPS
                 if (currentAnimal(stomachInd) < 0)
                     %Died of hunger
                     iDie = 1;
+                    deathCauseMat(currentAnimal(typeInd),1) = deathCauseMat(currentAnimal(typeInd),1) + 1;
                 end
                 
                 if (currentAnimal(deathProbInd) > rand)
                     %Died of Age
                     iDie = 1;
+                    deathCauseMat(currentAnimal(typeInd),2) = deathCauseMat(currentAnimal(typeInd),2) + 1;
                 end
                 if (iDie == 1)
                     organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) -1;
@@ -260,6 +260,7 @@ for t=1:TIMESTEPS
         organismType = organismMat(a,b,typeInd);
         organismCounter(organismType) = organismCounter(organismType) - 1;
         organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
+        deathCauseMat(organismType,3) = deathCauseMat(organismType,3) + 1;
     end
    
     %Upgrade Offsprings
@@ -272,9 +273,9 @@ for t=1:TIMESTEPS
     
     % Animate
     organismCountMat = [organismCountMat;organismCounter];
-    printLand(organismMat(:,:,1),organismCountMat,t+1);
+    printLand(organismMat(:,:,1),organismCountMat,t+1,deathCauseMat);
     pause(0.00001);
-    pause(0.2)
+    %pause(0.2)
     
     %writeVideo(vidObj,getframe(fig));
     
