@@ -31,8 +31,9 @@ function [] = printLand( mat, organismCountMat, t, deathCauseMat)
     set(barPlot,{'FaceColor'},{[1,204/255,0];[0,153/255,1];[1,0,0]});
     legend({'Hunger', 'Age', 'Eaten'});
     set(gca,'Color',[0,0,0]);
-    set(legend,'Color','none');
+    set(legend,'Color',[0,0,0]);
     set(legend,'TextColor',[1,1,1]);
+    set(legend,'Location','EastOutside');
 
     %DeathCause Age/Hunger Death
     %1: Hunger
@@ -49,9 +50,11 @@ function [] = printLand( mat, organismCountMat, t, deathCauseMat)
     set(gca,'XTickLabel',XLABELS)
     set(barPlot,{'FaceColor'},{[1,204/255,0];[0,153/255,1];[1,0,0]});
     legend({'Hunger', 'Age', 'Eaten'});
+    
     set(gca,'Color',[0,0,0]);
-    set(legend,'Color','none');
+    set(legend,'Color',[0,0,0]);
     set(legend,'TextColor',[1,1,1]);
+    set(legend,'Location','EastOutside');
     
     %Counter
     subplot(2, 2, 3);
@@ -71,6 +74,7 @@ function [] = printLand( mat, organismCountMat, t, deathCauseMat)
     set(gca,'Color',[0,0,0]);
     set(legend,'Color',[0,0,0]);
     set(legend,'TextColor',[1,1,1]);
+        set(legend,'Location','WestOutside');
     hold off;
 end
 

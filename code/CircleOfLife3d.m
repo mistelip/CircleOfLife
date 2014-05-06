@@ -21,7 +21,7 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-LAND_NUMBER = 11;
+LAND_NUMBER = 12;
 
 
 % 0 = Nothing
@@ -59,7 +59,8 @@ LION =      typeToOrganism(3,SETUPINDEX);
 deathCauseMat = zeros(3,3);
 
 %Initialize Video Writer
-%fig = figure;
+fig = figure;
+set(fig, 'Position', [50 50 1000 1000])
 vidObj = VideoWriter('sample.avi');
 vidObj.Quality= 100;
 %vidObj.FrameRate= 2;
@@ -277,13 +278,11 @@ for t=1:TIMESTEPS
     pause(0.00001);
     %pause(0.2)
     
-    %writeVideo(vidObj,getframe(fig));
+    writeVideo(vidObj,getframe(fig));
     
 end
 close(vidObj);
-%winopen('sample.avi');
+winopen('sample.avi');
 
 disp('Finished');
-
-%}
 

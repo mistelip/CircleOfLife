@@ -5,6 +5,7 @@ GRASS =     typeToOrganism(1, setupIndex);
 ANTILOPE =  typeToOrganism(2, setupIndex);
 LION =      typeToOrganism(3, setupIndex);
 organismCounter = zeros(1,3);
+typeInd = 1;
 
 switch landNumber
     case 0 %Simple 3x3 Grass with 1 Antilope
@@ -124,8 +125,7 @@ switch landNumber
         X = 40;
         Y = 40;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
-        
-   case 7 %Only Lions
+    case 7 %Only Lions
         X = 10;
         Y = 10;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,3);
@@ -177,25 +177,50 @@ switch landNumber
                 organismMat(i,j,:) = ANTILOPE;
             end
         end
-        
-case 12 %All Grass + stripe of antilope + stripe of lion
+    case 12 %All Grass + stripe of antilope + stripe of lion
         X = 50;
         Y = 50;
         numAntilopStripes = 12;
         numLionStripes = 2;
         
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        organismCounter(1) = X*Y;
         for i=X/2:(X/2 + numAntilopStripes)
             for j=1:Y
                 organismMat(i,j,:) = ANTILOPE;
+                organismCounter(1) = organismCounter(1) -1;
+                organismCounter(2) = organismCounter(2)+1;
             end
         end
         
         for i=(X/2+(numAntilopStripes/2)-(numLionStripes/2)):(X/2+(numAntilopStripes/2)+(numLionStripes/2))
             for j=Y/2:Y
                 organismMat(i,j,:) = LION;
+                organismCounter(1) = organismCounter(1) -1;
+                organismCounter(3) = organismCounter(3)+1;
             end
         end
+        
+    case 13 %All Grass + stripe of antilope + stripe of lion
+        
+    
+        X = 10;
+        Y = 10;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
+       
+        %fill half with random Grass
+        rng('shuffle');
+        for i=1:(X*Y)/2
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            while (organismMat(x,y,typeInd) == GRASS(typeInd))
+                x =  randi([1 X]);
+                y =  randi([1 Y]);
+            end
+            organismMat(x,y,:) = GRASS;
+        end
+        organismCounter(1) = X*Y/2;
+        
 end
 
 for i=1:X
