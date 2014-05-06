@@ -21,7 +21,7 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-
+LAND_NUMBER = 11;
 
 
 % 0 = Nothing
@@ -30,7 +30,7 @@ NUMBER_OF_SPECIES = 3;
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
 SETUPINDEX = 3;
-LAND_NUMBER = 1;
+
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey

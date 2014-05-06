@@ -147,6 +147,7 @@ switch landNumber
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
         for i=X/2:X
             for j=1:Y
+
                 organismMat(i,j,:) = ANTILOPE;
             end
         end
@@ -163,13 +164,16 @@ switch landNumber
         end
         
     case 11 %All Grass + stripe of antilope
-        X = 50;
-        Y = 50;
+        X = 20;
+        Y = 20;
         numStripes = 1;
         
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        organismCounter(1) = X*Y;
         for i=X/2:(X/2 + numStripes)
             for j=1:Y
+                organismCounter(2) = organismCounter(2) +1;
+                organismCounter(1) = organismCounter(1) -1;
                 organismMat(i,j,:) = ANTILOPE;
             end
         end
