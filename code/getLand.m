@@ -240,7 +240,43 @@ switch landNumber
                 end
             end
         end
-
+case 15 %All rANDOM
+        
+    
+        X = 50;
+        Y = 50;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
+       
+        %fill half with random Grass
+        rng('shuffle');
+        for i=1:(X*Y)/2
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            while (organismMat(x,y,typeInd) == GRASS(typeInd))
+                x =  randi([1 X]);
+                y =  randi([1 Y]);
+            end
+            organismMat(x,y,:) = GRASS;
+        end
+        for i=1:(X*Y)/2
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            while (organismMat(x,y,typeInd) == LION(typeInd))
+                x =  randi([1 X]);
+                y =  randi([1 Y]);
+            end
+            organismMat(x,y,:) = LION;
+        end
+        for i=1:(X*Y)/2
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            while (organismMat(x,y,typeInd) == ANTILOPE(typeInd))
+                x =  randi([1 X]);
+                y =  randi([1 Y]);
+            end
+            organismMat(x,y,:) = ANTILOPE;
+        end
+    
         
 end
 

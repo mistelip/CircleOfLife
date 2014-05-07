@@ -21,7 +21,7 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-LAND_NUMBER = 14;
+LAND_NUMBER = 15;
 
 
 % 0 = Nothing
@@ -29,7 +29,7 @@ LAND_NUMBER = 14;
 % 2 = Antilope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
-SETUPINDEX = 4;
+SETUPINDEX = 5;
 
 
 typeInd = 1;
@@ -61,7 +61,8 @@ deathCauseMat = zeros(3,3);
 %Initialize Video Writer
 fig = figure;
 set(fig, 'Position', [50 50 1000 1000])
-vidObj = VideoWriter([datestr(clock, 30),'.avi']);
+FILENAME = [datestr(clock, 30),'.avi'];
+vidObj = VideoWriter(FILENAME);
 vidObj.Quality= 100;
 %vidObj.FrameRate= 2;
 open(vidObj);
@@ -191,7 +192,8 @@ for t=1:TIMESTEPS
                                 if currentAnimal(typeInd) ~= GRASS(typeInd)
                                     if potentialMatingLocaction(1) == -1    %No Empty Location exists
                                         potentialMatingLocaction = [i2,j2];
-                                        if neighOrganism(aliveInd) == 1 %no one has taken a bite of the grass yet
+                                        if neighOrganism(aliveInd) == 1 
+                                            %no one has taken a bite of the grass yet
                                             destroyingGrass = 1;
                                         end
                                     end
@@ -244,7 +246,8 @@ for t=1:TIMESTEPS
         b = deathlist(i,2);
         organismType = organismMat(a,b,typeInd);
         if (organismType == 3)  
-            %Antilope eats Grass and 2 Lions put offspring on it. We want to keep it this way
+            %Antilope eats Grass and 2 Lions put offspring on it. 
+            %We want to keep it this way
         elseif (organismType == 0)  
             %should not happen
             disp('');
@@ -280,7 +283,7 @@ for t=1:TIMESTEPS
     
 end
 close(vidObj);
-winopen('sample.avi');
+winopen(FILENAME);
 
 disp('Finished');
 
