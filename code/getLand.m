@@ -221,6 +221,27 @@ switch landNumber
         end
         organismCounter(1) = X*Y/2;
         
+    case 14 %All Grass + stripe of antilope + stripe of lion
+        
+    
+        X = 6;
+        Y = 6;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
+       
+        for i=1:X
+            for j=1:Y
+                if (i >= 2 && i <= 5) && (j >= 2 && j <= 5)
+                    organismMat(i,j,:) = GRASS;
+                end
+                
+                
+                if (i == 3 || i == 4) && (j == 3 || j == 4)
+                    organismMat(i,j,:) = LION;
+                end
+            end
+        end
+
+        
 end
 
 for i=1:X

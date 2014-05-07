@@ -21,7 +21,7 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-LAND_NUMBER = 12;
+LAND_NUMBER = 14;
 
 
 % 0 = Nothing
@@ -61,7 +61,7 @@ deathCauseMat = zeros(3,3);
 %Initialize Video Writer
 fig = figure;
 set(fig, 'Position', [50 50 1000 1000])
-vidObj = VideoWriter('sample.avi');
+vidObj = VideoWriter([datestr(clock, 30),'.avi']);
 vidObj.Quality= 100;
 %vidObj.FrameRate= 2;
 open(vidObj);
@@ -148,7 +148,7 @@ for t=1:TIMESTEPS
                 %Organism
                 potentialMatingLocaction = [-1,-1];
                 potentialMate = [-1,-1];
-                matingOnGrass = 0;
+                destroyingGrass = 0;
                 
                 for k=1:8
                     i2 = i+neigh(k, 1);
@@ -171,13 +171,9 @@ for t=1:TIMESTEPS
                                         
                                         if (neighOrganism(aliveInd) == 1)   %Alive or already dead?
                                             organismMat(i2,j2,aliveInd) = 0;
-                                            
+
                                             deathlistIndex = deathlistIndex + 1;
                                             deathlist(deathlistIndex,:) = [i2,j2];
-                                           % disp('i1')
-                                           % i2
-                                           % disp('j2')
-                                           % j2
                                         end
                                     end
                                 end
@@ -195,7 +191,9 @@ for t=1:TIMESTEPS
                                 if currentAnimal(typeInd) ~= GRASS(typeInd)
                                     if potentialMatingLocaction(1) == -1    %No Empty Location exists
                                         potentialMatingLocaction = [i2,j2];
-                                        matingOnGrass = 1;
+                                        if neighOrganism(aliveInd) == 1 %no one has taken a bite of the grass yet
+                                            destroyingGrass = 1;
+                                        end
                                     end
                                 end
                         end
@@ -221,23 +219,9 @@ for t=1:TIMESTEPS
                            offspringList (offspringListIndex,:) = [a,b];
                            
                            organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) + 1;
-                           if (matingOnGrass == 1)
+                           if (destroyingGrass == 1)
                                organismCounter(1) = organismCounter(1) - 1;
                            end
-                           
-                           %{
-                           if organismMat(i,j,typeInd) == 3
-                               disp(organismMat(potentialMate(1),potentialMate(2),stomachInd));
-                               disp(organismMat(i,j,stomachInd));
-                                disp(organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),stomachInd));
-                                disp('---------');
-                                if organismMat(potentialMatingLocaction(1),potentialMatingLocaction(2),stomachInd) == inf
-                                    disp('inf');
-                                    disp(organismMat(i,j,typeInd));
-                                    disp(organismMat(potentialMate(1),potentialMate(2),typeInd));
-                                end
-                           end
-                           %}
                            
                        end
                    end
@@ -259,11 +243,20 @@ for t=1:TIMESTEPS
         a = deathlist(i,1);
         b = deathlist(i,2);
         organismType = organismMat(a,b,typeInd);
-        if(organismType >0) %%PROBABLY A BUG: organismType should not be 0 here
+        if (organismType == 3)  
+            %Antilope eats Grass and 2 Lions put offspring on it. We want to keep it this way
+        elseif (organismType == 0)  
+            %should not happen
+            disp('');
+        else
             organismCounter(organismType) = organismCounter(organismType) - 1;
             organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
             deathCauseMat(organismType,3) = deathCauseMat(organismType,3) + 1;
         end
+        
+        
+        
+        
     end
    
     %Upgrade Offsprings
