@@ -29,7 +29,7 @@ LAND_NUMBER = 12;
 % 2 = Antilope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
-SETUPINDEX = 3;
+SETUPINDEX = 4;
 
 
 typeInd = 1;
@@ -259,9 +259,11 @@ for t=1:TIMESTEPS
         a = deathlist(i,1);
         b = deathlist(i,2);
         organismType = organismMat(a,b,typeInd);
-        organismCounter(organismType) = organismCounter(organismType) - 1;
-        organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
-        deathCauseMat(organismType,3) = deathCauseMat(organismType,3) + 1;
+        if(organismType >0) %%PROBABLY A BUG: organismType should not be 0 here
+            organismCounter(organismType) = organismCounter(organismType) - 1;
+            organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
+            deathCauseMat(organismType,3) = deathCauseMat(organismType,3) + 1;
+        end
     end
    
     %Upgrade Offsprings
@@ -271,7 +273,10 @@ for t=1:TIMESTEPS
         organismMat(a,b,isOffspring) = 0; %becomes adult
     end
     
-    
+    %ugly, probably slow but correct
+    organismCounter(1) = sum(sum(organismMat(:,:,typeInd) == 1));
+    organismCounter(2) = sum(sum(organismMat(:,:,typeInd) == 2));
+    organismCounter(3) = sum(sum(organismMat(:,:,typeInd) == 3));
     % Animate
     organismCountMat = [organismCountMat;organismCounter];
     printLand(organismMat(:,:,1),organismCountMat,t+1,deathCauseMat);
