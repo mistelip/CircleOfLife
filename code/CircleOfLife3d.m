@@ -21,7 +21,7 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-LAND_NUMBER = 15;
+LAND_NUMBER = 0;
 
 
 % 0 = Nothing
@@ -77,7 +77,8 @@ pause(1);
 
 
 % Define the Moore neighborhood, i.e. the 8 nearest neighbors
-neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
+neigh_old = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
+neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];
 
 % main loop, iterating the time variable, t
 
@@ -111,11 +112,10 @@ for t=1:TIMESTEPS
     organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
     for i=1:X
         for j=1:Y
-            organismMat(i,j,stomachInd) = organismMat(i,j,stomachInd) - organismMat(i,j,foodDigestInd);
             currentAnimal = organismMat(i,j,:);
             
-            if (currentAnimal(aliveInd) == 0)
-                continue; %Animal is dead and is on deathlist
+            if (currentAnimal(aliveInd) == 0 || (currentAnimal(isOffspring) == 1))
+                continue; %Animal is dead and is on deathlist or is born in this turn
             end
             
             if currentAnimal(typeInd) ~= NOTHING(typeInd)
@@ -123,6 +123,13 @@ for t=1:TIMESTEPS
                 allEmpty = 0;
                 iDie = 0;
                 
+                if (currentAnimal(typeInd) == 2)
+                    logg('i: ',i);
+                    logg('j: ',j);
+                    logg('stomach ',currentAnimal(stomachInd));
+                end
+                
+               
                 if (currentAnimal(stomachInd) < 0)
                     %Died of hunger
                     iDie = 1;
@@ -151,17 +158,24 @@ for t=1:TIMESTEPS
                 potentialMate = [-1,-1];
                 destroyingGrass = 0;
                 
-                for k=1:8
+                
+                for k=1:size(neigh,1)
                     i2 = i+neigh(k, 1);
                     j2 = j+neigh(k, 2);
+                    
                     % Check that the cell is within the grid boundaries
                     if ( i2>=1 && j2>=1 && i2<=X && j2<=Y )
                         neighOrganism = organismMat(i2,j2,:);
+                        
+                        if (currentAnimal(typeInd) == 2)
+                           % disp('');
+                        end;
                         
                         switch neighOrganism(typeInd)
                             
                             case NOTHING(typeInd)   %Found Mating Loc
                                 potentialMatingLocaction = [i2,j2];
+                                destroyingGrass = 0;
                                 
                             case currentAnimal(preyTypeInd) %Found Food/Prey
                                 if (currentAnimal(stomachInd) < currentAnimal(maxStomachInd))
@@ -178,7 +192,6 @@ for t=1:TIMESTEPS
                                         end
                                     end
                                 end
-                                
                             case currentAnimal(typeInd) %Found Mate
                                 if (neighOrganism(aliveInd) == 1 &&...
                                     neighOrganism(stomachInd) > neighOrganism(minStomachRepInd) &&...
@@ -187,8 +200,9 @@ for t=1:TIMESTEPS
                                     %offspring
                                     potentialMate = [i2,j2];
                                 end
-                                
-                            case GRASS(typeInd)  %Found Grass Mating Loc
+                        end
+                        
+                        if neighOrganism(typeInd) == GRASS(typeInd)  %Found Grass Mating Loc
                                 if currentAnimal(typeInd) ~= GRASS(typeInd)
                                     if potentialMatingLocaction(1) == -1    %No Empty Location exists
                                         potentialMatingLocaction = [i2,j2];
@@ -199,9 +213,11 @@ for t=1:TIMESTEPS
                                     end
                                 end
                         end
+                        
                     end
                 end
                 
+
                 %Check if we can mate
                 if (potentialMate(1) ~= -1) && (potentialMatingLocaction(1) ~= -1)
                     %Check our stomach is enough
@@ -244,15 +260,15 @@ for t=1:TIMESTEPS
     for i=1:deathlistIndex
         a = deathlist(i,1);
         b = deathlist(i,2);
-        organismType = organismMat(a,b,typeInd);
-        if (organismType == 3)  
-            %Antilope eats Grass and 2 Lions put offspring on it. 
+        newOffspring = (organismMat(a,b,isOffspring) == 1);
+        if (newOffspring)  
+            %Antilope eats Grass and 2 Lions/Antilopes put offspring on it. 
             %We want to keep it this way
-        elseif (organismType == 0)  
-            %should not happen
-            disp('');
+            
+            %Ruben please double check if this makes sense!
+            deathCauseMat(GRASS(typeInd),3) = deathCauseMat(GRASS(typeInd),3) + 1;
         else
-            organismCounter(organismType) = organismCounter(organismType) - 1;
+            organismType = organismMat(a,b,typeInd);
             organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
             deathCauseMat(organismType,3) = deathCauseMat(organismType,3) + 1;
         end
@@ -269,7 +285,6 @@ for t=1:TIMESTEPS
         organismMat(a,b,isOffspring) = 0; %becomes adult
     end
     
-    %ugly, probably slow but correct
     organismCounter(1) = sum(sum(organismMat(:,:,typeInd) == 1));
     organismCounter(2) = sum(sum(organismMat(:,:,typeInd) == 2));
     organismCounter(3) = sum(sum(organismMat(:,:,typeInd) == 3));

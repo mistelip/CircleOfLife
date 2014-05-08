@@ -8,14 +8,12 @@ organismCounter = zeros(1,3);
 typeInd = 1;
 
 switch landNumber
-    case 0 %Simple 3x3 Grass with 1 Antilope
-        X=3;              % Grid size (XxY)
-        Y =3;
-        
-        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,2);
-        organismMat(2,2,:) = NOTHING;
-        organismMat(2,3,:) = NOTHING;
-        organismCounter(2) = 7;
+    case 0 %20x20 Grass with 1 Antilope
+        X=4;              % Grid size (XxY)
+        Y =4;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,1);
+        organismMat(2,2,:) = ANTILOPE;
+        organismMat(2,3,:) = ANTILOPE;
     case 1 %All Antilopes with Lions in middle
         X=50;              % Grid size (XxY)
         Y =50;
@@ -122,8 +120,8 @@ switch landNumber
         end
         %}
     case 6 %Only Antilipes
-        X = 40;
-        Y = 40;
+        X = 30;
+        Y = 30;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
     case 7 %Only Lions
         X = 10;
@@ -243,12 +241,22 @@ switch landNumber
 case 15 %All rANDOM
         
     
-        X = 50;
-        Y = 50;
+        X = 30;
+        Y = 30;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
        
         %fill half with random Grass
-        rng('shuffle');
+        rng('default');
+
+        for i=1:(X*Y)/4
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            while (organismMat(x,y,typeInd) == LION(typeInd))
+                x =  randi([1 X]);
+                y =  randi([1 Y]);
+            end
+            organismMat(x,y,:) = LION;
+        end
         for i=1:(X*Y)/2
             x =  randi([1 X]);
             y =  randi([1 Y]);
@@ -257,15 +265,6 @@ case 15 %All rANDOM
                 y =  randi([1 Y]);
             end
             organismMat(x,y,:) = GRASS;
-        end
-        for i=1:(X*Y)/2
-            x =  randi([1 X]);
-            y =  randi([1 Y]);
-            while (organismMat(x,y,typeInd) == LION(typeInd))
-                x =  randi([1 X]);
-                y =  randi([1 Y]);
-            end
-            organismMat(x,y,:) = LION;
         end
         for i=1:(X*Y)/2
             x =  randi([1 X]);
