@@ -9,9 +9,9 @@ typeInd = 1;
 
 switch landNumber
     case 0 %20x20 Grass with 1 Antilope
-        X=4;              % Grid size (XxY)
-        Y =4;
-        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,1);
+        X=10;              % Grid size (XxY)
+        Y =10;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,2);
         organismMat(2,2,:) = ANTILOPE;
         organismMat(2,3,:) = ANTILOPE;
     case 1 %All Antilopes with Lions in middle
@@ -75,7 +75,7 @@ switch landNumber
         end
         %random Antilope
         rng('shuffle');
-        for i=1:15
+        for i=1:40
             x =  randi([1 X]);
             y =  randi([1 Y]);
             disp(x);
@@ -84,7 +84,7 @@ switch landNumber
         end
         %random Lion
         rng('shuffle');
-        for i=1:15
+        for i=1:40
             x =  randi([1 X]);
             y =  randi([1 Y]);
             disp(x);

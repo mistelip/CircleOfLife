@@ -24,7 +24,7 @@ switch setupIndex
             case 3
                 ret =   [3,   2,      1,      1/3,      10,     9,    0.02,   0,      1,  1,      0.5 ,          1];
         end
-    case 3 
+    case 3
         
         switch type
             case 0      %1     2       3       4       5       6       7       8       9   10      11       12
@@ -37,17 +37,18 @@ switch setupIndex
                 ret =   [3,   2,      1,      1/3,      10,     9,    0.02,   0,      1,  1,      0.5 ,          1];
         end
         
+        
     case 4
         
         switch type
-            case 0      %1    2       3       4       5       6       7       8       9   10      11       12
-                ret =   [0,   -1,     0,      0,      inf,    0,      inf,    0,      0,  inf,    0,       1];
+            case 0      %1    2       3       4dige   5          6       7death                        8       9   10      11rep    12
+                ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
             case 1
-                ret =   [1,   -1,     0,      0,      inf,    0,      0.15,    8,      1,  0,      0.3,     1];
+                ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      1,      0.1,    10,     9,      0.1,    8,      1,  2,      0.7,     1];
+                ret =   [2,   1,      0,      1/2,    5,      4,       expectedAgeToDeathProb(9),     8,      1,  1,      0.7,      1];
             case 3
-                ret =   [3,   2,      1,      0.15,    10,     9,      0.2,   0,      1,  1,      0.5 ,    1];
+                ret =   [3,   2,      1,      1/5,    10,       9,      expectedAgeToDeathProb(13),     0,      1,  1,      0.5 ,     1];
         end
         
     case 5
@@ -58,7 +59,7 @@ switch setupIndex
             case 1
                 ret =   [1,   -1,     0,      0,      inf,    0,      0,    8,      1,  0,      1,     1];
             case 2
-                 ret =   [2,   1,      1,      1/7,    2,     1,      0,    8,      1,  0,      1,     1];
+                ret =   [2,   1,      0,      1/7,    2,     3,      0.1,    8,      1,  0,      1,     1];
             case 3
                 ret =   [3,   2,      1,      0.05,    30,     5,      0.25,   0,      1,  1,      0.7 ,    1];
         end

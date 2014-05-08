@@ -21,7 +21,7 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-LAND_NUMBER = 0;
+LAND_NUMBER = 3;
 
 
 % 0 = Nothing
@@ -29,7 +29,7 @@ LAND_NUMBER = 0;
 % 2 = Antilope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
-SETUPINDEX = 5;
+SETUPINDEX = 4;
 
 
 typeInd = 1;
@@ -104,9 +104,6 @@ for t=1:TIMESTEPS
     
     deathlist = ones(X*Y,2);
     deathlistIndex = 0;
-    offspringList = ones(X*Y,2);
-    offspringListIndex = 0;
-    organismCounter = organismCountMat(t,:);
     
     %Adjust stomach -> vectorized for performance
     organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
@@ -142,11 +139,7 @@ for t=1:TIMESTEPS
                     deathCauseMat(currentAnimal(typeInd),2) = deathCauseMat(currentAnimal(typeInd),2) + 1;
                 end
                 if (iDie == 1)
-                    organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) -1;
                     newType = currentAnimal(becomesInd);
-                    if (newType > 0)
-                        organismCounter(newType) = organismCounter(newType) + 1;
-                    end
                     newOrganism = typeToOrganism(newType,SETUPINDEX);
                     organismMat(i,j,:) = newOrganism;
                     continue;
@@ -155,13 +148,11 @@ for t=1:TIMESTEPS
                 %Check Neighborhood                
                 %Organism
                 potentialMatingLocaction = [-1,-1];
-                potentialMate = [-1,-1];
-                destroyingGrass = 0;
-                
+                potentialMate = [-1,-1];                
                 
                 for k=1:size(neigh,1)
-                    i2 = i+neigh(k, 1);
-                    j2 = j+neigh(k, 2);
+                    i2 = mod((i+neigh(k, 1))-1,X) + 1;
+                    j2 = mod((j+neigh(k, 2))-1,Y) + 1;
                     
                     % Check that the cell is within the grid boundaries
                     if ( i2>=1 && j2>=1 && i2<=X && j2<=Y )
@@ -175,20 +166,19 @@ for t=1:TIMESTEPS
                             
                             case NOTHING(typeInd)   %Found Mating Loc
                                 potentialMatingLocaction = [i2,j2];
-                                destroyingGrass = 0;
                                 
                             case currentAnimal(preyTypeInd) %Found Food/Prey
                                 if (currentAnimal(stomachInd) < currentAnimal(maxStomachInd))
-                                    if (neighOrganism(fatnessInd) > 0)
+                                    if (neighOrganism(fatnessInd) > 0 && neighOrganism(isOffspring) == 0)
                                         organismMat(i,j,stomachInd) = currentAnimal(stomachInd) + 1;
                                         currentAnimal(stomachInd) = currentAnimal(stomachInd) + 1;
                                         organismMat(i2,j2,fatnessInd) = neighOrganism(fatnessInd) - 1;
                                         
                                         if (neighOrganism(aliveInd) == 1)   %Alive or already dead?
                                             organismMat(i2,j2,aliveInd) = 0;
-
                                             deathlistIndex = deathlistIndex + 1;
                                             deathlist(deathlistIndex,:) = [i2,j2];
+                                            deathCauseMat(neighOrganism(typeInd),3) = deathCauseMat(neighOrganism(typeInd),3) + 1;
                                         end
                                     end
                                 end
@@ -206,10 +196,6 @@ for t=1:TIMESTEPS
                                 if currentAnimal(typeInd) ~= GRASS(typeInd)
                                     if potentialMatingLocaction(1) == -1    %No Empty Location exists
                                         potentialMatingLocaction = [i2,j2];
-                                        if neighOrganism(aliveInd) == 1 
-                                            %no one has taken a bite of the grass yet
-                                            destroyingGrass = 1;
-                                        end
                                     end
                                 end
                         end
@@ -228,24 +214,18 @@ for t=1:TIMESTEPS
                            a = potentialMatingLocaction(1);
                            b = potentialMatingLocaction(2);
                            
-                           organismMat(i,j,stomachInd) = currentAnimal(stomachInd) - 1;
-                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = currentMate(stomachInd) - 1;
+                           newCurrentStomach = currentAnimal(stomachInd) - 1;
+                           newMateStomach = currentMate(stomachInd) - 1;
+                           
+                           organismMat(i,j,stomachInd) = newCurrentStomach;
+                           organismMat(potentialMate(1),potentialMate(2),stomachInd) = newMateStomach;
+                           
                            organismMat(a,b,:) = typeToOrganism(currentAnimal(typeInd),SETUPINDEX);
-                           organismMat(a,b,stomachInd) = (currentMate(stomachInd) + currentAnimal(stomachInd))/2;
-
-                           offspringListIndex = offspringListIndex + 1;
-                           offspringList (offspringListIndex,:) = [a,b];
-                           
-                           organismCounter(currentAnimal(typeInd)) = organismCounter(currentAnimal(typeInd)) + 1;
-                           if (destroyingGrass == 1)
-                               organismCounter(1) = organismCounter(1) - 1;
-                           end
-                           
+                           organismMat(a,b,stomachInd) = (newCurrentStomach + newMateStomach)/2;
                        end
                    end
                 end
-                
-                
+                          
             end
         end
     end
@@ -264,26 +244,13 @@ for t=1:TIMESTEPS
         if (newOffspring)  
             %Antilope eats Grass and 2 Lions/Antilopes put offspring on it. 
             %We want to keep it this way
-            
-            %Ruben please double check if this makes sense!
-            deathCauseMat(GRASS(typeInd),3) = deathCauseMat(GRASS(typeInd),3) + 1;
         else
-            organismType = organismMat(a,b,typeInd);
             organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
-            deathCauseMat(organismType,3) = deathCauseMat(organismType,3) + 1;
-        end
-        
-        
-        
-        
+        end      
     end
-   
+  
     %Upgrade Offsprings
-    for i=1:offspringListIndex
-        a = offspringList(i,1);
-        b = offspringList(i,2);
-        organismMat(a,b,isOffspring) = 0; %becomes adult
-    end
+    organismMat(:,:,isOffspring) =  zeros(X,Y);
     
     organismCounter(1) = sum(sum(organismMat(:,:,typeInd) == 1));
     organismCounter(2) = sum(sum(organismMat(:,:,typeInd) == 2));
