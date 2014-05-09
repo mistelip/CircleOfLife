@@ -93,11 +93,64 @@ Ruben: Idea polishing + performance + Math stuff
 Intro yay
 
 \section{Description of the Model}
-Game life and so on
+
+\subsection{Distinction from Game of Life}
+Instead of having simple cells that can either be dead or alive, the cells in our system contain organisms parametrizable using different attributes. Table \ref{tab:Properties} lists all attributes and describes their meaning.
+
+\begin{tabular}{l|l}\label{tab:Properties}
+Name & Description\\
+\hline 
+\hline 
+Type & "Lion", "Antilope", "Grass" or "Nothing" \\ 
+\hline 
+PreyType & Type of the organism to prey \\ 
+\hline 
+Becomes & Type to become after a natural death \\ 
+\hline 
+FoodDigest & Amount of food digested in one day \\ 
+\hline 
+Stomach & Amount of food in organism \\ 
+\hline 
+MaxStomach & Maximal amount of food organism can contain \\ 
+\hline 
+DeathProb & The probability to die at the end of the day \\ 
+\hline 
+Fatness & The number of predator that can be fed eating the organism \\ 
+\hline
+Alive & 1 if alive, 0 if bitten\\
+\hline 
+MinStomachRepInd & Minimal amount of food needed to reproduce \\  
+\hline 
+RepProb & Probability to reproduce when possible\\
+\hline 
+IsOffspring & 1 if newborn, 0 if adult\\
+\end{tabular}
+
+\begin{tabular}{l|l}\label{tab:deathCauses}
+Death Cause & Description \\ 
+\hline 
+\hline 
+Age & The DeathProb determines if an organism dies of age at the end of each day\\ 
+\hline 
+Hunger & An organism with an empty stomach dies of hunger \\ 
+\hline 
+Eaten & Prey dies at the end of the day if bitten by predator \\  
+\end{tabular} 
 
 \section{Implementation}
-Code here?
+We implemented a cell based system that simulates the habitat of three different species.
+We compared the population results obtained form the simulation with the Lotka Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. The results of this comparison enabled us to gain better understanding of the equilibria and the oscillating behaviour of the different populations in our simulation.
+\subsection{Game of Life}
 
+\subsection{Lotka Volterra}
+
+$
+\begin{array}{rcl}
+\frac{dx}{dt} & = & ax-bxy \\ 
+\frac{dy}{dt} & = & -cy+dxy-eyz \\ 
+\frac{dz}{dt} & = & -fz+gyz
+\end{array}
+$
 \section{Simulation Results and Discussion}
 Death by Age $\rightarrow$ increase reproduction Rate
 Cool pictures
@@ -109,8 +162,7 @@ Answer questions
 
 
 
-
-
+\bibliography{bibliography}
 
 \end{document}  
 
