@@ -81,18 +81,23 @@
 
 
 \section{Abstract}
-Here lieth the abstract
+In the film "Lion King" from Disney the main character's father explains to his son the concept of what he calls "the circle of life" and how all animals in the food chain hierarchy are needed in order for every species to survive. He abstracts the concept by explaining that lions become grass after they die. This grass is eaten by the antelopes, which are again eaten by the lions to complete the circle. We wanted to see if this concept is sound and said three organisms are able to survive within cellular automaton simulation.
 
 \section{Individual contributions}
-No clue what this is.
-Maybe this?:\\ \\
-Patrick: Idea + Implementation\\
-Ruben: Idea polishing + performance + Math stuff
+Patrick was responsible for the model, the parameters and the implementation in matlab thereof. Ruben polished single aspects of the simulation and was responsible for the performance of the algorithm. Furthermore Ruben was responsible for the inclusion of the Lotka Volterra equation and finding papers thereof.
 
 \section{Introduction and Motivations}
-Intro yay
+Having a clear food chain hierarchy defined by the given "circle of life", we were not only interested in whether it is possible to create a stable system, but also which parameters effect the system in what way. Changing a minor parameter such as how fast animals are able to reproduce or how hungry they are could have a strong Is it possible for the system to remain stable if we were to remove one of the organisms? In the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should also create a visible effect when making the simulated lions "very hungry".
+
+
+Clear Question statement
+Eg How much does this affect?
 
 \section{Description of the Model}
+Starting with Conway's Game of Life [here citation] we had to change the rules to fit our model. A cell could
+Why antelopes do not become grass?
+Die because of location and inability to move
+Cannot walk
 
 \subsection{Distinction from Game of Life}
 Instead of having simple cells that can either be dead or alive, the cells in our system contain organisms parametrizable using different attributes. Table \ref{tab:Properties} lists all attributes and describes their meaning.
@@ -101,7 +106,7 @@ Instead of having simple cells that can either be dead or alive, the cells in ou
 Name & Description\\
 \hline 
 \hline 
-Type & "Lion", "Antilope", "Grass" or "Nothing" \\ 
+Type & "Lion", "Antelope", "Grass" or "Nothing" \\ 
 \hline 
 PreyType & Type of the organism to prey \\ 
 \hline 
@@ -153,10 +158,13 @@ $
 $
 \section{Simulation Results and Discussion}
 Death by Age $\rightarrow$ increase reproduction Rate
+Remove one species what happens
+Location of animals have impact on survival, not only numbers
 Cool pictures
 
 \section{Summary and Outlook}
 Answer questions
+
 
 \section{References}
 

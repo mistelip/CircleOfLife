@@ -21,15 +21,15 @@ TODO:
 
 TIMESTEPS = 1000;
 NUMBER_OF_SPECIES = 3;
-LAND_NUMBER = 3;
+LAND_NUMBER = 16;
 
 
 % 0 = Nothing
 % 1 = Grass
-% 2 = Antilope
+% 2 = Antelope
 % 3 = Lion
 NUMBER_OF_VARIABLES = 12;
-SETUPINDEX = 4;
+SETUPINDEX = 6;
 
 
 typeInd = 1;
@@ -49,7 +49,7 @@ isOffspring = 12;    %0 = Cannot Reproduce?
 
 NOTHING =   typeToOrganism(0,SETUPINDEX);
 GRASS =     typeToOrganism(1,SETUPINDEX);
-ANTILOPE =  typeToOrganism(2,SETUPINDEX);
+ANTELOPE =  typeToOrganism(2,SETUPINDEX);
 LION =      typeToOrganism(3,SETUPINDEX);
 
 %---------------------------------------------------
@@ -60,7 +60,8 @@ deathCauseMat = zeros(3,3);
 
 %Initialize Video Writer
 fig = figure;
-set(fig, 'Position', [50 50 1000 1000])
+set(fig,'Color',[0 0 0])
+set(fig, 'Position', [50 50 1300 1000])
 FILENAME = [datestr(clock, 30),'.avi'];
 vidObj = VideoWriter(FILENAME);
 vidObj.Quality= 100;
@@ -221,7 +222,7 @@ for t=1:TIMESTEPS
                            organismMat(potentialMate(1),potentialMate(2),stomachInd) = newMateStomach;
                            
                            organismMat(a,b,:) = typeToOrganism(currentAnimal(typeInd),SETUPINDEX);
-                           organismMat(a,b,stomachInd) = (newCurrentStomach + newMateStomach)/2;
+                           organismMat(a,b,stomachInd) = ((newCurrentStomach + newMateStomach)/2)+1;
                        end
                    end
                 end
@@ -242,7 +243,7 @@ for t=1:TIMESTEPS
         b = deathlist(i,2);
         newOffspring = (organismMat(a,b,isOffspring) == 1);
         if (newOffspring)  
-            %Antilope eats Grass and 2 Lions/Antilopes put offspring on it. 
+            %Antelope eats Grass and 2 Lions/Antelopes put offspring on it. 
             %We want to keep it this way
         else
             organismMat(a,b,:) = NOTHING; %becomes nothing after being eaten
@@ -261,11 +262,15 @@ for t=1:TIMESTEPS
     pause(0.00001);
     %pause(0.2)
     
-    writeVideo(vidObj,getframe(fig));
+    try
+        writeVideo(vidObj,getframe(fig));
+    catch
+        break;
+    end
     
 end
 close(vidObj);
 winopen(FILENAME);
 
-disp('Finished');
+disp(['Finished: ',FILENAME]);
 
