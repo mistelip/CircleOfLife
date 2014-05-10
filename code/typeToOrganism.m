@@ -22,7 +22,7 @@ switch setupIndex
             case 2
                 ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(9),     8,      1,  0,      1,      1];
             case 3
-                ret =   [3,   2,      1,      1/2,    8,       8,      expectedAgeToDeathProb(10),     0,      1,  4,      0.8,     1];
+                ret =   [3,   2,      1,      1/1,    10,       11,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
     case 3
         

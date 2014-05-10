@@ -144,7 +144,7 @@ IsOffspring {0,1}& 1 if newborn, 0 if adult\\
 \label{tab:reproduction}
 A standard Conway's Game of Life only has four simple rules (which can be summarized to even less than four). Since our model has more complexity by having more than 2 states and certain attributes to take in account we adapted the rules to get as close to nature as possible. As in game of life we inspect our neighbourhood and act accordingly. 
 \subsubsection{Neighbourhood}
-We started off with the standard Moore-neighborhood but extended it by four additional cells attached to the northern, southern, western and eastern neighbour. This extension allows an organism so "see" further and the surrounding map
+We started off with the standard Moore-neighborhood but extended it by four additional cells attached to the northern, southern, western and eastern neighbour. This extension allows an organism so "see" further in the map and 
 
 
 \subsection{Death Causes}
@@ -252,6 +252,15 @@ g & 0.0005\\
 
 \section{Summary and Outlook}
 Answer questions
+Location of animals important. It is not taken into account by lotka-volterra.
+Size of "Wipeouts" is fix. Wipeout = one organism takes over. Small map oscillates more and will become unstable quicker. On large map multiple wipeouts can equalize each other.
+
+Dependent of each other. 
+Only antilipes and grass causes wipeout.
+
+Large map equals stable non-oscillating cycle. 
+Islands of Lions. Large Map results smaller probability of this happening. 
+
 
 \appendix
 

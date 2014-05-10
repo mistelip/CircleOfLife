@@ -277,8 +277,8 @@ switch landNumber
             organismMat(x,y,:) = ANTELOPE;
         end
     case 17 %Randomized
-        X = 50;
-        Y = 50;
+        X = 60;
+        Y = 60;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
         
         %random Grass
