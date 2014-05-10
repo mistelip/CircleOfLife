@@ -89,12 +89,11 @@ Patrick was responsible for the model, the parameters and the implementation in 
 \section{Introduction and Motivations}
 Having a clear food chain hierarchy defined by the given "circle of life", we were not only interested in whether it is possible to create a stable system, but also which parameters effect the system in what way. Changing a minor parameter such as how fast animals are able to reproduce or how hungry they are could have a strong Is it possible for the system to remain stable if we were to remove one of the organisms? In the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should also create a visible effect when making the simulated lions "very hungry".
 
-
 Clear Question statement
 Eg How much does this affect?
 
 \section{Description of the Model}
-Starting with Conway's Game of Life [here citation] we had to change the rules to fit our model. A cell could
+Starting with Conway's Game of Life \cite{gameOfLife} we had to change the rules to fit our model. A cell could
 Why antelopes do not become grass?
 Die because of location and inability to move
 Cannot walk
@@ -144,18 +143,28 @@ Eaten & Prey dies at the end of the day if bitten by predator \\
 
 \section{Implementation}
 We implemented a cell based system that simulates the habitat of three different species.
-We compared the population results obtained form the simulation with the Lotka Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. The results of this comparison enabled us to gain better understanding of the equilibria and the oscillating behaviour of the different populations in our simulation.
+We compared the population results obtained form the simulation with the Lotka-Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. The results of this comparison enabled us to gain better understanding of the equilibria and the oscillating behaviour of the different populations in our simulation.
 \subsection{Game of Life}
 
 \subsection{Lotka Volterra}
+The population of different organisms has been thoroughly studied. A.J. Lotka and V. Volterra found formulas describing the population number of two species, \cite{lotka}, \cite{volterra}. One species is a predator and the other species is the prey. The formulas nicely model the dynamics of the population. A large number of predators results in a decrease in the number of prey organisms, a small number of predators allows the prey organisms to increase in number. On the other hand, the predators are fed by the prey, so predators only flourish when there are enough organisms to prey upon. When the number of prey organism becomes too little, predators die of hunger. These rules are nicely reflected in the formulas of Lotka and Volterra, \cite{lotkaVolterra}.\\
 
-$
-\begin{array}{rcl}
-\frac{dx}{dt} & = & ax-bxy \\ 
-\frac{dy}{dt} & = & -cy+dxy-eyz \\ 
-\frac{dz}{dt} & = & -fz+gyz
-\end{array}
-$
+\begin{equation}
+\begin{split}
+\frac{dx}{dt} = ax-bxy \\ 
+\frac{dy}{dt} = cxy-dy
+\end{split}
+\end{equation}
+The reasoning about the population count of organisms forming a food chain has been extended to three species, \cite{lotkaVolterraThreeSpecies}. 
+
+\begin{equation}
+\begin{split}
+\frac{dx}{dt} = ax-bxy \\ 
+\frac{dy}{dt} = -cy+dxy-eyz \\ 
+\frac{dz}{dt} = -fz+gyz
+\end{split}
+\end{equation}
+
 \section{Simulation Results and Discussion}
 Death by Age $\rightarrow$ increase reproduction Rate
 Remove one species what happens
@@ -165,15 +174,16 @@ Cool pictures
 \section{Summary and Outlook}
 Answer questions
 
+\appendix
 
-\section{References}
-Image URL: http://melissaj007.blogspot.ch/2011/04/reincarnation.html
+\section{Appendix}
+The title image was taken from \cite{titleImage}.
 
+\section{Code}
+%the final source code goes here
 
+\bibliographystyle{plain}
 \bibliography{bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
 
 \end{document}  
-
-
-
- 
