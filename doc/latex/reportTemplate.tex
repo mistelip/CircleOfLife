@@ -130,22 +130,48 @@ DeathProb [0,1]& The probability of dying by age at the end of a the timestep. O
 \hline 
 Fatness [0,inf]& The number of predators that can be fed eating this organism (Note: as soon as one predator takes a bite the current organism will become Nothing at the end of the timestep)\\ 
 \hline 
-Alive {0,1}& 1 if alive, 0 if a predator has bitten this organism\\
+Alive \{0,1\}& 1 if alive, 0 if a predator has bitten this organism\\
 \hline 
 MinStomachRep [0,inf]& Minimal value of Stomach needed to reproduce (Reproduction explained in section \ref{tab:reproduction}) \\
 \hline 
 RepProb [0,1]& Probability to reproduce when allowed (Reproduction explained in section \ref{tab:reproduction})\\
 \hline 
-IsOffspring {0,1}& 1 if newborn, 0 if adult\\
+IsOffspring \{0,1\}& 1 if newborn, 0 if adult\\
 \end{tabular}
 \end{table}
 
-\subsection{Rules}
-\label{tab:reproduction}
-A standard Conway's Game of Life only has four simple rules (which can be summarized to even less than four). Since our model has more complexity by having more than 2 states and certain attributes to take in account we adapted the rules to get as close to nature as possible. As in game of life we inspect our neighbourhood and act accordingly. 
-\subsubsection{Neighbourhood}
-We started off with the standard Moore-neighborhood but extended it by four additional cells attached to the northern, southern, western and eastern neighbour. This extension allows an organism so "see" further in the map and 
+\subsection{Protocol per Timestep}
+Once we have generated an initial map with random cells we start the time process. Every cell gets called (in random order) and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behaviour of nature.
+\newcounter{protocolCounter}
+\setcounter{protocolCounter}{1}
+\subsubsection{(\arabic{protocolCounter}) Initial check} 
+Here we check whether the "Alive" attribute is still set to 1. If it is set to 0 it means at least one predator cell has taken a bite. This corresponds to a predator killing its prey in nature. If the the current cell is declared as dead it cannot (naturally) do anything anymore. We thus skip the protocol from here on and initiate the protocol on a next cell. We do not remove the organism yet, since more predators may be within the neighbourhood and feed on this organism.
+\\We furthermore check whether the current cell is an offspring (IsOffspring == 1). This would mean 2 other cells of the same type have generated this cell in this timestep. A newly born cell is also unable to do anything and we therefore would skip the rest of the protocol from here on. In nature, a newly born animal is able to neither reproduce nor hunt on directly. We are aware that there are animals who are able to hunt directly "out of the shell" (such as crocodiles), but we are dealing with antelopes and lions in our simulation which do not posses such skills. In addition, this attribute prevents the creation of a chain of an organism in one step. For example: Two lions produce an offspring in an empty field next to them. The offspring could then be able to reproduce with one of its parents in a cell next to it. Hyperpolating this will result in a chain of lions in one timestep.
 
+\addtocounter{protocolCounter}{1}
+\label{tab:reproduction}
+\subsubsection{(\arabic{protocolCounter}) Liveability Check} 
+We now subtract what we have in the stomach by the number defined in the digestion attribute. If this causes a negative number in the stomach the organism has died of hunger and is instantly replaced by the type defined in its "Becomes" attribute. Furthermore we generate a random number. If this number is smaller than the death probability attribute the organism has died of age. As having died of hunger the organism is instantly replaced by the type defined in its "Becomes" attribute.\\
+If the organism has died we skip the rest of the protocol and move on to the next cell. If the organism is still alive we can move on to the next protocol step. From here on we consider the neighbourhood around the cell and act accordingly. The neighbourhood and its different sizes are described in section \ref{sec:neighbourhood}.
+
+
+\addtocounter{protocolCounter}{1}
+
+\subsubsection{(\arabic{protocolCounter}) Found Prey}
+If we find an organism who's type matches the type which was set in the current cell's PreyType attribute we have found food. 
+
+\addtocounter{protocolCounter}{1}
+\subsubsection{(\arabic{protocolCounter}) Found Mate}
+
+\addtocounter{protocolCounter}{1}
+\subsubsection{(\arabic{protocolCounter}) Found Mating Location}
+
+ 
+\subsection{Neighbourhood}
+\label{sec:neighbourhood}
+%TODO: 
+As in game of life we inspect our neighbourhood, see what kind of cells we find and act accordingly. 
+We started off with the standard Moore-neighbourhood and started testing the results of extending this neighbourhood. This extension allows an organism to "see" further in the map and therefore eat more
 
 \subsection{Death Causes}
 In our model there are multiple ways a single organism can cease to exist. Depending on the cause the outcome differs too. 
@@ -260,7 +286,7 @@ Only antilipes and grass causes wipeout.
 
 Large map equals stable non-oscillating cycle. 
 Islands of Lions. Large Map results smaller probability of this happening. 
-
+Antelopes become nothing, not grass
 
 \appendix
 

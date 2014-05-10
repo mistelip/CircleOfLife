@@ -276,7 +276,7 @@ switch landNumber
             end
             organismMat(x,y,:) = ANTELOPE;
         end
-    case 17 %Randomized
+    case 16 %Randomized
         X = 60;
         Y = 60;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
@@ -308,7 +308,40 @@ switch landNumber
             disp(y);
             organismMat(x,y,:) = LION;
         end
-    case 16 %Randomized
+    case 17 %Randomized
+        X = 1000;
+        Y = 1000;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
+        
+        %random Grass
+        rng('shuffle');
+        for i=1:((X*Y)*(400/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            disp(x);
+            disp(y);
+            organismMat(x,y,:) = GRASS;
+        end
+        %random Antelope
+        rng('shuffle');
+        for i=1:((X*Y)*(40/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            disp(x);
+            disp(y);
+            organismMat(x,y,:) = ANTELOPE;
+        end
+        %random Lion
+        rng('shuffle');
+        for i=1:((X*Y)*(40/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            disp(x);
+            disp(y);
+            organismMat(x,y,:) = LION;
+        end
+        
+    case 18 %Randomized
         X = 100;
         Y = 100;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
@@ -333,7 +366,7 @@ switch landNumber
         end
         %random Lion
         rng('shuffle');
-        for i=1:((X*Y)*(40/900))
+        for i=1:((X*Y)*(30/900))
             x =  randi([1 X]);
             y =  randi([1 Y]);
             disp(x);

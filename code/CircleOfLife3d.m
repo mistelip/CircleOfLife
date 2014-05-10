@@ -80,8 +80,11 @@ pause(1);
 
 
 % Define the Moore neighborhood, i.e. the 8 nearest neighbors
-neigh_old = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0];
-neigh = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];
+neigh_8 = getNeighbourhood(1);
+neigh_8ext = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];
+neigh_2 = getNeighbourhood(2);
+
+neigh = neigh_8ext;
 
 % generate random order for updates
 xlocs = 1:X;
