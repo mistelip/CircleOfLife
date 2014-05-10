@@ -7,6 +7,8 @@
 \usepackage{epstopdf}
 \usepackage{natbib}
 \usepackage{amssymb, amsmath}
+\usepackage{enumitem}
+\setlist[description]{leftmargin=\parindent,labelindent=\parindent}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 %\title{Circle of Life}
@@ -87,64 +89,88 @@ In the film "Lion King" from Disney the main character's father explains to his 
 Patrick was responsible for the model, the parameters and the implementation in matlab thereof. Ruben polished single aspects of the simulation and was responsible for the performance of the algorithm. Furthermore Ruben was responsible for the inclusion of the Lotka Volterra equation and finding papers thereof.
 
 \section{Introduction and Motivations}
-Having a clear food chain hierarchy defined by the given "circle of life", we were not only interested in whether it is possible to create a stable system, but also which parameters effect the system in what way. Changing a minor parameter such as how fast animals are able to reproduce or how hungry they are could have a strong Is it possible for the system to remain stable if we were to remove one of the organisms? In the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should also create a visible effect when making the simulated lions "very hungry".
-
-Clear Question statement
-Eg How much does this affect?
+Having a clear food chain hierarchy defined by the given "circle of life", we were not only interested in whether it is possible to create a stable system, but also which parameters effect the system in what way. Changing a minor parameter, for example how fast animals are able to reproduce or how hungry they are could have a major effect on the balance. Is it possible for the system to remain stable if we were to remove one of the organisms? To the end of the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should be able to reproduce this effect when making the simulated lions "very hungry".
 
 \section{Description of the Model}
-Starting with Conway's Game of Life \cite{gameOfLife} we had to change the rules to fit our model. A cell could
-Why antelopes do not become grass?
-Die because of location and inability to move
-Cannot walk
+\subsection{States}
+Starting with Conway's Game of Life \cite{gameOfLife} a cell should not only have two states (active or inactive) it should now have the following four states representing all organisms:
 
-\subsection{Distinction from Game of Life}
-Instead of having simple cells that can either be dead or alive, the cells in our system contain organisms parametrizable using different attributes. Table \ref{tab:Properties} lists all attributes and describes their meaning.
+\begin{description}
+  \item[Nothing or Inactive (Black)] \hfill \\
+	This represents a dead land cell where no living organism is located
+  \item[Grass (Green)] \hfill \\
+	This represents a living grass organism
+  \item[Antelope (Brown)]  \hfill \\
+	This represents a living antelope organism
+  \item[Lion (Red)] 
+   \hfill \\This represents a living lion organism
+\end{description}
 
-\begin{tabular}{l|l}\label{tab:Properties}
-Name & Description\\
+\subsection{Attributes}
+Furthermore each of the four cell types must have parametrizable attributes in order for the extended rules to work. 
+Table \ref{tab:Properties} lists all attributes and describes their meaning.
+\begin{table}[htbp]
+\begin{tabular}{l|p{11cm}}\label{tab:Properties}
+Name [Value Range]& Description\\
 \hline 
 \hline 
-Type & "Lion", "Antelope", "Grass" or "Nothing" \\ 
+Type [1,4]& The number between 1 and 4 represents "Nothing", "Grass", "Antelope" and "Lion" respectively  \\ 
 \hline 
-PreyType & Type of the organism to prey \\ 
+PreyType [1,4] & Type of the organism which the current organism eats \\ 
 \hline 
-Becomes & Type to become after a natural death \\ 
+Becomes [1,4]& Type to become after a natural death (Dying of age or hunger) \\ 
 \hline 
-FoodDigest & Amount of food digested in one day \\ 
+FoodDigest [0,inf]& Amount of food that is digested in one timestep\\ 
 \hline 
-Stomach & Amount of food in organism \\ 
+Stomach [0,inf]& Amount of food currently in organism. This decreases every timestep (by the number defined in FoodDigest) and increases when the organism found food\\ 
 \hline 
-MaxStomach & Maximal amount of food organism can contain \\ 
+MaxStomach [0,inf]& Maximal amount of food an organism will eat. Organism will only eat if its stomach is below this number. A high number will cause the organism to eat anything it finds causing overfeeding while a low number will cause the organism to live on a diet \\ 
 \hline 
-DeathProb & The probability to die at the end of the day \\ 
+DeathProb [0,1]& The probability of dying by age at the end of a the timestep. Other death causes are discussed in section \ref{tab:deathCauses} \\ 
 \hline 
-Fatness & The number of predator that can be fed eating the organism \\ 
-\hline
-Alive & 1 if alive, 0 if bitten\\
+Fatness [0,inf]& The number of predators that can be fed eating this organism (Note: as soon as one predator takes a bite the current organism will become Nothing at the end of the timestep)\\ 
 \hline 
-MinStomachRepInd & Minimal amount of food needed to reproduce \\  
+Alive {0,1}& 1 if alive, 0 if a predator has bitten this organism\\
 \hline 
-RepProb & Probability to reproduce when possible\\
+MinStomachRep [0,inf]& Minimal value of Stomach needed to reproduce (Reproduction explained in section \ref{tab:reproduction}) \\
 \hline 
-IsOffspring & 1 if newborn, 0 if adult\\
+RepProb [0,1]& Probability to reproduce when allowed (Reproduction explained in section \ref{tab:reproduction})\\
+\hline 
+IsOffspring {0,1}& 1 if newborn, 0 if adult\\
 \end{tabular}
+\end{table}
 
-\begin{tabular}{l|l}\label{tab:deathCauses}
+\subsection{Rules}
+\label{tab:reproduction}
+A standard Conway's Game of Life only has four simple rules (which can be summarized to even less than four). Since our model has more complexity by having more than 2 states and certain attributes to take in account we adapted the rules to get as close to nature as possible. As in game of life we inspect our neighbourhood and act accordingly. 
+\subsubsection{Neighbourhood}
+We started off with the standard Moore-neighborhood but extended it by four additional cells attached to the northern, southern, western and eastern neighbour. This extension allows an organism so "see" further and the surrounding map
+
+
+\subsection{Death Causes}
+In our model there are multiple ways a single organism can cease to exist. Depending on the cause the outcome differs too. 
+\\
+\begin{tabular}{l|p{11cm}}\label{tab:deathCauses}
 Death Cause & Description \\ 
 \hline 
 \hline 
-Age & The DeathProb determines if an organism dies of age at the end of each day\\ 
+Age & At each timestep a random number between 0 and 1 is generated. If this number is smaller than the specified death probability the organism dies of age\\ 
 \hline 
 Hunger & An organism with an empty stomach dies of hunger \\ 
 \hline 
 Eaten & Prey dies at the end of the day if bitten by predator \\  
 \end{tabular} 
 
+
+Known limits
+Why antelopes do not become grass?
+Die because of location and inability to move
+Cannot walk
+Neighborhood
+
 \section{Implementation}
 We implemented a cell based system that simulates the habitat of three different species.
 We compared the population results obtained form the simulation with the Lotka-Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. The results of this comparison enabled us to gain better understanding of the equilibria and the oscillating behaviour of the different populations in our simulation.
-\subsection{Game of Life}
 
 \subsection{Lotka Volterra}
 The population of different organisms has been thoroughly studied. A.J. Lotka and V. Volterra found formulas describing the population number of two species, \cite{lotka}, \cite{volterra}. One species is a predator and the other species is the prey. The formulas nicely model the dynamics of the population. A large number of predators results in a decrease in the number of prey organisms, a small number of predators allows the prey organisms to increase in number. On the other hand, the predators are fed by the prey, so predators only flourish when there are enough organisms to prey upon. When the number of prey organism becomes too little, predators die of hunger. These rules are nicely reflected in the formulas of Lotka and Volterra, \cite{lotkaVolterra}.\\

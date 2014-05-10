@@ -79,6 +79,7 @@ function [] = printLand( mat, organismCountMat, t, deathCauseMat)
     set(gca,'Color',[0,0,0]);
     set(gca,'FontSize',FONTSIZE);
     set(barPlot,{'FaceColor'},{[1,204/255,0];[0,153/255,1];[1,0,0]});
+    ylim([0 100]);
     grid on;
     
     %Title

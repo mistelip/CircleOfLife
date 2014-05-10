@@ -6,6 +6,7 @@ ANTELOPE =  typeToOrganism(2, setupIndex);
 LION =      typeToOrganism(3, setupIndex);
 organismCounter = zeros(1,3);
 typeInd = 1;
+isOffspring = 12;
 
 switch landNumber
     case 0 %20x20 Grass with 1 Antelope
@@ -275,6 +276,38 @@ switch landNumber
             end
             organismMat(x,y,:) = ANTELOPE;
         end
+    case 17 %Randomized
+        X = 50;
+        Y = 50;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
+        
+        %random Grass
+        rng('shuffle');
+        for i=1:((X*Y)*(400/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            disp(x);
+            disp(y);
+            organismMat(x,y,:) = GRASS;
+        end
+        %random Antelope
+        rng('shuffle');
+        for i=1:((X*Y)*(40/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            disp(x);
+            disp(y);
+            organismMat(x,y,:) = ANTELOPE;
+        end
+        %random Lion
+        rng('shuffle');
+        for i=1:((X*Y)*(40/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            disp(x);
+            disp(y);
+            organismMat(x,y,:) = LION;
+        end
     case 16 %Randomized
         X = 100;
         Y = 100;
@@ -307,14 +340,16 @@ switch landNumber
             disp(y);
             organismMat(x,y,:) = LION;
         end
-        
+              
 end
 
-for i=1:X
-    for j=1:Y
-        organismMat(i,j,12) = 0; %No one isOffpsring
-    end
-end
+%No one isOffpsring
+organismMat(:,:,isOffspring) =  zeros(X,Y);
+
+%Set Counters
+organismCounter(1) = sum(sum(organismMat(:,:,typeInd) == 1));
+organismCounter(2) = sum(sum(organismMat(:,:,typeInd) == 2));
+organismCounter(3) = sum(sum(organismMat(:,:,typeInd) == 3));
 
 
 
