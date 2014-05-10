@@ -181,7 +181,7 @@ The population of different organisms has been thoroughly studied. A.J. Lotka an
 \frac{dy}{dt} = cxy-dy
 \end{split}
 \end{equation}
-The reasoning about the population count of organisms forming a food chain has been extended to three species, \cite{lotkaVolterraThreeSpecies}. 
+The reasoning about the population count of organisms has been extended to three species, \cite{lotkaVolterraThreeSpecies}. The three organisms form a food chain. In the model, organisms Z are predators of organisms Y and organisms Y prey on organisms X. Therefore, compared to the two species situation, the population count of organism Y now additionally depends on the number predators (organisms Z). 
 
 \begin{equation}
 \begin{split}
@@ -191,11 +191,64 @@ The reasoning about the population count of organisms forming a food chain has b
 \end{split}
 \end{equation}
 
+The resulting curves can be parametrized by the six constants a,b,c,d,e,f, and g as shown in Table \ref{tab:LotkaVolterraParameters}.
+\\
+\begin{tabular}{l|l}\label{tab:LotkaVolterraParameters}
+Parameter & Description \\ 
+\hline 
+\hline 
+a & reproduction rate of organisms X\\ 
+\hline 
+b & disadvantage of organisms X of being hunted\\ 
+\hline 
+c & vulnerability of organisms Y to overpopulation\\  
+\hline 
+d & advantage of organisms Y of hunting\\
+\hline 
+e & disadvantage of organisms Y of being hunted\\
+\hline 
+f & vulnerability of organisms Z to overpopulation\\
+\hline 
+g & advantage of organisms Z of hunting\\
+\end{tabular} \\
+
+This model could be further generalized in a similar manner to model $n$ organisms. The behaviour of the population curves highly depends on the choice of variables and is thoroughly studied in \cite{lotkaVolterraThreeSpecies}. The variable assignment $a=b=c=d=e=f=g=1$ results in oscillating population count curves shown in Figure \ref{}. 
+
+%TODO: add lotka Volterra Three species plot
+
 \section{Simulation Results and Discussion}
 Death by Age $\rightarrow$ increase reproduction Rate
 Remove one species what happens
 Location of animals have impact on survival, not only numbers
 Cool pictures
+
+%TODO: add parameters in CircleOfLife Code for nicely oscillating curves
+Adjusting the parameters in the Lotka-Volterra formulas to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} results in  population curves similar to the ones obtained from our simulation. Therefore, we conclude that our simulation models the habitat of organisms consistent to the Lotka-Volterra equations. 
+\\
+\begin{tabular}{l|l}\label{tab:LotkaVolterraParametersFinal}
+Parameter & Value \\ 
+\hline 
+\hline
+start\_X & 300\\
+\hline
+start\_Y & 30\\
+\hline
+start\_Z & 30\\
+\hline
+a & 0.075\\ 
+\hline 
+b & 0.0005\\ 
+\hline 
+c & 0.0005\\  
+\hline 
+d & 0.00025\\
+\hline 
+e & 0.0005\\
+\hline 
+f & 0.075\\
+\hline 
+g & 0.0005\\
+\end{tabular} \\
 
 \section{Summary and Outlook}
 Answer questions
