@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage{geometry}                
-\geometry{letterpaper}                   
-
+\geometry{letterpaper}  
+                 
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{epstopdf}
@@ -110,7 +110,8 @@ Starting with Conway's Game of Life \cite{gameOfLife} a cell should not only hav
 Furthermore each of the four cell types must have parametrizable attributes in order for the extended rules to work. 
 Table \ref{tab:Properties} lists all attributes and describes their meaning.
 \begin{table}[htbp]
-\begin{tabular}{l|p{11cm}}\label{tab:Properties}
+\centering
+\begin{tabular}{l|p{10.3cm}}
 Name [Value Range]& Description\\
 \hline 
 \hline 
@@ -138,6 +139,8 @@ RepProb [0,1]& Probability to reproduce when allowed (Reproduction explained in 
 \hline 
 IsOffspring \{0,1\}& 1 if newborn, 0 if adult\\
 \end{tabular}
+\caption{A description of all attributes that define an organism.}
+\label{tab:Properties}
 \end{table}
 
 \subsection{Protocol per Timestep}
@@ -175,8 +178,10 @@ We started off with the standard Moore-neighbourhood and started testing the res
 
 \subsection{Death Causes}
 In our model there are multiple ways a single organism can cease to exist. Depending on the cause the outcome differs too. 
-\\
-\begin{tabular}{l|p{11cm}}\label{tab:deathCauses}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l|p{11cm}}
 Death Cause & Description \\ 
 \hline 
 \hline 
@@ -185,7 +190,10 @@ Age & At each timestep a random number between 0 and 1 is generated. If this num
 Hunger & An organism with an empty stomach dies of hunger \\ 
 \hline 
 Eaten & Prey dies at the end of the day if bitten by predator \\  
-\end{tabular} 
+\end{tabular}
+\caption{All death causes considered in our model.}
+\label{tab:deathCauses}
+\end{table}
 
 
 Known limits
@@ -218,8 +226,10 @@ The reasoning about the population count of organisms has been extended to three
 \end{equation}
 
 The resulting curves can be parametrized by the six constants a,b,c,d,e,f, and g as shown in Table \ref{tab:LotkaVolterraParameters}.
-\\
-\begin{tabular}{l|l}\label{tab:LotkaVolterraParameters}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l|l}
 Parameter & Description \\ 
 \hline 
 \hline 
@@ -236,11 +246,19 @@ e & disadvantage of organisms Y of being hunted\\
 f & vulnerability of organisms Z to overpopulation\\
 \hline 
 g & advantage of organisms Z of hunting\\
-\end{tabular} \\
+\end{tabular}
+\caption{The semantic meaning of the different constants.}
+\label{tab:LotkaVolterraParameters}
+\end{table}
 
-This model could be further generalized in a similar manner to model $n$ organisms. The behaviour of the population curves highly depends on the choice of variables and is thoroughly studied in \cite{lotkaVolterraThreeSpecies}. The variable assignment $a=b=c=d=e=f=g=1$ results in oscillating population count curves shown in Figure \ref{}. 
+This model could be further generalized in a similar manner to model $n$ organisms. The behaviour of the population curves highly depends on the choice of variables and is thoroughly studied in \cite{lotkaVolterraThreeSpecies}. The variable assignment $a=b=c=d=e=f=g=1$ results in oscillating population count curves shown in Figure \ref{fig:LotkaVolterraThreeAllOnes}. 
 
-%TODO: add lotka Volterra Three species plot
+\begin{figure}
+\centering
+\includegraphics[scale=0.65]{LotkaVolterraThreeAllOnes.eps}
+\caption{Lotka-Volterra equations for $a=b=c=d=e=f=g=1,start_X=0,5, start_Y=1,$ and $start_Z=2$.}
+\label{fig:LotkaVolterraThreeAllOnes}
+\end{figure}
 
 \section{Simulation Results and Discussion}
 Death by Age $\rightarrow$ increase reproduction Rate
@@ -250,8 +268,10 @@ Cool pictures
 
 %TODO: add parameters in CircleOfLife Code for nicely oscillating curves
 Adjusting the parameters in the Lotka-Volterra formulas to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} results in  population curves similar to the ones obtained from our simulation. Therefore, we conclude that our simulation models the habitat of organisms consistent to the Lotka-Volterra equations. 
-\\
-\begin{tabular}{l|l}\label{tab:LotkaVolterraParametersFinal}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l|l}
 Parameter & Value \\ 
 \hline 
 \hline
@@ -274,7 +294,19 @@ e & 0.0005\\
 f & 0.075\\
 \hline 
 g & 0.0005\\
-\end{tabular} \\
+\end{tabular}
+\caption{The choice of constant values for the comparison with the simulation results}
+\label{tab:LotkaVolterraParametersFinal}
+\end{table}
+
+The graphical result of the Lotka-Volterra equations for these parameters is shown in Figure \ref{fig:LotkaVolterraThreeAdjusted}.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.65]{LotkaVolterraThreeAdjusted.eps}
+\caption{Lotka-Volterra equations for the parameters as shown in Table \ref{tab:LotkaVolterraParametersFinal}.}
+\label{fig:LotkaVolterraThreeAdjusted}
+\end{figure}
 
 \section{Summary and Outlook}
 Answer questions

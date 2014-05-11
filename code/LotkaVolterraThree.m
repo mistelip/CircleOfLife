@@ -6,16 +6,21 @@ color_Antelope = [244/255, 164/255, 96/255];
 color_Grass = [0 1 0];
 FONTSIZE = 15;
 
+X_START = 300;
+WAVELENGTH = 50;
+ENDTIME = 200;
 % timestep
-dt=0.001;
+dt=0.00006*WAVELENGTH;
 % iterations
-iter=10000;
+iter=333*ENDTIME;
 
 % initialize vectors
 x=zeros(iter,1); y=zeros(iter,1); z=zeros(iter,1); t=zeros(iter,1);
-x(1)=.5; y(1)=1; z(1)=2; t(1)=0; % starting point
+l = 0.05/WAVELENGTH;
 
-a=1; b=1; c=1; d=1; e=1; f=1; g=1;
+x(1)=1*X_START; y(1)=0.1*X_START; z(1)=0.1*X_START; t(1)=0; % starting point
+
+a=0.5*X_START*l; b=1*l; c=1*l; d=0.5*l; e=1*l; f=0.5*X_START*l; g=1*l;
 
 for i=2:iter
     dx=a*x(i-1)- b*x(i-1)*y(i-1);
@@ -27,9 +32,9 @@ for i=2:iter
     t(i)=t(i-1)+dt;
 end
 hold on;
-l1 = plot(x);
-l2 = plot(y);
-l3 = plot(z);
+l1 = plot(t,x);
+l2 = plot(t,y);
+l3 = plot(t,z);
 set(l1,'Color',color_Grass);
 set(l2,'Color',color_Antelope);
 set(l3,'Color',color_Lion);
