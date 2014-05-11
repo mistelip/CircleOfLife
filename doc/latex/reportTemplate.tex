@@ -109,6 +109,7 @@ Starting with Conway's Game of Life \cite{gameOfLife} a cell should not only hav
 \subsection{Attributes}
 Furthermore each of the four cell types must have parametrizable attributes in order for the extended rules to work. 
 Table \ref{tab:Properties} lists all attributes and describes their meaning.
+
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l|p{10.3cm}}
@@ -121,21 +122,21 @@ PreyType [1,4] & Type of the organism which the current organism eats \\
 \hline 
 Becomes [1,4]& Type to become after a natural death (Dying of age or hunger) \\ 
 \hline 
-FoodDigest [0,inf]& Amount of food that is digested in one timestep\\ 
+FoodDigest [0,inf]& Amount of food that is digested in one day\\ 
 \hline 
-Stomach [0,inf]& Amount of food currently in organism. This decreases every timestep (by the number defined in FoodDigest) and increases when the organism found food\\ 
+Stomach [0,inf]& Amount of food currently in organism. This decreases with each day (by the number defined in FoodDigest) and increases when the organism found food\\ 
 \hline 
 MaxStomach [0,inf]& Maximal amount of food an organism will eat. Organism will only eat if its stomach is below this number. A high number will cause the organism to eat anything it finds causing overfeeding while a low number will cause the organism to live on a diet \\ 
 \hline 
-DeathProb [0,1]& The probability of dying by age at the end of a the timestep. Other death causes are discussed in section \ref{tab:deathCauses} \\ 
+DeathProb [0,1]& The probability of dying by age at the end of a the day. Other death causes are discussed in section \ref{tab:deathCauses} \\ 
 \hline 
-Fatness [0,inf]& The number of predators that can be fed eating this organism (Note: as soon as one predator takes a bite the current organism will become Nothing at the end of the timestep)\\ 
+Fatness [0,inf]& The number of predators that can be fed eating this organism (Note: as soon as one predator takes a bite the current organism will become Nothing at the end of the day)\\ 
 \hline 
 Alive \{0,1\}& 1 if alive, 0 if a predator has bitten this organism\\
 \hline 
 MinStomachRep [0,inf]& Minimal value of Stomach needed to reproduce (Reproduction explained in section \ref{tab:reproduction}) \\
 \hline 
-RepProb [0,1]& Probability to reproduce when allowed (Reproduction explained in section \ref{tab:reproduction})\\
+ReproductionProb [0,1]& Probability to reproduce when allowed (Reproduction explained in section \ref{tab:reproduction})\\
 \hline 
 IsOffspring \{0,1\}& 1 if newborn, 0 if adult\\
 \end{tabular}
@@ -143,53 +144,62 @@ IsOffspring \{0,1\}& 1 if newborn, 0 if adult\\
 \label{tab:Properties}
 \end{table}
 
-\subsection{Protocol per Timestep}
-Once we have generated an initial map with random cells we start the time process. Every cell gets called (in random order) and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behaviour of nature.
+\subsection{Protocol per Day}
+Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of timestep (also referred to as "day") every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behaviour of nature.
 \newcounter{protocolCounter}
 \setcounter{protocolCounter}{1}
+
+
 \subsubsection{(\arabic{protocolCounter}) Initial check} 
-Here we check whether the "Alive" attribute is still set to 1. If it is set to 0 it means at least one predator cell has taken a bite. This corresponds to a predator killing its prey in nature. If the the current cell is declared as dead it cannot (naturally) do anything anymore. We thus skip the protocol from here on and initiate the protocol on a next cell. We do not remove the organism yet, since more predators may be within the neighbourhood and feed on this organism.
-\\We furthermore check whether the current cell is an offspring (IsOffspring == 1). This would mean 2 other cells of the same type have generated this cell in this timestep. A newly born cell is also unable to do anything and we therefore would skip the rest of the protocol from here on. In nature, a newly born animal is able to neither reproduce nor hunt on directly. We are aware that there are animals who are able to hunt directly "out of the shell" (such as crocodiles), but we are dealing with antelopes and lions in our simulation which do not posses such skills. In addition, this attribute prevents the creation of a chain of an organism in one step. For example: Two lions produce an offspring in an empty field next to them. The offspring could then be able to reproduce with one of its parents in a cell next to it. Hyperpolating this will result in a chain of lions in one timestep.
+Here we check whether the {\it Alive} attribute is still set to 1. If it is set to 0 it means at least one predator cell has taken a bite of the current organism in this timestep.  This corresponds to a predator killing its prey in nature. If the the current cell is declared as dead it cannot (naturally) do anything anymore. We thus skip the protocol from here on and initiate the protocol on a next cell. We do not remove the organism yet, since more predators may be within the neighbourhood and feed on this organism.
+\\We furthermore check whether the current cell is an offspring ({\it IsOffspring} $== 1$). This would mean 2 other cells of the same type have generated this cell in this timestep. A newly born cell is also unable to do anything and we therefore would skip the rest of the protocol from here on. In nature, a newly born animal is able to neither reproduce nor hunt on directly. We are aware that there are animals who are able to hunt directly "out of the shell" (such as crocodiles), but we are dealing with antelopes and lions in our simulation which do not posses such skills. In addition, this attribute prevents the creation of a chain of an organism in one step. For example: Two lions produce an offspring in an empty field next to them. The offspring could then be able to reproduce with one of its parents in a cell next to it. Hyperpolating this will result in a chain of lions in only one day.
 
 \addtocounter{protocolCounter}{1}
-\label{tab:reproduction}
 \subsubsection{(\arabic{protocolCounter}) Liveability Check} 
 We now subtract what we have in the stomach by the number defined in the digestion attribute. If this causes a negative number in the stomach the organism has died of hunger and is instantly replaced by the type defined in its "Becomes" attribute. Furthermore we generate a random number. If this number is smaller than the death probability attribute the organism has died of age. As having died of hunger the organism is instantly replaced by the type defined in its "Becomes" attribute.\\
 If the organism has died we skip the rest of the protocol and move on to the next cell. If the organism is still alive we can move on to the next protocol step. From here on we consider the neighbourhood around the cell and act accordingly. The neighbourhood and its different sizes are described in section \ref{sec:neighbourhood}.
 
 
 \addtocounter{protocolCounter}{1}
-
 \subsubsection{(\arabic{protocolCounter}) Found Prey}
-If we find an organism who's type matches the type which was set in the current cell's PreyType attribute we have found food. 
+If we find an organism within the neighbourhood who's type matches the type which was set in the current cell's PreyType attribute we have found food. We check whether out pray still has {\it fatness} left by checking its fatness attribute. An organism can only feed a fixed amount of predators. This amount is stored in the fatness attribute. The attribute is used to limit the number of predators who can eat this organism. Setting it to 1 means only one predator is able to feed himself before the prey becomes inedible. This corresponds to antelopes or grass only being able to fill the stomach of a certain amount of lions or antelopes respectively.\\
+
+If the organism we encountered still has fatness we make sure the {\it Alive} attribute is set to 0 to incapacitate it. If this was not the case before we furthermore add the organism to a "deathlist". This list is used to keep track of all eaten organisms and after each day the all organisms on the deathlist are removed. 
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mate}
+If we find an organism who's type is equal to the current organisms type we check if it is possible to mate with it. This is done by ensuring the neighbour organism is alive ({\it Alive} attribute == 1) and that it has a high enough {\it Stomach} attribute in order to reproduce. I.e. the {\it Stomach} attribute must be equal or higher to the amount of the {\it MinStomachRep} attribute. Furthermore we ensure that the neighbouring organism is not an offspring since a freshly born organism is unable to reproduce. Again, we are aware that there exist animals that are able to reproduce within the first day they are born (i.e. a mayfly XXXXCITEXXXX), but Antelopes and lions are not amongst those. If all these conditions are met the neighbouring animal is set as a potential mate. An organism can only have one potential mate per day in order to keep a realistic reproduction rate.
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mating Location}
+If we find either a Grass or a Nothing cell in the surrounding neighbourhood we mark it as a potential mating location. A Nothing cell receives higher priority in order to not replace potential food for the antelopes. 
+
+
+\addtocounter{protocolCounter}{1}
+\subsubsection{(\arabic{protocolCounter}) Reproduce}
+\label{tab:reproduction}
+Once we have processed all the cells in the neighbourhood we now survey the outcome of the mating situation. If there we have a potential mate and a potential mating location we can continue with the final mating protocol. This is done by checking if the current organism's {\it Stomach} attribute is equal or higher than the amount of its {\it MinStomachRep} attribute. If this is also the case it means there is a potential mate who is enough fed, a cell within the neighbourhood that can be replaced by an offspring and the current organism is fed enough to reproduce. For a final test we generate a random number between 0 and 1. Reproduction is only possible if this random number is smaller than the {\it ReproductionProbability} attribute of the organism type. This simulates natures success rate of giving birth. Having a reproduction probability of 1 would result in 100 $\%$ successrate given the previous conditions are met.
 
  
 \subsection{Neighbourhood}
 \label{sec:neighbourhood}
 %TODO: 
 As in game of life we inspect our neighbourhood, see what kind of cells we find and act accordingly. 
-We started off with the standard Moore-neighbourhood and started testing the results of extending this neighbourhood. This extension allows an organism to "see" further in the map and therefore eat more
+We started off with the standard Moore-neighbourhood and started testing the results of extending this neighbourhood. This extension allows an organism to "see" further in the map and therefore not only eat more but reproduce with organism further away.
 
 \subsection{Death Causes}
-In our model there are multiple ways a single organism can cease to exist. Depending on the cause the outcome differs too. 
-
+In our model there are multiple ways a single organism can cease to exist. Depending on the cause the resulting cell differs too. 
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l|p{11cm}}
 Death Cause & Description \\ 
 \hline 
 \hline 
-Age & At each timestep a random number between 0 and 1 is generated. If this number is smaller than the specified death probability the organism dies of age\\ 
+Age & At each timestep a random number between 0 and 1 is generated. If this number is smaller than the specified death probability the organism dies of age and the cell is turned into the type that is set in its {\it Becomes} attribute\\ 
 \hline 
-Hunger & An organism with an empty stomach dies of hunger \\ 
+Hunger & When an organism's stomach reaches a negative number it dies of hunger and the cell is turned into the type that is set in its {\it Becomes} attribute\\ 
 \hline 
-Eaten & Prey dies at the end of the day if bitten by predator \\  
+Eaten & An organism can be eaten by its predator (or multiple predators in one day). If this is the case the cell becomes Nothing after the day is completed. We chose not to let the cell become the type that is set in its {\it Becomes} attribute because after being eaten an organism mainly resides in the stomach of its predator and does not contribute to the ourside land anymore\\  
 \end{tabular}
 \caption{All death causes considered in our model.}
 \label{tab:deathCauses}
@@ -309,6 +319,7 @@ The graphical result of the Lotka-Volterra equations for these parameters is sho
 \end{figure}
 
 \section{Summary and Outlook}
+Balance out at beginning
 Answer questions
 Location of animals important. It is not taken into account by lotka-volterra.
 
