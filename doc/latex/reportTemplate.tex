@@ -328,7 +328,8 @@ Removing one of the species impacts the population curves in the following way: 
 When there are no antelopes, the food chain is broken and all the lions starve. The grass can flourish because it has no natural enemies. Therefore the grass population grows indefinitely. However, removing only the lions simply reduces the Lotka-Volterra model for three species to the model with only 2 species and thus, the population of the grass and of the antelopes are self regulating and the curves oscillate.
 
 For the our model the situation is different in some ways, because we consider locations and neighbourhoods rather than only advancing based on pure population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a indefinite population growth cannot occur in our model. When our Model is started without any grass, then the population still behaves the same as is grass was added at the beginning, because ones a lion dies, it becomes grass. Therefore, the antelopes can potentially reach grass, survive and keep up the balance. However, since the antelopes need to go pass the lions to reach grass it is rather unlikely that lions and antelopes survive. The smaller the land is the smaller the probability that the land recovers from the initially strongly unbalanced situation.
-When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. 
+When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. The grass population then fills the entire land and hits a hard limit, because there are no more cells to populate. 
+If initially no lions are added to the land there are two different outcomes: Either the antelopes eat all the grass and then starve leaving an extinct land, or the both organisms survive. The latter case is more probable in larger lands, whereas in smaller lands the population seldom remains stable.
 
 %TODO: add figures
 \ifx
@@ -351,6 +352,17 @@ When no antelopes are added in the beginning, all lions starve for sure, because
 \end{figure}
 \fi
 
+\section{Macro phenomena}
+
+Group forming:\\
+The organisms need to form groups in order to survive as a species. This is needed because all organisms can only reproduce if there is at least one other organism of the same species in its neighbourhood.
+
+Oscillation:\\
+Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created because of a lion dying. Therefore, less grass implies a decrease in the antelope population, which in turn implies a large number of dying lions and thus, an increase in the number of cells populated by grass. since there are few antelopes and lions, the grass has enough space to grow. at some point the antelope population starts to grow again since there is no longer too little grass available. The resulting reduction in the grass population starts a new oscillation cycle and the many antelopes enable a larger lion population.
+
+Equilibrium on larger lands:\\
+The oscillating structures have a fixed size. Therefore, a larger land contains more oscillating structures that do not need to be in the same state because our model only considers local neighbourhoods. The phase shift between the oscillating structures evens out the overall population counts. Therefore, the population curves for larger lands tend to stabilize close to an equilibrium where as lands with a size small enough to fit only one or few oscillating structures show a clear oscillation. Lands that are too small to fit an oscillating structure show an extinction of a race or result in a complete wipeout.\\
+An increase in the considered neighbourhood enlarges the oscillating structures.
 \section{Summary and Outlook}
 Balance out at beginning
 Answer questions
@@ -360,12 +372,11 @@ Large Map size vs small map size
 Size of "Wipeouts" is fix. Wipeout = one organism takes over. Small map oscillates more and will become unstable quicker. On large map multiple wipeouts can equalize each other.
 
 Dependent of each other. 
-Only antilipes and grass causes wipeout.
+Only antilipes and grass causes wipeout. with larger lands most of the time stable
 
 Large map equals stable non-oscillating cycle. 
 Islands of Lions. Large Map results smaller probability of this happening. 
 Antelopes become nothing, not grass
-
 
 \appendix
 
