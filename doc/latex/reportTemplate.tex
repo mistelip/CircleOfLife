@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{epstopdf}
 \usepackage{natbib}
+\usepackage{subfig} 
 \usepackage{amssymb, amsmath}
 \usepackage{enumitem}
 \setlist[description]{leftmargin=\parindent,labelindent=\parindent}
@@ -89,7 +90,11 @@ In the film "Lion King" from Disney the main character's father explains to his 
 Patrick was responsible for the model, the parameters and the implementation in matlab thereof. Ruben polished single aspects of the simulation and was responsible for the performance of the algorithm. Furthermore Ruben was responsible for the inclusion of the Lotka Volterra equation and finding papers thereof.
 
 \section{Introduction and Motivations}
+%Question 1: Is it possible to create a stable system? Yes
+%Question 2: Is it possible for the system to remain stable if we were to remove one of the organisms? NO, Lotka Volterra: YES
 Having a clear food chain hierarchy defined by the given "circle of life", we were not only interested in whether it is possible to create a stable system, but also which parameters effect the system in what way. Changing a minor parameter, for example how fast animals are able to reproduce or how hungry they are could have a major effect on the balance. Is it possible for the system to remain stable if we were to remove one of the organisms? To the end of the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should be able to reproduce this effect when making the simulated lions "very hungry".
+%Question 3: Do the two models, the Lotka-Volterra model and our model match in the sense, that they show the same simulation results? YES, except when removing lions
+A very popular way of modelling the dynamics in populations is to use the Lotka-Volterra equations, \cite{lotkaVolterra}. Since we are using this model as a referenceto our model, one of our fundamental research questions is whether it is possible to adjust our model to show similar results as the Lotka-Volterra model.
 
 \section{Description of the Model}
 \subsection{States}
@@ -144,7 +149,7 @@ IsOffspring \{0,1\}& 1 if newborn, 0 if adult\\
 \label{tab:Properties}
 \end{table}
 
-\subsection{Protocol per Day}
+\subsection{Protocol per Timestep}
 Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of timestep (also referred to as "day") every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behaviour of nature.
 \newcounter{protocolCounter}
 \setcounter{protocolCounter}{1}
@@ -277,7 +282,8 @@ Location of animals have impact on survival, not only numbers
 Cool pictures
 
 %TODO: add parameters in CircleOfLife Code for nicely oscillating curves
-Adjusting the parameters in the Lotka-Volterra formulas to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} results in  population curves similar to the ones obtained from our simulation. Therefore, we conclude that our simulation models the habitat of organisms consistent to the Lotka-Volterra equations. 
+%TODO: add Figure of nicely oscillating curves for CircleOfLife
+Adjusting the parameters in the Lotka-Volterra formulas to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} results in  population curves similar to the ones obtained from our simulation. Therefore, we conclude that our simulation models the habitat of organisms is somewhat consistent to the Lotka-Volterra equations for the situation that all three species are present.
 
 \begin{table}[htbp]
 \centering
@@ -317,6 +323,33 @@ The graphical result of the Lotka-Volterra equations for these parameters is sho
 \caption{Lotka-Volterra equations for the parameters as shown in Table \ref{tab:LotkaVolterraParametersFinal}.}
 \label{fig:LotkaVolterraThreeAdjusted}
 \end{figure}
+
+Removing one of the species impacts the population curves in the following way: Figure \ref{fig:removingOneOrganism}. In the Lotka-Volterra model removing all grass leads to the extinction of all organisms, because all antelopes starve and therefore, also all lions die of hunger.
+When there are no antelopes, the food chain is broken and all the lions starve. The grass can flourish because it has no natural enemies. Therefore the grass population grows indefinitely. However, removing only the lions simply reduces the Lotka-Volterra model for three species to the model with only 2 species and thus, the population of the grass and of the antelopes are self regulating and the curves oscillate.
+
+For the our model the situation is different in some ways, because we consider locations and neighbourhoods rather than only advancing based on pure population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a indefinite population growth cannot occur in our model. When our Model is started without any grass, then the population still behaves the same as is grass was added at the beginning, because ones a lion dies, it becomes grass. Therefore, the antelopes can potentially reach grass, survive and keep up the balance. However, since the antelopes need to go pass the lions to reach grass it is rather unlikely that lions and antelopes survive. The smaller the land is the smaller the probability that the land recovers from the initially strongly unbalanced situation.
+When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. 
+
+%TODO: add figures
+\ifx
+\begin{figure}
+\centering
+\subfloat[Removing grass]
+{
+\includegraphics[width=0.3\textwidth]{removingGrass.eps}
+}
+\subfloat[removing antelopes]
+{
+\includegraphics[width=0.3\textwidth]{removingAntelopes.eps}
+}
+\subfloat[removing antelopes]
+{
+\includegraphics[width=0.3\textwidth]{removingLions.eps}
+}
+\caption{Result of removing all instances of one organism.}
+\label{fig:removingOneOrganism}
+\end{figure}
+\fi
 
 \section{Summary and Outlook}
 Balance out at beginning
