@@ -126,10 +126,10 @@ Name [Value Range]& Description\\
 \arabic{attCounter}. Type \{1,2,3,4\}& The number between 1 and 4 represents "Nothing", "Grass", "Antelope" and "Lion" respectively  \\ 
 \hline 
 \addtocounter{attCounter}{1}
-\arabic{attCounter}. PreyType [1,4] & Type of the organism which the current organism eats \\ 
+\arabic{attCounter}. PreyType \{1,2,3,4\} & Type of the organism which the current organism eats \\ 
 \hline 
 \addtocounter{attCounter}{1}
-\arabic{attCounter}. Becomes [1,4]& Type to become after a natural death (Dying of age or hunger) \\ 
+\arabic{attCounter}. Becomes \{1,2,3,4\}& Type to become after a natural death (Dying of age or hunger) \\ 
 \hline 
 \addtocounter{attCounter}{1}
 \arabic{attCounter}. FoodDigest [0,inf]& Amount of food that is digested in one time-step\\ 
@@ -198,7 +198,7 @@ If we find either a Grass or a Nothing cell in the surrounding neighborhood we m
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Reproduce}
 \label{tab:reproduction}
-Once we have processed all the cells in the neighborhood we now survey the outcome of the mating situation. If there we have a potential mate and a potential mating location we can continue with the final mating protocol. This is done by checking if the current organism's {\it Stomach} attribute is equal or higher than the amount of its {\it MinStomachRep} attribute. If this is also the case it means there is a potential mate who is enough fed, a cell within the neighborhood that can be replaced by an offspring and the current organism is fed enough to reproduce. For a final test we generate a random number between 0 and 1. Reproduction is only possible if this random number is smaller than the {\it ReproductionProbability} attribute of the organism type. This simulates natures success rate of giving birth. Having a reproduction probability of 1 would result in 100 $\%$ success rate given the previous conditions are met.
+Once we have processed all the cells in the neighborhood we now survey the outcome of the mating situation. If there we have a potential mate and a potential mating location we can continue with the final mating protocol. This is done by checking if the current organism's {\it Stomach} attribute is equal or higher than the amount of its {\it MinStomachRep} attribute. If this is also the case it means there is a potential mate who is enough fed, a cell within the neighborhood that can be replaced by an offspring and the current organism is fed enough to reproduce. For a final test we generate a random number between 0 and 1. Reproduction is only possible if this random number is smaller than the {\it ReproductionProbability} attribute of the organism type. This simulates natures success rate of giving birth. Having a reproduction probability of 1 would result in 100 $\%$ success rate given the previous conditions are met. When the two organisms successfully reproduce the stomach of the offspring is set to the average of its parents plus 1. This reflects natures way of being disabling two underfed parents to reproduce a well-fed child and therefore creating already eaten food. In addition the two parents both lose 1 stomach point in order to keep reproduction to a limit. This should simulate the increase of life difficulty of an organism once it has produced an offspring. Reproduction is natural, but it also hinders the parent's flexibility in life. Subtracting one stomach point enforces this concept, since the organism must now work harder (eat more) in order to stay alive.
 
  
 \subsection{Neighbourhood}
@@ -252,8 +252,7 @@ The population of different organisms has been thoroughly studied. A.J. Lotka an
 \frac{dy}{dt} = cxy-dy
 \end{split}
 \end{equation}
-The reasoning about the population count of organisms has been extended to three species, \cite{lotkaVolterraThreeSpecies}. The three organisms form a food chain. In the model, organisms Z are predators of organisms Y and organisms Y prey on organisms X. Therefore, compared to the two species situation, the population count of organism Y now additionally depends on the number predators (organisms Z). 
-
+The reasoning about the population count of organisms has been extended to three species, \cite{lotkaVolterraThreeSpecies}. The three organisms form a food chain. In the model, organisms Z are predators of organisms Y and organisms Y prey on organisms X. Therefore, compared to the two species situation, the population count of organism Y now additionally depends on the number predators (organisms Z).
 \begin{equation}
 \begin{split}
 \frac{dx}{dt} = ax-bxy \\ 
@@ -261,9 +260,7 @@ The reasoning about the population count of organisms has been extended to three
 \frac{dz}{dt} = -fz+gyz
 \end{split}
 \end{equation}
-
 The resulting curves can be parametrized by the six constants a,b,c,d,e,f, and g as shown in Table \ref{tab:LotkaVolterraParameters}.
-
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l|l}
@@ -287,7 +284,6 @@ g & advantage of organisms Z of hunting\\
 \caption{The semantic meaning of the different constants.}
 \label{tab:LotkaVolterraParameters}
 \end{table}
-
 This model could be further generalized in a similar manner to model $n$ organisms. The behaviour of the population curves highly depends on the choice of variables and is thoroughly studied in \cite{lotkaVolterraThreeSpecies}. The variable assignment $a=b=c=d=e=f=g=1$ results in oscillating population count curves shown in Figure \ref{fig:LotkaVolterraThreeAllOnes}. 
 
 \begin{figure}
@@ -301,9 +297,57 @@ This model could be further generalized in a similar manner to model $n$ organis
 Running multiple simulations and adjusting the parameters and initial map there were several dependencies we discovered. Additionally we compared the population results obtained form the simulation with the Lotka-Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. 
 
 \subsection{Chosen Parameters}
+A possibility of a simple parameter combination that produces a stable or oscillating population is given in table \ref{tab:ChosenParameters}.
+The death probability was calculated using the helper function $deathProb(a) = 1-(\frac{a}{a+1})$ which takes input $a$ = average life expectancy and outputs the corresponding death probability.\\
+We have decided to NOT let antelopes become grass when they die of age or hunger but rather become nothing. Reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition.
 
-Table for chosen parameters. 
-Why antelopes do not become grass?
+\begin{table}[htbp]
+\centering
+\begin{tabular}{l|l|l|l|l}
+\newcounter{attCounter2}
+\setcounter{attCounter2}{0}
+Attribute Type & Nothing & Grass & Antelope & Lion\\
+\hline
+\hline
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. Type \{1,2,3,4\} & 1 & 2 & 3 & 4\\
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. PreyType \{1,2,3,4\} & -1 & -1 & 1 & 2\\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. Becomes \{1,2,3,4\} & 0 & 0& 0 & 1\\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. FoodDigest [0,inf]&0 & 0 & $\frac{1}{2}$ & 1 \\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. Stomach [0,inf]& $\infty$ & $\infty$ & 10 & 10\\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. MaxStomach [0,inf]& 0 & 0 & 10 & 10 \\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. DeathProb [0,1]& $\infty$ & $\frac{1}{6}$ & $\frac{1}{10}$ & $\frac{1}{11}$\\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. Fatness [0,inf]& 0 & 8 & 8 & 0\\ 
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. Alive \{0,1\}& 0 & 1 & 1 & 1\\
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. MinStomachRep [0,inf]& $\infty$ & 0 & 0 & 0\\
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. ReproductionProb [0,1]& 0 & 0.7 & 1 & 1 \\
+\hline 
+\addtocounter{attCounter2}{1}
+\arabic{attCounter2}. IsOffspring \{0,1\}& 1 & 1 & 1 & 1\\
+\end{tabular}
+\caption{A description of all attributes that define an organism.}
+\label{tab:ChosenParameters}
+\end{table}
 
 \subsection{General Observation}
 XXXXXSOMETHING ABOUT Macro phenomenaXXX
