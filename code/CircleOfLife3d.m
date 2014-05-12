@@ -1,19 +1,24 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
+SETUPINDEX = 2;
+LAND_NUMBER = 19;
+%LAND_NUMBER = 16;
 
-TIMESTEPS = 281474976710650;
-NUMBER_OF_SPECIES = 3;
-%LAND_NUMBER = 3;
-LAND_NUMBER = 16;
+neigh_8 = getNeighbourhood(1); % Define the Moore neighborhood
+neigh_8ext = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];
+neigh_2 = getNeighbourhood(2);
+neigh_3 = getNeighbourhood(3);
+neigh = neigh_8ext;
+
 
 % 0 = Nothing
 % 1 = Grass
 % 2 = Antelope
 % 3 = Lion
-NUMBER_OF_VARIABLES = 17;
-SETUPINDEX = 6;
-
+NUMBER_OF_SPECIES = 3;
+TIMESTEPS = 281474976710650; %Large number for nearly unlimited timesteps. Change window size to break timestep loop
+NUMBER_OF_VARIABLES = 12;
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
@@ -46,7 +51,6 @@ set(fig, 'Position', [10 10 1300 800])
 FILENAME = [datestr(clock, 30),'.avi'];
 vidObj = VideoWriter(FILENAME);
 vidObj.Quality= 100;
-%vidObj.FrameRate= 2;
 open(vidObj);
 
 %Print initial Land
@@ -54,12 +58,6 @@ printLand(organismMat(:,:,1),organismCountMat(1,:),1,deathCauseMat);
 
 disp('Initial Land Printed, 1 sec before start');
 pause(1);
-
-% Define the Moore neighborhood, i.e. the 8 nearest neighbors
-neigh_8 = getNeighbourhood(1);
-neigh_8ext = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];
-neigh_2 = getNeighbourhood(2);
-neigh = neigh_8ext;
 
 % generate random order for updates
 xlocs = 1:X;
@@ -69,15 +67,16 @@ locations = [repmat(xlocs,[1,Y]) ; cumsum(repmat(ylocs,[1,Y]))];
 
 % main loop, iterating the time variable, t
 for t=1:TIMESTEPS
-    allEmpty = 1;
+    allEmpty = 1; %If the land is empty we escape the loop
     deathlist = ones(X*Y,2);
-    deathlistIndex = 0;
+    deathlistIndex = 0; 
     
     %Adjust stomach -> vectorized for performance
     organismMat(:,:,stomachInd) = organismMat(:,:,stomachInd) - organismMat(:,:,foodDigestInd);
     randIndexes = randperm(X*Y);
     
     for iter=1:X*Y
+        %Take a random location
         i = locations(1,randIndexes(iter));
         j = locations(2,randIndexes(iter));
         currentAnimal = organismMat(i,j,:);
@@ -102,7 +101,7 @@ for t=1:TIMESTEPS
                 iDie = 1;
                 deathCauseMat(currentAnimal(typeInd),2) = deathCauseMat(currentAnimal(typeInd),2) + 1;
             end
-            if (iDie == 1)
+            if (iDie == 1) %Kill organism
                 newType = currentAnimal(becomesInd);
                 newOrganism = typeToOrganism(newType,SETUPINDEX);
                 organismMat(i,j,:) = newOrganism;
@@ -218,10 +217,12 @@ for t=1:TIMESTEPS
     organismCounter(3) = sum(sum(organismMat(:,:,typeInd) == 3));
     organismCountMat = [organismCountMat;organismCounter];
     
-    
+    %{
+    %Log average stomachs:
     stomachs = (organismMat(:,:,stomachInd));
     logg('Stomach Annte: ', mean(stomachs((logical(organismMat(:,:,typeInd) == 2)))));
     logg('Stomach Lion: ', mean(stomachs((logical(organismMat(:,:,typeInd) == 3)))));
+    %}
     
     % Animate
     printLand(organismMat(:,:,1),organismCountMat,t+1,deathCauseMat);
@@ -231,12 +232,12 @@ for t=1:TIMESTEPS
     try
         writeVideo(vidObj,getframe(fig));
     catch
+        %Breaks if plot was resized
         break;
     end
     
 end
 close(vidObj);
 winopen(FILENAME);
-
 disp(['Finished: ',FILENAME]);
 

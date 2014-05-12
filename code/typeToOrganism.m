@@ -1,7 +1,25 @@
 function [ret] = typeToOrganism( type, setupIndex )
 
+%{
+typeInd = 1;
+preyTypeInd = 2;    %The type of the prey
+becomesInd = 3; %What type does this organism become after death
+
+foodDigestInd = 4;   %Food digested in a day
+stomachInd = 5; %Subtract "foodDigest" each day, +1 when eating, when equal to 0 organism becomes "becomesID"
+maxStomachInd = 6;  %Organism will not feed if it's stomach reaches this constant
+
+deathProbInd = 7;    %-1 after each turn, when reaching 0 organism becomes "becomeID"
+fatnessInd = 8; %How many organisms can be fed by this organism
+aliveInd = 9; %1 if alive, 0 if bitten
+minStomachRepInd = 10; %minimum stomach required to reproduce;
+repProbInd = 11;    %Probability of Reproduction
+
+isOffspring = 12    %Can we reproduce?
+%}
+
 switch setupIndex
-    case 1  %Somewhat Stable
+    case 1  
         switch type
             case 0      %1    2       3       4dige   5          6       7death                        8       9   10      11rep    12
                 ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
@@ -103,21 +121,3 @@ switch setupIndex
         
 end
 end
-
-%{
-typeInd = 1;
-preyTypeInd = 2;    %The type of the prey
-becomesInd = 3; %What type does this organism become after death
-
-foodDigestInd = 4;   %Food digested in a day
-stomachInd = 5; %Subtract "foodDigest" each day, +1 when eating, when equal to 0 organism becomes "becomesID"
-maxStomachInd = 6;  %Organism will not feed if it's stomach reaches this constant
-
-deathProbInd = 7;    %-1 after each turn, when reaching 0 organism becomes "becomeID"
-fatnessInd = 8; %How many organisms can be fed by this organism
-aliveInd = 9; %1 if alive, 0 if bitten
-minStomachRepInd = 10; %minimum stomach required to reproduce;
-repProbInd = 11;    %Probability of Reproduction
-
-isOffspring = 12    %Can we reproduce?
-%}

@@ -1,7 +1,6 @@
-function [ neigh] = getNeighbourhood( s)
-%GETNEIGHBOURHOOD Summary of this function goes here
-%   Detailed explanation goes here
-xDir = -s:s';
+function [ neigh] = getNeighbourhood(s)
+%GETNEIGHBOURHOOD Generates a von Neumann neighborhood with manhattan disctance s
+xDir = -s:s;
 yDir = ones(1,(s*2)+1);
 yDir(1) = 1;
 neigh = [];

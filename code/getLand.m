@@ -9,7 +9,7 @@ typeInd = 1;
 isOffspring = 12;
 
 switch landNumber
-    case 0 %20x20 Grass with 1 Antelope
+    case 0 %Only Antelope
         X=10;              % Grid size (XxY)
         Y =10;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,2);
@@ -18,7 +18,6 @@ switch landNumber
     case 1 %All Antelopes with Lions in middle
         X=50;              % Grid size (XxY)
         Y =50;
-        
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES, setupIndex,0);
         organismCounter(1) = 50*50;
         
@@ -110,7 +109,7 @@ switch landNumber
         Y =20;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
         
-        %{
+        
         for i=1:X
             for j=1:Y
                 if i > 8 && i < 12 &&...
@@ -119,7 +118,7 @@ switch landNumber
                 end
             end
         end
-        %}
+        
     case 6 %Only Antilipes
         X = 30;
         Y = 30;
@@ -200,9 +199,7 @@ switch landNumber
             end
         end
         
-    case 13 %All Grass + stripe of antelope + stripe of lion
-        
-        
+    case 13 %Random Grass  
         X = 10;
         Y = 10;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
@@ -220,9 +217,7 @@ switch landNumber
         end
         organismCounter(1) = X*Y/2;
         
-    case 14 %All Grass + stripe of antelope + stripe of lion
-        
-        
+    case 14 %Box of lion in box of antelope in box of grass
         X = 6;
         Y = 6;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,2);
@@ -239,9 +234,7 @@ switch landNumber
                 end
             end
         end
-    case 15 %All rANDOM
-        
-        
+    case 15 %All random
         X = 30;
         Y = 30;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
@@ -308,7 +301,7 @@ switch landNumber
             disp(y);
             organismMat(x,y,:) = LION;
         end
-    case 17 %Randomized
+    case 17 %Randomized big
         X = 100;
         Y = 100;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
@@ -338,7 +331,7 @@ switch landNumber
         end
         disp('added Lions');
         
-    case 18 %Randomized
+    case 18 %Chasing pattern forced
         X = 60;
         Y = 60;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
@@ -360,7 +353,7 @@ switch landNumber
                 organismMat(i,j,:) = LION;
             end;
         end
-    case 19 %Randomized
+    case 19 %Grass + Random Antelopes
         X = 60;
         Y = 60;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
@@ -381,6 +374,3 @@ organismMat(:,:,isOffspring) =  zeros(X,Y);
 organismCounter(1) = sum(sum(organismMat(:,:,typeInd) == 1));
 organismCounter(2) = sum(sum(organismMat(:,:,typeInd) == 2));
 organismCounter(3) = sum(sum(organismMat(:,:,typeInd) == 3));
-
-
-

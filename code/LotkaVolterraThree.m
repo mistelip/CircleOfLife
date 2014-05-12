@@ -9,6 +9,7 @@ FONTSIZE = 15;
 X_START = 300;
 WAVELENGTH = 35;
 ENDTIME = 132;
+
 % timestep
 dt=0.00006*WAVELENGTH;
 % iterations
@@ -36,16 +37,14 @@ for i=2:iter
     t(i)=t(i-1)+dt;
 end
 
-%hold on;
 plot(t,x,'LineWidth',2,'Color',color_Grass);
 hold on;
 plot(t,y,'LineWidth',2,'Color',color_Antelope);
 plot(t,z,'LineWidth',2,'Color',color_Lion);
+
 %Legend
 legend('grass','antilopes','lions');
 legend(gca,'show');
-%set(legend,'Color',[0,0,0]);
-%set(legend,'TextColor',[1,1,1]);
 set(legend,'Location','NorthOutside');
 
 
@@ -56,8 +55,6 @@ set(xlab,'FontSize',FONTSIZE);
 set(ylab,'FontSize',FONTSIZE);
 set(gca, 'XColor', 'w');
 set(gca, 'YColor', 'w');
-
-%xlim([0,ENDTIME]);
 
 set(gca,'XColor',[0,0,0]);
 set(gca,'YColor',[0,0,0]);
