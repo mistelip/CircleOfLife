@@ -165,7 +165,6 @@ Name [Value Range]& Description\\
 
 \subsection{Protocol per Timestep}
 Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of time steps every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behavior of nature. The following is detailed description of what each cell processes in one time-step. Figure \ref{fig:protocol} can visualizes this process further.
-
 \thispagestyle{empty}
 \begin{figure}
 \includegraphics[angle=90,scale=0.33]{DayProtocol.png}
@@ -195,7 +194,7 @@ If we find an organism who's type is equal to the current organisms type we chec
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mating Location}
-If we find either a Grass or a Nothing cell in the surrounding neighborhood we mark it as a potential mating location. A Nothing cell receives higher priority in order to not replace potential food for the antelopes. 
+If we find either a Grass or a Nothing cell in the surrounding neighborhood we mark it as a potential mating location. A Nothing cell receives higher priority in order not to replace potential food for the antelopes. 
 
 
 \addtocounter{protocolCounter}{1}
@@ -231,7 +230,7 @@ Eaten & An organism can be eaten by its predator (or multiple predators in one t
 \label{sec:knownLimits}
 Our model has certain limits due to abstraction of the concept. One major limit is the inability to move. In nature a herd of antelopes would escape the danger if detected. Since our organisms are unable switch places with another cell, the only way to move is by producing an offspring in a cell within the neighborhood. This of course requires a second organism of the same type. Thus, a single organism is unable to move while multiple organisms may create the illusion of moving. This does not differ much from Conway's Game of Life, where cells are also unable to move but patterns (such as a "glider" XXXXCITEXXXX) create the visual illusion that it is moving across the land.
 \section{Implementation}
-We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to store the data where X and Y correspond to the size of the map (Discussion about map sizes in section \ref{sec:mapDiscussion}. Having a 3D matrix allowed us to keep multiple attributes for each cell. Each layer of the 3d Matrix corresponds to one of the 12 attributes. For visual representation we used the following four subplots:
+We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to store the data where X and Y correspond to the size of the map (Discussion about map sizes in section \ref{sec:DiscMapSize}. Having a 3D matrix allowed us to keep multiple attributes for each cell. Each layer of the 3d Matrix corresponds to one of the 12 attributes. For visual representation we used the following four subplots:
 \begin{itemize}
 \item A color coded 2d matrix of the current land. This was obtained by taking the matrix at level 1 of the 3d matrix, which shows the type of organism for each location on the land
 \item A stacked bar plot to show the amount of deaths for each organism and the cause thereof.
@@ -302,7 +301,7 @@ Running multiple simulations and adjusting the parameters and initial map there 
 \subsection{Chosen Parameters}
 A possibility of a simple parameter combination that produces a stable or oscillating population is given in table \ref{tab:ChosenParameters}.
 The death probability was calculated using the helper function $deathProb(a) = 1-(\frac{a}{a+1})$ which takes input $a$ = average life expectancy and outputs the corresponding death probability.\\
-We have decided to NOT let antelopes become grass when they die of age or hunger but rather become nothing. Reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition.
+We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. Reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce.
 
 \begin{table}[htbp]
 \centering
@@ -358,22 +357,23 @@ Our simulation is based on a set of inherently local rules. Two organisms only i
 In this section we introduce the patterns encountered during the simulations and explain why they naturally emerge.
 
 \subsubsection{Oscillating or Stable population}
-What is oscillating, what is stable...
-
-Oscillation sometimes gets a semi-stable state and starts oscillating again.
-Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created because by the death of a lion. Therefore, less grass implies a decrease in the antelope population, which in turn implies a large number of dying lions and thus, an increase in the number of cells populated by grass. since there are few antelopes and lions, the grass has enough space to grow. at some point the antelope population starts to grow again since there is no longer too little grass available. The resulting reduction in the grass population starts a new oscillation cycle and the many antelopes enable a larger lion population.\\
-
+There are two types of population variation. A stable population is one where all organisms remain their numbers. It is important to note that organisms still reproduce and pass away, but the rate of reproduction and dying are almost equal at every time-step.\\
+The second type of population we discovered was an oscillating population. Here the ratio from death rate to birthrate oscillates from one side to the other. Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created because by deaths of lions. At some point the grass population starts to grow as there are not enough antelopes to eat them. The more grass there is the better for the antelopes because they can feed themselves and their offspring. This results a decrease of grass organisms and an increase in antelopes. An increase in antelopes means a better life set up for lions since now they are able to feed themselves and their offspring. This results in an increase of lions and decrease of antelopes. Having no food left, the lions start dying and becoming grass. This results an increase of grass since not only the lions generate it but there are little antelopes left to prevent the growth of the grass population. More grass and less lions is a good life set up for antelopes to start growing again and so forth.\\
+This oscillation can have different sizes. A large size of oscillation means animals go from overpopulation to almost extinction. A very small oscillation could be regarded as almost stable. if the oscillation is too large one organism takes over and wipes the entire land. Reasons for this are discussed in section \ref{sec:DiscNeighbourhood} and section \ref{sec:DiscMapSize}.\\
+In addition it is possible that an oscillating map will find an almost stable, while an almost stable state may start oscillating again. Figure \ref{fig:plotScreenshot} shows an oscillating state between the time-steps 0-120. An almost stable state follows till time-step 180 after which the oscillation is re-initiated. 
 
 
 \subsubsection{Patterns}
-Balance out at beginning. Because of random
-Oscillation. Stable.
-
-As in Conway's Game of Life we detected certain patterns. "Island of lion", "Chased antilope herd"
-
-The organisms need to form groups in order to survive as a species. This is needed because all organisms can only reproduce if there is at least one other organism of the same species in its neighborhood.
+As in Conway's Game of Life there are certain patterns that appear when we start with a randomized land. This is the case even though the selection of each cell and the selection of its corresponding neighbor happens in random order.  At first there is a strong oscillation until small groups (or "herds") have formed. At the beginning the location is not a big factor since all animals are placed randomly on the map. Thus the behavior is much like the one described by the Lotka-Volterra equation. After a while organisms that were near at the beginning start forming a herd, while lonely organisms die out because of the incapability to reproduce on their own. 
+Two patterns with known consequences were observed
+\begin{itemize}
+\item {\bf Chased Antelope Herd:} An antelope herd is formed as described above. A lion herd can "dock" against one side of this herd. This results in antelopes only being able to reproduce on one side of the herd where on the other side of the herd the lions eat the antelopes and produce new offsprings in the now empty cells. If an antelope would produce an offspring in a cell of an eaten antelope it would probably get eaten in the next timestep by a neighboring lion. The side of the lion herd that is not facing the antelope herd die out because of lack of food. This produces two adjacent herds where one side is well nourished and can reproduce (i.e. move) while the other side has no food and/or predators eating them. Figure XXXXXREFXXX shows this pattern.
+\item {\bf Lion Island:} A lions island is formed when a lion herd is surrounded by antelopes. This means the lions can reproduce in all directions and thus expand the herd quickly. Since the grass generated by passing away lions is surrounded by well-fed lions it is inaccessible for the antelopes (unlike the previous "chased antelope herd" pattern). In the extreme case this could lead to a wipeout of all animals. Figure XXXREF0XXX demonstrates this effect. The antelopes start overfeeding while only two small lion herds remain. In Figure XXXREF1XXX the lions are completely surrounded and start expanding. XXXREF2XXX shows that the only grass on the map is guarded by a circle of lions and thus inaccessible for antelopes. XXXREF3XXX shows the consequence of this. The lions have evetually eaten all antelopes and are dying out because of hunger and age. The map size is important for this effect to wipe out the land. This is discussed in section \ref{sec:DiscMapSize}.
+\end{itemize} 
 
 \subsubsection{Location Dependency}
+\label{sec:DiscLocationDep}
+large oscillation
 Die because of location and inability to move
 As mentioned in section \ref{sec:knownLimits}...
 Location of animals have impact on survival, not only numbers
@@ -384,7 +384,11 @@ Neighbor selection to make sure not the top left neighbor will have offspring.
 Cell selection because patterns tend to have one direction.
 
 \subsubsection{Map Size}
-\label{sec:mapDiscussion}
+\label{sec:DiscMapSize}
+
+Wrap around. 
+Lion Island pattern. 
+large oscillation 
 Patterns remain the same (except if we change the neighborhood). Small map is more likely to fall apart.Size of "Wipeouts" is fix. Wipeout = one organism takes over. Small map oscillates more and will become unstable quicker. On large map multiple wipeouts can equalize each other.
 Large map equals stable non-oscillating cycle. 
 
@@ -394,6 +398,7 @@ Islands of Lions. Large Map results smaller probability of this happening.
 
 \subsubsection{Neighborhood Size}
 \label{sec:DiscNeighbourhood}
+
 See further. Eat more
 An increase in the considered neighborhood enlarges the oscillating structures.
 
@@ -411,7 +416,9 @@ Removing only the lions simply reduces the Lotka-Volterra model for three specie
 
 For the our model the situation is different in some ways, because we consider locations and neighborhoods rather than only advancing based on pure population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a indefinite population growth cannot occur in our model. The overall trends however match nicely between the two models.
 
-\subsection{other}
+\subsection{Overfeeding}
+
+\subsection{Other}
 
 
 %TODO: add parameters in CircleOfLife Code for nicely oscillating curves
@@ -497,6 +504,7 @@ The graphical result of the Lotka-Volterra equations for these parameters is sho
 \label{fig:removingOneOrganism}
 \end{figure}
 \fi
+
 
 \section{Summary and Outlook}
 
