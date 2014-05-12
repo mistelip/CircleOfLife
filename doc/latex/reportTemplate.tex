@@ -165,9 +165,12 @@ Name [Value Range]& Description\\
 
 \subsection{Protocol per Timestep}
 Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of time steps every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behavior of nature. The following is detailed description of what each cell processes in one time-step. Figure \ref{fig:protocol} can visualizes this process further.
+
 \thispagestyle{empty}
-\begin{figure}
-\includegraphics[angle=90,scale=0.33]{DayProtocol.png}
+\begin{figure}[p]
+\centering
+\vspace*{-2cm}
+\includegraphics[angle=90,scale=0.34]{DayProtocol.png}
 \caption{Protocol for each time-step}
 \label{fig:protocol}
 \end{figure}
@@ -396,6 +399,13 @@ In larger lands oscillating structures have a fixed size. Therefore, a larger la
 
 Islands of Lions. Large Map results smaller probability of this happening.
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{circleOfLifeLargeLand}
+\caption{Circle of life simulation with large land 1000x1000 cells.}
+\label{fig:CircleOfLifeLarge}
+\end{figure}
+
 \subsubsection{Neighborhood Size}
 \label{sec:DiscNeighbourhood}
 
@@ -437,19 +447,19 @@ start\_Y & 30\\
 \hline
 start\_Z & 30\\
 \hline
-a & 0.075\\ 
+a & 0.2143\\ 
 \hline 
-b & 0.0005\\ 
+b & 0.0014\\ 
 \hline 
-c & 0.0005\\  
+c & 0.0014\\  
 \hline 
-d & 0.00025\\
+d & 7.1492e-04\\
 \hline 
-e & 0.0005\\
+e & 0.0014\\
 \hline 
-f & 0.075\\
+f & 0.2143\\
 \hline 
-g & 0.0005\\
+g & 0.0014\\
 \end{tabular}
 \caption{The choice of constant values for the comparison with the simulation results}
 \label{tab:LotkaVolterraParametersFinal}
@@ -459,28 +469,58 @@ The graphical result of the Lotka-Volterra equations for these parameters is sho
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{LotkaVolterraThreeAdjusted.pdf}
+\includegraphics[scale=0.7]{LotkaVolterraThreeAdjusted}
 \caption{Lotka-Volterra equations for the parameters as shown in Table \ref{tab:LotkaVolterraParametersFinal}.}
 \label{fig:LotkaVolterraThreeAdjusted}
 \end{figure}
 
 \begin{figure}
 \centering
+\includegraphics[width=0.8\textwidth]{circleOfLifeOscillating.png}
+\caption{Circle of life simulation with oscillating behaviour.}
+\label{fig:noGrass}
+\end{figure}
+
+\begin{figure}[p]
+\centering
 \includegraphics[width=0.7\textwidth]{LotkaVolterraNoGrass.eps}
-\caption{Result of removing all grass.}
+\caption{Lotka Volterra equations, result of starting with zero grass.}
 \label{fig:removeAllGrass}
 \end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{noGrassOnlyCount.png}
+\caption{Circle of Life simulation with initially no grass. Since dying lions}
+\label{fig:noGrass}
+\end{figure}
+
 \begin{figure}
 \centering
 \includegraphics[width=0.7\textwidth]{LotkaVolterraNoAntelopes.eps}
-\caption{Result of removing all antelopes.}
+\caption{Lotka Volterra equations, result of starting with zero antelopes.}
 \label{fig:removeAllAntelopes}
 \end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{noAntelopesOnlyCount.png}
+\caption{Circle of Life simulation with initially no antelopes.}
+\label{fig:noAntelopes}
+\end{figure}
+
 \begin{figure}
 \centering
 \includegraphics[width=0.7\textwidth]{LotkaVolterraNoLions.eps}
-\caption{Result of removing all lions.}
+\caption{Lotka Volterra equations, result of starting with zero lions.}
 \label{fig:removeAllLions}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.8\textwidth]{noLionsOnlyCount.png}
+\caption{Circle of Life simulation with initially no lions.}
+\label{fig:noLions}
 \end{figure}
 
 \ifx
