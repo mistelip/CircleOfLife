@@ -25,3 +25,4 @@ doc/latex/reportTemplate.bbl
 doc/latex/reportTemplate.blg
 doc/latex/enumitem.sty
 code/Thumbs.db
+*.fig
