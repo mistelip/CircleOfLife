@@ -163,7 +163,9 @@ Name [Value Range]& Description\\
 \end{table}
 
 \subsection{Protocol per Timestep}
-Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of time steps every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behavior of nature. The following is detailed description of what each cell processes in one time-step. Figure \ref{fig:protocol} can visualizes this process further.\\
+Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of time steps every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behavior of nature. The following is detailed description of what each cell processes in one time-step. Figure \ref{fig:protocol} can visualizes this process further.
+
+\thispagestyle{empty}
 \begin{figure}
 \includegraphics[angle=90,scale=0.33]{images/DayProtocol.png}
 \caption{Protocol for each time-step}
@@ -349,8 +351,10 @@ Attribute Type & Nothing & Grass & Antelope & Lion\\
 \label{tab:ChosenParameters}
 \end{table}
 
-\subsection{General Observation}
-XXXXXSOMETHING ABOUT Macro phenomenaXXX
+\subsection{General Observations}
+Our simulation is based on a set of inherently local rules. Two organisms only influence each other when both are in each others neighborbood. Therefore, the fastest possible propagation speed is once the radius of the neighborhood per time-step. However, structures larger than the one neighborhood can emerge over time when the influence spreads across the land. These macro phenomena seem to obey their own set of rules even if they are only the interaction between many cells. 
+%Outline
+In this section we introduce the patterns encountered during the simulations and explain why they naturally emerge.
 
 \subsubsection{Oscillating or Stable population}
 What is oscillating, what is stable...
