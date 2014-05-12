@@ -5,15 +5,15 @@
 TIMESTEPS = 281474976710650;
 NUMBER_OF_SPECIES = 3;
 %LAND_NUMBER = 3;
-LAND_NUMBER = 17;
+LAND_NUMBER = 16;
 
 % 0 = Nothing
 % 1 = Grass
 % 2 = Antelope
 % 3 = Lion
-NUMBER_OF_VARIABLES = 12;
-SETUPINDEX = 2;
-%SETUPINDEX = 7;
+NUMBER_OF_VARIABLES = 17;
+SETUPINDEX = 6;
+
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
@@ -42,7 +42,7 @@ deathCauseMat = zeros(3,3);
 %Initialize Video Writer
 fig = figure;
 set(fig,'Color',[0 0 0])
-set(fig, 'Position', [50 50 1300 1000])
+set(fig, 'Position', [10 10 1300 800])
 FILENAME = [datestr(clock, 30),'.avi'];
 vidObj = VideoWriter(FILENAME);
 vidObj.Quality= 100;

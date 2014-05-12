@@ -38,7 +38,32 @@ switch setupIndex
         end
         
         
-    case 4
+    case 4 % Only antelopes and Grass Land 19
+        
+        switch type
+            case 0      %1    2       3       4dige   5          6       7death                        8       9   10      11rep    12
+                ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
+            case 1
+                ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     2,      1,  0,      0.7,      1];
+            case 2
+                ret =   [2,   1,      0,      1,    2,      2,       expectedAgeToDeathProb(9),     8,      1,  1,      1,      1];
+            case 3
+                ret =   [3,   2,      1,      1/3,    2,       2,      expectedAgeToDeathProb(10),     0,      1,  1,      0.6,     1];
+        end
+        
+    case 5 %Lions overfeeding Land 16 & neigh_8ext
+        
+       switch type
+            case 0      %1    2       3       4dige   5          6       7death                        8       9   10      11rep    12
+                ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
+            case 1
+                ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
+            case 2
+                ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(9),     12,      1,  0,      1,      1];
+            case 3
+                ret =   [3,   2,      1,      1/1,    10,       inf,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
+        end
+    case 6 %Antilope overfeeding
         
         switch type
             case 0      %1    2       3       4dige   5          6       7death                        8       9   10      11rep    12
@@ -46,46 +71,21 @@ switch setupIndex
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/2,    5,      4,       expectedAgeToDeathProb(9),     8,      1,  1,      0.8,      1];
+                ret =   [2,   1,      0,      1/2,    10,      inf,       expectedAgeToDeathProb(9),     12,      1,  0,      1,      1];
             case 3
-                ret =   [3,   2,      1,      1/5,    10,       9,      expectedAgeToDeathProb(13),     0,      1,  1,      0.5 ,     1];
+                ret =   [3,   2,      1,      1/1,    10,       13,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
-        
-    case 5
+    case 7 %Lions and Antilope overfeeding
         
         switch type
-            case 0      %1    2       3       4dige   5          6       7death                        8       9   10minS  11rep    12
+            case 0      %1    2       3       4dige   5          6       7death                        8       9   10      11rep    12
                 ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/(2.5),    5,      3,       expectedAgeToDeathProb(9),     8,      1,  0,      0.8,      1];
+                ret =   [2,   1,      0,      1/2,    10,      inf,       expectedAgeToDeathProb(9),     12,      1,  0,      1,      1];
             case 3
-                ret =   [3,   2,      1,      1/8,    10,       10,      expectedAgeToDeathProb(4),     0,      1,  0,      0.45 ,     1];
-        end
-    case 6 %Stable
-        
-        switch type
-            case 0      %1    2       3       4dige   5          6       7death                        8       9   10minS  11rep    12
-                ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
-            case 1
-                ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
-            case 2
-                ret =   [2,   1,      0,      1/(2.5),    5,      3,       expectedAgeToDeathProb(9),     8,      1,  0,      0.8,      1];
-            case 3
-                ret =   [3,   2,      1,      1/8,    10,       10,      expectedAgeToDeathProb(4),     0,      1,  0,      0.7 ,     1];
-        end
-    case 7
-        
-        switch type
-            case 0      %1    2       3       4dige   5          6       7death                        8       9   10minS  11rep    12
-                ret =   [0,   -1,     0,      0,      inf,      0,      Inf,                           0,      0,  inf,    0,       1];
-            case 1
-                ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
-            case 2
-                ret =   [2,   1,      0,      1/(2.5),    10,      10,       expectedAgeToDeathProb(9),     8,      1,  0,      1,      1];
-            case 3
-                ret =   [3,   2,      1,      1/4,    10,       10,      expectedAgeToDeathProb(4),     0,      1,  0,      0.75 ,     1];
+                ret =   [3,   2,      1,      1/1,    10,       inf,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
         
     case 8 %Map 18, neighbourhood 2

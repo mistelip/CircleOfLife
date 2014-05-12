@@ -360,7 +360,18 @@ switch landNumber
                 organismMat(i,j,:) = LION;
             end;
         end
-              
+    case 19 %Randomized
+        X = 60;
+        Y = 60;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        
+        %random Antelope
+        rng('shuffle');
+        for i=1:((X*Y)*(40/900))
+            x =  randi([1 X]);
+            y =  randi([1 Y]);
+            organismMat(x,y,:) = ANTELOPE;
+        end         
 end
 
 %No one isOffpsring
