@@ -351,48 +351,50 @@ Attribute Type & Nothing & Grass & Antelope & Lion\\
 
 \subsection{General Observation}
 XXXXXSOMETHING ABOUT Macro phenomenaXXX
-\subsubsection{Group Forming}
-The organisms need to form groups in order to survive as a species. This is needed because all organisms can only reproduce if there is at least one other organism of the same species in its neighborhood.
+
 \subsubsection{Oscillating or Stable population}
 What is oscillating, what is stable...
 
 Oscillation sometimes gets a semi-stable state and starts oscillating again.
 Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created because by the death of a lion. Therefore, less grass implies a decrease in the antelope population, which in turn implies a large number of dying lions and thus, an increase in the number of cells populated by grass. since there are few antelopes and lions, the grass has enough space to grow. at some point the antelope population starts to grow again since there is no longer too little grass available. The resulting reduction in the grass population starts a new oscillation cycle and the many antelopes enable a larger lion population.\\
-In larger lands oscillating structures have a fixed size. Therefore, a larger land contains more oscillating structures that do not need to be in the same state because our model only considers local neighborhoods. The phase shift between the oscillating structures evens out the overall population counts. Therefore, the population curves for larger lands tend to stabilize close to an equilibrium where as lands with a size small enough to fit only one or few oscillating structures show a clear oscillation. Lands that are too small to fit an oscillating structure show an extinction of a race or result in a complete wipeout.\\
 
 
-\subsection{Patterns}
+
+\subsubsection{Patterns}
 Balance out at beginning. Because of random
 Oscillation. Stable.
 
 As in Conway's Game of Life we detected certain patterns. "Island of lion", "Chased antilope herd"
 
+The organisms need to form groups in order to survive as a species. This is needed because all organisms can only reproduce if there is at least one other organism of the same species in its neighborhood.
 
-\subsection{Location Dependency}
+\subsubsection{Location Dependency}
 Die because of location and inability to move
 As mentioned in section \ref{sec:knownLimits}...
 Location of animals have impact on survival, not only numbers
 
 
-\subsection{Random Selection vs Sequential Selection}
+\subsubsection{Random Selection vs Sequential Selection}
 Neighbor selection to make sure not the top left neighbor will have offspring.
 Cell selection because patterns tend to have one direction.
 
-\subsection{Map Size}
+\subsubsection{Map Size}
 \label{sec:mapDiscussion}
-Patterns remain the same (except if we change the neighbourhood). Small map is more likely to fall apart.Size of "Wipeouts" is fix. Wipeout = one organism takes over. Small map oscillates more and will become unstable quicker. On large map multiple wipeouts can equalize each other.
+Patterns remain the same (except if we change the neighborhood). Small map is more likely to fall apart.Size of "Wipeouts" is fix. Wipeout = one organism takes over. Small map oscillates more and will become unstable quicker. On large map multiple wipeouts can equalize each other.
 Large map equals stable non-oscillating cycle. 
+
+In larger lands oscillating structures have a fixed size. Therefore, a larger land contains more oscillating structures that do not need to be in the same state because our model only considers local neighborhoods. The phase shift between the oscillating structures evens out the overall population counts. Therefore, the population curves for larger lands tend to stabilize close to an equilibrium where as lands with a size small enough to fit only one or few oscillating structures show a clear oscillation. Lands that are too small to fit an oscillating structure show an extinction of a race or result in a complete wipeout.\\
 
 Islands of Lions. Large Map results smaller probability of this happening.
 
-\subsection{Neighborhood Size}
+\subsubsection{Neighborhood Size}
 \label{sec:DiscNeighbourhood}
 See further. Eat more
 An increase in the considered neighborhood enlarges the oscillating structures.
 
 
 
-\subsection{Removal of one species}
+\subsubsection{Removal of one species}
 When our Model is started without any grass, then the population still behaves the same as if grass was added at the beginning, because once a lion dies, it becomes grass. Therefore, the antelopes can potentially reach grass, survive and keep up the balance. However, since the antelopes need to go pass the lions to reach grass it is rather unlikely that lions and antelopes survive. The smaller the land is the smaller the probability that the land recovers from the initially strongly unbalanced situation.
 When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. The grass population then fills the entire land and hits a hard limit, because there are no more cells to populate. 
 If initially no lions are added to the land there are two different outcomes: Either the antelopes eat all the grass and then starve leaving an extinct land, or the both organisms survive. The latter case is more probable in larger lands, whereas in smaller lands the population seldom remains stable.
