@@ -965,7 +965,7 @@ END<y:LabelModel>
           <y:Path sx="-85.5583094339622" sy="0.0" tx="85.7948719339623" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.5" textColor="#000000" visible="true" width="21.796875" x="-78.98019771515374" y="-11.800772083210404">no<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="21.796875" x="-31.921892565782628" y="-11.800772083210461">no<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -1108,7 +1108,7 @@ END<y:LabelModel>
           <y:Path sx="110.75830943396224" sy="0.0" tx="-110.75830943396224" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.5" textColor="#000000" visible="true" width="28.8984375" x="10.501927935888034" y="-11.800774336750237">yes<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="28.8984375" x="10.076122786516862" y="-11.800774336750237">yes<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>

@@ -309,39 +309,6 @@ switch landNumber
             organismMat(x,y,:) = LION;
         end
     case 17 %Randomized
-        X = 1000;
-        Y = 1000;
-        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
-        
-        %random Grass
-        rng('shuffle');
-        for i=1:((X*Y)*(400/900))
-            x =  randi([1 X]);
-            y =  randi([1 Y]);
-            disp(x);
-            disp(y);
-            organismMat(x,y,:) = GRASS;
-        end
-        %random Antelope
-        rng('shuffle');
-        for i=1:((X*Y)*(40/900))
-            x =  randi([1 X]);
-            y =  randi([1 Y]);
-            disp(x);
-            disp(y);
-            organismMat(x,y,:) = ANTELOPE;
-        end
-        %random Lion
-        rng('shuffle');
-        for i=1:((X*Y)*(40/900))
-            x =  randi([1 X]);
-            y =  randi([1 Y]);
-            disp(x);
-            disp(y);
-            organismMat(x,y,:) = LION;
-        end
-        
-    case 18 %Randomized
         X = 100;
         Y = 100;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
@@ -351,27 +318,47 @@ switch landNumber
         for i=1:((X*Y)*(400/900))
             x =  randi([1 X]);
             y =  randi([1 Y]);
-            disp(x);
-            disp(y);
             organismMat(x,y,:) = GRASS;
         end
+        disp('added grass');
         %random Antelope
         rng('shuffle');
         for i=1:((X*Y)*(40/900))
             x =  randi([1 X]);
             y =  randi([1 Y]);
-            disp(x);
-            disp(y);
             organismMat(x,y,:) = ANTELOPE;
         end
+        disp('added antelope');
         %random Lion
         rng('shuffle');
-        for i=1:((X*Y)*(30/900))
+        for i=1:((X*Y)*(10/900))
             x =  randi([1 X]);
             y =  randi([1 Y]);
-            disp(x);
-            disp(y);
             organismMat(x,y,:) = LION;
+        end
+        disp('added Lions');
+        
+    case 18 %Randomized
+        X = 60;
+        Y = 60;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        
+        %Antelope
+        for i=20:30
+            for j=25:35
+                organismMat(i,j,:) = ANTELOPE;
+            end;
+        end
+        %Lion
+        for i=20:25
+            for j=25:35
+                organismMat(i,j,:) = LION;
+            end;
+        end
+        for i=20:30
+            for j=36:36
+                organismMat(i,j,:) = LION;
+            end;
         end
               
 end

@@ -1,20 +1,3 @@
-%{
-TODO:
-    Label Axes
-    Line Chart for Counter
-    Death by age vs hunger
-    
-
-    Report:
-        Question in Intro
-        Answer in Conclusion
-    
-    Possible Question:
-        Why sequential update, not random?
-
-    (Random Seed store)
-%}
-
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
@@ -24,7 +7,6 @@ NUMBER_OF_SPECIES = 3;
 %LAND_NUMBER = 3;
 LAND_NUMBER = 17;
 
-
 % 0 = Nothing
 % 1 = Grass
 % 2 = Antelope
@@ -32,7 +14,6 @@ LAND_NUMBER = 17;
 NUMBER_OF_VARIABLES = 12;
 SETUPINDEX = 2;
 %SETUPINDEX = 7;
-
 
 typeInd = 1;
 preyTypeInd = 2;    %The type of the prey
@@ -55,8 +36,6 @@ ANTELOPE =  typeToOrganism(2,SETUPINDEX);
 LION =      typeToOrganism(3,SETUPINDEX);
 
 %---------------------------------------------------
-
-
 [X,Y,organismMat,organismCountMat] = getLand(LAND_NUMBER,NUMBER_OF_VARIABLES,SETUPINDEX);
 deathCauseMat = zeros(3,3);
 
@@ -143,8 +122,6 @@ for t=1:TIMESTEPS
             for k=1:size(neigh,1)
                 i2 = mod((i+neigh(randIndexes2(k), 1))-1,X) + 1;
                 j2 = mod((j+neigh(randIndexes2(k), 2))-1,Y) + 1;
-                
-                
                 neighOrganism = organismMat(i2,j2,:);
                 
                 if (currentAnimal(typeInd) == 2)
