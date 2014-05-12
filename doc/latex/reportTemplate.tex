@@ -8,6 +8,7 @@
 \usepackage{subfig} 
 \usepackage{amssymb, amsmath}
 \usepackage{enumitem}
+\usepackage{mcode}
 \setlist[description]{leftmargin=\parindent,labelindent=\parindent}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -600,7 +601,30 @@ Adjusting the parameters in the Lotka-Volterra formulas to the values shown in T
 The title image was taken from \cite{titleImage}.
 
 \section{Code}
-%the final source code goes here
+\subsection{Main file}
+\lstinputlisting{../../code/CircleOfLife3d.m}
+\subsection{Organism Attribute Selection}
+This stores all attributes for each type. We have multiple combinations in order to quickly select them from the main class
+\lstinputlisting{../../code/typeToOrganism.m}
+\subsection{Expected Age to Death probability}
+This file is used to calculate the death probability given an expected life duration.
+\lstinputlisting{../../code/expectedAgeToDeathProb.m}
+\subsection{Generate Land}
+This file is used to create a new land. We have used a land index in order to select each quickly from the main class.
+\lstinputlisting{../../code/getLand.m}
+\subsection{Generate Flatland}
+This is used by the land generator. It outputs an X by Y matrix and fills it with the given type of organism.
+\lstinputlisting{../../code/createFlatLand.m}
+\subsection{Define Neighborhood}
+This is used to generate the neighborhood and is used in the main file.
+\lstinputlisting{../../code/getNeighbourhood.m}
+\subsection{Print Land}
+Used for printing plots
+\lstinputlisting{../../code/printLand.m}
+\subsection{Lotka-Volterra}
+This is used for plotting a reference Lotka-Volterra equation.
+\lstinputlisting{../../code/LotkaVolterraThree.m}
+
 
 \bibliographystyle{plain}
 \bibliography{bibliography}

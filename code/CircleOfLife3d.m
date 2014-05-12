@@ -49,20 +49,16 @@ vidObj.Quality= 100;
 %vidObj.FrameRate= 2;
 open(vidObj);
 
-
 %Print initial Land
 printLand(organismMat(:,:,1),organismCountMat(1,:),1,deathCauseMat);
 
-
 disp('Initial Land Printed, 1 sec before start');
 pause(1);
-
 
 % Define the Moore neighborhood, i.e. the 8 nearest neighbors
 neigh_8 = getNeighbourhood(1);
 neigh_8ext = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];
 neigh_2 = getNeighbourhood(2);
-
 neigh = neigh_8ext;
 
 % generate random order for updates
