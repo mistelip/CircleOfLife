@@ -192,7 +192,7 @@ switch landNumber
             end
         end
         
-        for i=(X/2+(numAntilopStripes/2)-(numLionStripes/2)):(X/2+(numAntilopStripes/2)+(numLionStripes/2))
+        for i=(X/2+(numAntilopStripes/2)-(numLionStripes/2)) : (X/2+(numAntilopStripes/2) + (numLionStripes/2))
             for j=Y/2:Y
                 organismMat(i,j,:) = LION;
                 organismCounter(1) = organismCounter(1) -1;

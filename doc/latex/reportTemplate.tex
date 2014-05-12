@@ -8,7 +8,7 @@
 \usepackage{subfig} 
 \usepackage{amssymb, amsmath}
 \usepackage{enumitem}
-\usepackage{mcode}
+\usepackage[autolinebreaks]{mcode}
 \setlist[description]{leftmargin=\parindent,labelindent=\parindent}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -194,7 +194,7 @@ If the organism we encountered still has fatness larger than 0 we make sure the 
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mate}
-If we find an organism who's type is equal to the current organisms type we check if it is possible to mate with it. This is done by ensuring the neighbor organism is alive ({\it Alive} attribute == 1) and that it has a high enough {\it Stomach} attribute in order to reproduce. I.e. the {\it Stomach} attribute must be equal or higher to the amount of the {\it MinStomachRep} attribute. Furthermore we ensure that the neighboring organism is not an offspring since a freshly born organism is unable to reproduce. Again, we are aware that there exist animals that are able to reproduce within the first day they are born (i.e. a mayfly XXXXCITEXXXX), but Antelopes and lions are not amongst those. If all these conditions are met the neighboring animal is set as a potential mate. An organism can only have one potential mate per timestep in order to keep a realistic reproduction rate.
+If we find an organism who's type is equal to the current organisms type we check if it is possible to mate with it. This is done by ensuring the neighbor organism is alive ({\it Alive} attribute == 1) and that it has a high enough {\it Stomach} attribute in order to reproduce. I.e. the {\it Stomach} attribute must be equal or higher to the amount of the {\it MinStomachRep} attribute. Furthermore we ensure that the neighboring organism is not an offspring since a freshly born organism is unable to reproduce. We are aware that there exist animals that are able to reproduce within the first day they are born (for example a {\it Caenorhabditis Elegans} \cite{caenorhabditisElegans}), but Antelopes and lions are not amongst those. If all these conditions are met the neighboring animal is set as a potential mate. An organism can only have one potential mate per timestep in order to keep a realistic reproduction rate.
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mating Location}
