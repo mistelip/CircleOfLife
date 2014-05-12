@@ -164,7 +164,7 @@ Name [Value Range]& Description\\
 \end{table}
 
 \subsection{Protocol per Timestep}
-Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of time steps every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behavior of nature. The following is detailed description of what each cell processes in one time-step. Figure \ref{fig:protocol} can visualizes this process further.
+Once we have generated an initial map with random cells we start the time process. This means for an unlimited amount of time steps every cell gets called in random order and completes the protocol. This protocol is very similar to the rules in Conway's Game of Life but has various extensions in order to simulate the behavior of nature. The following is a detailed description of what each cell processes in one time-step. Figure \ref{fig:protocol} visualizes this process further.
 
 \thispagestyle{empty}
 \begin{figure}[p]
@@ -180,7 +180,7 @@ Once we have generated an initial map with random cells we start the time proces
 \setcounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Initial check} 
 Here we check whether the {\it Alive} attribute is still set to 1. If it is set to 0 it means at least one predator cell has taken a bite of the current organism in this time-step.  This corresponds to a predator killing its prey in nature. If the the current cell is declared as dead it cannot (naturally) do anything anymore. We thus skip the protocol from here on and initiate the protocol on a next cell. We do not remove the organism yet, since more predators may be within the neighborhood and feed on this organism.
-\\We furthermore check whether the current cell is an offspring ({\it IsOffspring} $== 1$). This would mean 2 other cells of the same type have generated this cell in this time-step. A newly born cell is also unable to do anything and we therefore would skip the rest of the protocol from here on. In nature, a newly born animal is able to neither reproduce nor hunt on directly. We are aware that there are animals who are able to hunt directly "out of the shell" (such as crocodiles), but we are dealing with antelopes and lions in our simulation which do not posses such skills. In addition, this attribute prevents the creation of a chain of an organism in one step. For example: Two lions produce an offspring in an empty field next to them. The offspring could then be able to reproduce with one of its parents in a cell next to it. Hyperpolating this will result in a chain of lions in only one time-step.
+\\We furthermore check whether the current cell is an offspring ({\it IsOffspring} $== 1$). This would mean 2 other cells of the same type have generated this cell in this time-step. A newly born cell is also unable to do anything and we therefore would skip the rest of the protocol from here on. In nature, a newly born animal is able to neither reproduce nor hunt on directly. We are aware that there are animals who are able to hunt directly "out of the shell" (such as crocodiles), but we are dealing with antelopes and lions in our simulation which do not posses such skills. In addition, this attribute prevents a chain reaction of organisms generating many generations of children in one step. For example: Two lions produce an offspring in an empty field next to them. The offspring could then be able to reproduce with one of its parents in a cell next to it. Hyperpolating this will result in a chain of newborn lions in only one time-step.
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Livability Check} 
@@ -199,13 +199,11 @@ If we find an organism who's type is equal to the current organisms type we chec
 \subsubsection{(\arabic{protocolCounter}) Found Mating Location}
 If we find either a Grass or a Nothing cell in the surrounding neighborhood we mark it as a potential mating location. A Nothing cell receives higher priority in order not to replace potential food for the antelopes. 
 
-
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Reproduce}
 \label{tab:reproduction}
-Once we have processed all the cells in the neighborhood we now survey the outcome of the mating situation. If there we have a potential mate and a potential mating location we can continue with the final mating protocol. This is done by checking if the current organism's {\it Stomach} attribute is equal or higher than the amount of its {\it MinStomachRep} attribute. If this is also the case it means there is a potential mate who is enough fed, a cell within the neighborhood that can be replaced by an offspring and the current organism is fed enough to reproduce. For a final test we generate a random number between 0 and 1. Reproduction is only possible if this random number is smaller than the {\it ReproductionProbability} attribute of the organism type. This simulates natures success rate of giving birth. Having a reproduction probability of 1 would result in 100 $\%$ success rate given the previous conditions are met. When the two organisms successfully reproduce the stomach of the offspring is set to the average of its parents plus 1. This reflects natures way of being disabling two underfed parents to reproduce a well-fed child and therefore creating already eaten food. In addition the two parents both lose 1 stomach point in order to keep reproduction to a limit. This should simulate the increase of life difficulty of an organism once it has produced an offspring. Reproduction is natural, but it also hinders the parent's flexibility in life. Subtracting one stomach point enforces this concept, since the organism must now work harder (eat more) in order to stay alive.
+Once we have processed all the cells in the neighborhood we now survey the outcome of the mating situation. If there we have a potential mate and a potential mating location we can continue with the final mating protocol. This is done by checking if the current organism's {\it Stomach} attribute is equal or higher than the amount of its {\it MinStomachRep} attribute. If this is also the case it means there is a potential mate who is enough fed, a cell within the neighborhood that can be replaced by an offspring, and the current organism is fed enough to reproduce. For a final test we generate a random number between 0 and 1. Reproduction is only possible if this random number is smaller than the {\it ReproductionProbability} attribute of the organism type. This simulates natures success rate of giving birth. Having a reproduction probability of 1 would result in 100 $\%$ success rate given the previous conditions are met. When the two organisms successfully reproduce the stomach of the offspring is set to the average of its parents plus 1. This reflects natures way of disabling two underfed parents to reproduce a well-fed child and therefore creating already eaten food. In addition the two parents both lose 1 stomach point in order to keep reproduction to a limit. This should simulate the increase of life difficulty of an organism once it has produced an offspring. Reproduction is natural, but it also hinders the parent's flexibility in life. Subtracting one stomach point enforces this concept, since the organism must now work harder (eat more) in order to stay alive.
 
- 
 \subsection{Neighbourhood}
 \label{sec:neighbourhood}
 As in game of life we inspect our neighborhood, see what kind of cells we find and act accordingly. 
@@ -231,9 +229,9 @@ Eaten & An organism can be eaten by its predator (or multiple predators in one t
 
 \subsection{Known limits}
 \label{sec:knownLimits}
-Our model has certain limits due to abstraction of the concept. One major limit is the inability to move. In nature a herd of antelopes would escape the danger if detected. Since our organisms are unable switch places with another cell, the only way to move is by producing an offspring in a cell within the neighborhood. This of course requires a second organism of the same type. Thus, a single organism is unable to move while multiple organisms may create the illusion of moving. This does not differ much from Conway's Game of Life, where cells are also unable to move but patterns (such as a "glider" XXXXCITEXXXX) create the visual illusion that it is moving across the land.
+Our model has certain limits due to abstraction of the concept. One major limit is the inability to move. In nature a herd of antelopes would escape the danger if detected. Since our organisms are unable switch places with another cell, the only way to move is by producing an offspring in a cell within the neighborhood. This of course requires a second organism of the same type. Thus, a single organism is unable to move while multiple organisms may create the illusion of moving. This does not differ much from Conway's Game of Life, where cells are also unable to move but patterns (such as a "glider", \cite{gameOfLife}) create the visual illusion that it is moving across the land.
 \section{Implementation}
-We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to store the data where X and Y correspond to the size of the map (Discussion about map sizes in section \ref{sec:DiscMapSize}. Having a 3D matrix allowed us to keep multiple attributes for each cell. Each layer of the 3d Matrix corresponds to one of the 12 attributes. For visual representation we used the following four subplots:
+We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to store the data where X and Y correspond to the size of the map (Discussion about map sizes in section \ref{sec:DiscMapSize}. Having a 3d matrix allowed us to keep multiple attributes for each cell. Each layer of the 3d Matrix corresponds to one of the 12 attributes. For visual representation we used the following four subplots:
 \begin{itemize}
 \item A color coded 2d matrix of the current land. This was obtained by taking the matrix at level 1 of the 3d matrix, which shows the type of organism for each location on the land
 \item A stacked bar plot to show the amount of deaths for each organism and the cause thereof.
@@ -248,10 +246,8 @@ In order to disable an organism to be cornered by its predator we implemented th
 \label{fig:plotScreenshot}
 \end{figure}
 
-
-
 \section{Lotka Volterra}
-The population of different organisms has been thoroughly studied. A.J. Lotka and V. Volterra found formulas describing the population number of two species, \cite{lotka}, \cite{volterra}. One species is a predator and the other species is the prey. A large number of predators results in a decrease of prey organisms, a small number of predators allows prey organisms to increase in number. On the other hand, the predators are fed by the prey, so predators only flourish when there are enough prey organisms to eat. When the number of prey organism becomes too little, predators die of hunger. These rules are reflected in the formulas of Lotka and Volterra, \cite{lotkaVolterra} which show the dynamics of the population.\\
+The population of different organisms has been thoroughly studied. A.J. Lotka and V. Volterra found formulas describing the population number of two species, \cite{lotka}, \cite{volterra}. One species is a predator and the other species is the prey. A large number of predators results in a decrease of prey organisms and a small number of predators allows prey organisms to increase in number. On the other hand, the predators are fed by the prey, so predators can only flourish when there are enough prey organisms to eat. When the number of prey organism becomes too little, predators die of hunger. These rules are reflected in the formulas of Lotka and Volterra, \cite{lotkaVolterra} which show the dynamics of the population.\\
 
 \begin{equation}
 \begin{split}
@@ -259,7 +255,7 @@ The population of different organisms has been thoroughly studied. A.J. Lotka an
 \frac{dy}{dt} = cxy-dy
 \end{split}
 \end{equation}
-The reasoning about the population count of organisms has been extended to three species, \cite{lotkaVolterraThreeSpecies}. The three organisms form a food chain. In the model, organisms Z are predators of organisms Y and organisms Y prey on organisms X. Therefore, compared to the two species situation, the population count of organism Y now additionally depends on the number predators (organisms Z).
+The reasoning about the population count of organisms has been extended to three species, \cite{lotkaVolterraThreeSpecies} forming a food chain. In the model, organisms Z are predators of organisms Y and organisms Y prey on organisms X. Therefore, compared to the two species situation, the population count of organism Y now additionally depends on the number predators (organisms Z).
 \begin{equation}
 \begin{split}
 \frac{dx}{dt} = ax-bxy \\ 
@@ -267,13 +263,19 @@ The reasoning about the population count of organisms has been extended to three
 \frac{dz}{dt} = -fz+gyz
 \end{split}
 \end{equation}
-The resulting curves can be parametrized by the six constants a,b,c,d,e,f, and g as shown in Table \ref{tab:LotkaVolterraParameters}.
+The resulting curves can be parametrized by the initial population counts START_X, START_Y, and START_Z as well as the six constants a,b,c,d,e,f, and g as shown in Table \ref{tab:LotkaVolterraParameters}.
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l|l}
 Parameter & Description \\ 
 \hline 
 \hline 
+START_X & the initial number of organisms X
+\hline
+START_Y & the initial number of organisms Y
+\hline
+START_Z & the initial number of organisms Z
+\hline
 a & reproduction rate of organisms X\\ 
 \hline 
 b & disadvantage of organisms X of being hunted\\ 
@@ -291,7 +293,7 @@ g & advantage of organisms Z of hunting\\
 \caption{The semantic meaning of the different constants.}
 \label{tab:LotkaVolterraParameters}
 \end{table}
-This model could be further generalized in a similar manner to model $n$ organisms. The behaviour of the population curves highly depends on the choice of variables and is thoroughly studied in \cite{lotkaVolterraThreeSpecies}. The variable assignment $a=b=c=d=e=f=g=1$ results in oscillating population count curves shown in Figure \ref{fig:LotkaVolterraThreeAllOnes}. 
+This model could be further generalized in a similar manner to model $n$ organisms. The behaviour of the population curves highly depends on the choice of variables and is thoroughly studied in \cite{lotkaVolterraThreeSpecies}. The variable assignment $a=b=c=d=e=f=g=1$ and with the initial populations $START_X= 0.5,START_Y = 1, START_Z=2$ results in the oscillating population count curves shown in Figure \ref{fig:LotkaVolterraThreeAllOnes}. 
 
 \begin{figure}
 \centering
@@ -306,7 +308,7 @@ Running multiple simulations and adjusting the parameters and initial map there 
 \subsection{Chosen Parameters}
 A possibility of a simple parameter combination that produces a stable or oscillating population is given in table \ref{tab:ChosenParameters}.
 The death probability was calculated using the helper function $deathProb(a) = 1-(\frac{a}{a+1})$ which takes input $a$ = average life expectancy and outputs the corresponding death probability.\\
-We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. Reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce.
+We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. The reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce.
 
 \begin{table}[htbp]
 \centering
@@ -379,15 +381,15 @@ Attribute Type & Nothing & Grass & Antelope & Lion\\
 \end{table}
 
 \subsection{General Observations}
-Our simulation is based on a set of inherently local rules. Two organisms only influence each other when both are in each others neighborbood. Therefore, the fastest possible propagation speed is once the radius of the neighborhood per time-step. However, structures larger than the one neighborhood can emerge over time when the influence spreads across the land. These macro phenomena seem to obey their own set of rules even if they are only the interaction between many cells. 
+Our simulation is based on a set of inherently local rules. Two organisms only influence each other when both are in each others neighborbood. Therefore, the fastest possible propagation speed is one times the radius of the neighborhood per time-step. However, structures larger than one neighborhood can emerge over time when the influence spreads across the land. These macro phenomena seem to obey their own set of rules even if they are only the interaction between many cells. 
 %Outline
 In this section we introduce the patterns encountered during the simulations and explain why they naturally emerge.
 
 \subsubsection{Oscillating or Stable population}
 There are two types of population variation. A stable population is one where all organisms remain their numbers. It is important to note that organisms still reproduce and pass away, but the rate of reproduction and dying are almost equal at every time-step.\\
-The second type of population we discovered was an oscillating population. Here the ratio from death rate to birthrate oscillates from one side to the other. Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created because by deaths of lions. At some point the grass population starts to grow as there are not enough antelopes to eat them. The more grass there is the better for the antelopes because they can feed themselves and their offspring. This results a decrease of grass organisms and an increase in antelopes. An increase in antelopes means a better life set up for lions since now they are able to feed themselves and their offspring. This results in an increase of lions and decrease of antelopes. Having no food left, the lions start dying and becoming grass. This results an increase of grass since not only the lions generate it but there are little antelopes left to prevent the growth of the grass population. More grass and less lions is a good life set up for antelopes to start growing again and so forth.\\
+The second type of population we discovered was an oscillating population. Here the ratio from death rate to birthrate oscillates from one side to the other. Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created by deaths of lions. At some point the grass population starts to grow as there are not enough antelopes to eat them. The more grass there is the better for the antelopes because they can feed themselves and their offspring. This results a decrease of grass organisms and an increase in antelopes. An increase in antelopes means a better life set up for lions since now they are able to feed themselves and their offspring. This results in an increase of lions and decrease of antelopes. Having no food left, the lions start dying and becoming grass. This results an increase of grass since not only the lions generate it but there are little antelopes left to prevent the growth of the grass population. More grass and less lions is a good life set up for antelopes to start growing again and so forth.\\
 This oscillation can have different sizes. A large size of oscillation means animals go from overpopulation to almost extinction. A very small oscillation could be regarded as almost stable. if the oscillation is too large one organism takes over and wipes the entire land. Reasons for this are discussed in section \ref{sec:DiscNeighbourhood} and section \ref{sec:DiscMapSize}.\\
-In addition it is possible that an oscillating map will find an almost stable, while an almost stable state may start oscillating again. Figure \ref{fig:plotScreenshot} shows an oscillating state between the time-steps 0-120. An almost stable state follows till time-step 180 after which the oscillation is re-initiated. 
+In addition it is possible that an oscillating map will find an almost stable state, while an almost stable state may start oscillating again. Figure \ref{fig:plotScreenshot} shows an oscillating state between the time-steps 0-120. An almost stable state follows till time-step 180 after which the oscillation is re-initiated. 
 
 
 \subsubsection{Patterns}
@@ -395,28 +397,58 @@ In addition it is possible that an oscillating map will find an almost stable, w
 As in Conway's Game of Life there are certain patterns that appear when we start with a randomized land. This is the case even though the selection of each cell and the selection of its corresponding neighbor happens in random order.  At first there is a strong oscillation until small groups (or "herds") have formed. At the beginning the location is not a big factor since all animals are placed randomly on the map. Thus the behavior is much like the one described by the Lotka-Volterra equation. After a while organisms that were near at the beginning start forming a herd, while lonely organisms die out because of the incapability to reproduce on their own. 
 Two patterns with known consequences were observed
 \begin{itemize}
-\item {\bf Chased Antelope Herd:} An antelope herd is formed as described above. A lion herd can "dock" against one side of this herd. This results in antelopes only being able to reproduce on one side of the herd where on the other side of the herd the lions eat the antelopes and produce new offsprings in the now empty cells. If an antelope would produce an offspring in a cell of an eaten antelope it would probably get eaten in the next timestep by a neighboring lion. The side of the lion herd that is not facing the antelope herd die out because of lack of food. This produces two adjacent herds where one side is well nourished and can reproduce (i.e. move) while the other side has no food and/or predators eating them. Figure XXXXXREFXXX shows this pattern.
-\item {\bf Lion Island:} A lions island is formed when a lion herd is surrounded by antelopes. This means the lions can reproduce in all directions and thus expand the herd quickly. Since the grass generated by passing away lions is surrounded by well-fed lions it is inaccessible for the antelopes (unlike the previous "chased antelope herd" pattern). In the extreme case this could lead to a wipeout of all animals. Figure XXXREF0XXX demonstrates this effect. The antelopes start overfeeding while only two small lion herds remain. In Figure XXXREF1XXX the lions are completely surrounded and start expanding. XXXREF2XXX shows that the only grass on the map is guarded by a circle of lions and thus inaccessible for antelopes. XXXREF3XXX shows the consequence of this. The lions have evetually eaten all antelopes and are dying out because of hunger and age. The map size is important for this effect to wipe out the land. This is discussed in section \ref{sec:DiscMapSize}.
-\end{itemize} 
+\item {\bf Chased Antelope Herd:} An antelope herd is formed as described above. A lion herd can "dock" against one side of this herd. This results in antelopes only being able to reproduce on one side of the herd where on the other side of the herd the lions eat the antelopes and produce new offsprings in the now empty cells. If an antelope would produce an offspring in a cell of an eaten antelope it would probably get eaten in the next timestep by a neighboring lion. The side of the lion herd that is not facing the antelope herd die out because of lack of food. This produces two adjacent herds where one side is well nourished and can reproduce (i.e. move) while the other side has no food and/or predators eating them. Figure \ref{fig:chasedAntelopesHerd} shows this pattern.
+\item {\bf Lion Island:} A lion island is formed when a lion herd is surrounded by antelopes. This means the lions can reproduce in all directions and thus expand the herd quickly. Since the grass generated by passing away lions is surrounded by well-fed lions it is inaccessible for the antelopes (unlike the previous "chased antelope herd" pattern). In the extreme case this could lead to a wipeout of all animals. Figure \ref{fig:lionIsland0} demonstrates this effect. The antelopes start overfeeding while only two small lion herds remain. In Figure \ref{fig:lionIsland1} the lions are completely surrounded and start expanding. \ref{fig:lionIsland2} shows that the only grass on the map is guarded by a circle of lions and thus inaccessible for antelopes. Figure \ref{fig:lionIsland3} shows the consequence of this. The lions have evetually eaten all antelopes and are dying out because of hunger and age. The map size is important for this effect to wipe out the land. This is discussed in section \ref{sec:DiscMapSize}.
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics[scale=1]{chasedHerd}
+\caption{Lions chasing a herd of antelopes.}
+\label{fig:chasedAntelopesHerd}
+\end{figure}
+
+\begin{figure}
+\centering
+\subfloat[MISSING CAPTION]
+{
+\includegraphics[width=0.5\textwidth]{lionIsland0.png}\label{fig:lionIsland0}
+}
+\subfloat[A small group of lions surrounded by antelopes.]
+{
+\includegraphics[width=0.5\textwidth]{lionIsland1.png}\label{fig:lionIsland1}
+}
+\newline
+\subfloat[Surrounded lions start expanding and prevent antelopes from reaching grass.]
+{
+\includegraphics[width=0.5\textwidth]{lionIsland2.png}\label{fig:lionIsland2}
+}
+\subfloat[Extinction of antelopes can result from surrounded lions.]
+{
+\includegraphics[width=0.5\textwidth]{lionIsland3.png}\label{fig:lionIsland3}
+}
+\caption{Various emerging patterns.}
+\label{fig:circleOfLifePatterns}
+\end{figure}
 
 \subsubsection{Location Dependency}
 \label{sec:DiscLocationDep}
 The main difference between our model and the Lotka-Volterra equation is that Lotka-Volterra only takes into account the quantity of the population, but not the location thereof. In a land where antelopes and lions are separated too far away it is not possible for them to have any effect on each other. This was already mentioned in section \ref{sec:knownLimits}. In our simulation we experienced extinctions of a species simply because they were unable to reach its food source in time before dying of age or hunger. Species may not only be unable to reach food source but may also be unable to reach a potential mate, which makes reproduction impossible. When having one species gone extinct it is usually only a matter of time until another species will go extinct as well. This is further elucidated in section \ref{sec:DiscRemovalOfOne}.
 
 \subsubsection{Random Selection vs Sequential Selection}
-We have designed to randomly select a cell in one time-step to update while making sure that every cell gets updated exactly once per time-step. 0. Furthermore the selection of the neighboring cell is also randomly selected from the defined neighborhood. In an initial attempt we had both selections running in sequential order. This caused certain patterns to always move to the top left since those cell are updated first. By being updated first they are able to feed first before the others get a chance. Furthermore if no empty cells are in the neighborhood, the first grass cell on the top left will always be selected to turn into an offspring. By making it random we make sure no predefined pattern and pattern-direction can occur due to the updating order.
+We have designed to randomly select a cell in one time-step to update while making sure that every cell gets updated exactly once per time-step. Furthermore the selection of the neighboring cell is also randomly selected from the defined neighborhood. In an initial attempt we had both selections running in sequential order. This caused certain patterns to always move to the top left since those cell are updated first. By being updated first they are able to feed first before the others get a chance. Furthermore if no empty cells are in the neighborhood, the first grass cell on the top left will always be selected to turn into an offspring. By making it random we make sure no predefined pattern and pattern-direction can occur due to the updating order.
 
-\subsubsection{Map Size}
+\subsubsection{Map Size} %TODO: REVISE SECTION
 \label{sec:DiscMapSize}
-As mentioned in section \ref{sec:DiscLocationDep} the location and surrounding of each organism is vital for its survival. Thus the size of the land plays an important role. A smaller map enables a single organism to have everything in its neighborhood and act accordingly. This is especially "good" for lions since they will always have potential food in its neighborhood. Lions taking over in a small map is therefor very likely if not controlled by its parameter.\\
-Oscillating in a small land is difficult to achieve because not much freedom is allowed. As soon as one organism takes over it could mean the extinction for another one due to little space left and due to inability to escape its predator.\\
+As mentioned in section \ref{sec:DiscLocationDep} the location and surrounding of each organism is vital for its survival. Thus the size of the land plays an important role. A smaller map enables a single organism to have everything in its neighborhood and act accordingly. This is especially "good" for lions since they will always have potential food in its neighborhood. A takeover by lions is therefore very likely in a small map unless the lions are tamed by adjusting their parameters to only eat very few antelopes.\\
+Oscillations in a small land are difficult to achieve because not much freedom is allowed. As soon as one organism takes over it could mean the extinction for another one due to little space left and due to inability to escape its predator.\\
 Having a larger land a Lion Island pattern (section \ref{sec:patterns}) does not guarantee the extinction of antelopes. The reason for this is that a herd of antelopes could exist with a distance great enough for the lions not to reach them. As soon as the lions run out of antelopes to eat they start dying of hunger and the protecting lion-circle around the grass is broken.
 
 large oscillation 
-Patterns remain the same (except if we change the neighborhood). Small map is more likely to fall apart.Size of "Wipeouts" is fix. Wipeout = one organism takes over. Small map oscillates more and will become unstable quicker. On large map multiple wipeouts can equalize each other.
-Large map equals stable non-oscillating cycle. 
+Patterns remain the same (except if we change the neighborhood). Small map is more likely to fall apart. The size of "Wipeouts" is fixed. Wipeout = one organism takes over. The oscillations on small maps have a higher amplitude and thus, have a larger tendency to become unstable. On a large map multiple wipeouts can equalize each other.
+in conclusion: larger maps lead to stable non-oscillating cycles with a good chance of all species surviving. 
 
-In larger lands oscillating structures have a fixed size. Therefore, a larger land contains more oscillating structures that do not need to be in the same state because our model only considers local neighborhoods. The phase shift between the oscillating structures evens out the overall population counts. Therefore, the population curves for larger lands tend to stabilize close to an equilibrium where as lands with a size small enough to fit only one or few oscillating structures show a clear oscillation. Lands that are too small to fit an oscillating structure show an extinction of a race or result in a complete wipeout.\\
+In larger lands oscillating structures have a fixed size. Therefore, a larger land contains more oscillating structures that do not need to be in the same state because our model only considers local neighborhoods. The phase shift between the oscillating structures evens out the overall population counts. Therefore, the population curves for larger lands tend to stabilize close to an equilibrium whereas lands with a size small enough to fit only one or few oscillating structures show a clear oscillation. Lands that are too small to fit an oscillating structure show an extinction of a race or result in a complete wipeout.\\
 
 Islands of Lions. Large Map results smaller probability of this happening.
 
@@ -429,31 +461,25 @@ Islands of Lions. Large Map results smaller probability of this happening.
 
 \subsubsection{Neighborhood Size}
 \label{sec:DiscNeighbourhood}
-In our model we have chosen the Moore neighborhood XXXCITE MOOREXXX and extended it by adding one more field to the northern, eastern, southern and western neighbor. This produces a 12-connected-neighborhood which seemed an optimal view depth for each organism with our chosen parameters. Decreasing this relates to a slightly blind organism. It cannot see the possible food or mate around it and will therefore die quicker of hunger without being able to reproduce before. Increasing this relates to giving each organism super-vision of the land. A predator is able to eat another cell further away. which means escaping of one species from its predator gets harder. The simulation with our chosen parameters showed that an organism who is able to see the next three neighbors (48-connected-neighborhood) already affects the oscillation of the population in a way where extinction of one species is almost guaranteed. This happens because with our parameters we allow an organism to eat until its stomach is full (MaxStomach = 10) and reproduce until its stomach is empty. Therefor each organism is able to reproduce 10 times in one time-step which causes overpopulation which results in extinction (further explained in section \ref{sec:DiscRemovalOfOne}). Adjusting the parameters to allow a 48-connected-neighborhood is possible. The adjusted values are shown in table \ref{tab:NewParam}. We adapted the food digestion speed in order for animals to live longer without the need to feed. We also lowered the initial stomach (Attribute number 5.) and maxStomach to prevent lions and antelopes to overfeed. The fatness of grass was also lowered to only allow 2 antelopes to feed from one grass cell. Lastly the reproduction was adjusted by setting a higher minimum stomach and a higher reproduction probability in order to make producing offspring less likely which prevents overpopulating the land.\\
-An interesting aspect of the new setup is that it will not work for smaller neighborhood. The reproduction probability is already lowered and taking away 36 of the previously 48 possible mates and mating location makes it even less likely for an organism to reproduce. 
+In our model we have chosen the Moore neighborhood and extended it by adding one more field to the northern, eastern, southern and western neighbor, \cite{mooreNeighborhood}. The so produced neighborhood is known under the name of "Von Neumann neighborhood" with a manhatten distance of 2, \cite{vonNeumannNeighborhood}.  produces a 12-connected-neighborhood which seemed an optimal view depth for each organism with our chosen parameters. Decreasing this relates to a slightly blind organism. It cannot see the possible food or mate around it and will therefore die quicker of hunger without being able to reproduce before. Increasing this relates to giving each organism super-vision of the land. A predator is able to eat another cell further away. which means escaping of one species from its predator gets harder. The simulation with our chosen parameters showed that an organism who is able to see the next three neighbors (48-connected-neighborhood) already affects the oscillation of the population in a way where extinction of one species is almost guaranteed. This happens because with our parameters we allow an organism to eat until its stomach is full (MaxStomach = 10) and reproduce until its stomach is empty. Therefore, each organism is able to reproduce with up to 10 organisms that choose the observed organism as a mate in a single time-step. This may cause overpopulation and result in extinction (further explained in section \ref{sec:DiscRemovalOfOne}). However, on average an organism can still only actively initiate one reproduction per time-step. Adjusting the parameters to allow a stable population with a 48-connected-neighborhood is possible. The adjusted values are shown in table \ref{tab:NewParam}. We adapted the food digestion speed in order for animals to live longer without the need to feed. We also lowered the initial Stomach and MaxStomach to prevent lions and antelopes to overfeed. The fatness of grass was also lowered to only allow 2 antelopes to feed from one grass cell. Lastly the reproduction was adjusted by setting a higher minimum stomach and a lower reproduction probability in order to make producing offspring less likely and preventing an overpopulating of the land.\\
+An interesting aspect of the new setup is that it does not work for a smaller neighborhood. The reproduction probability is already lowered and taking away 36 of the previously 48 possible mates and mating location makes it even less likely for an organism to reproduce. 
 
 \subsubsection{Removal of one species}
 \label{sec:DiscRemovalOfOne}
-Overpopulation 
-%TODO: check if correct
-When our Model is started without any grass, then the population still behaves the same as if grass was added at the beginning, because once a lion dies, it becomes grass. Therefore, the antelopes can potentially reach grass, survive and keep up the balance. However, since the antelopes need to go pass the lions to reach grass it is rather unlikely that lions and antelopes survive. The smaller the land is the smaller the probability that the land recovers from the initially strongly unbalanced situation.
-When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. The grass population then fills the entire land and hits a hard limit, because there are no more cells to populate. 
-If initially no lions are added to the land there are two different outcomes: Either the antelopes eat all the grass and then starve leaving an extinct land, or the both organisms survive. The latter case is more probable in larger lands, whereas in smaller lands the population seldom remains stable.
+When our Model is started without any grass, then the population counts may still behaves the same as if grass was added at the beginning, because once a lion dies, it becomes grass. Therefore, the antelopes can potentially reach grass, survive and keep up the balance. However, since the antelopes need to go pass the lions to reach grass it is rather unlikely that lions and antelopes survive. The smaller the land is the smaller the probability that the land recovers from the initially strongly unbalanced situation.\\
+When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. The grass population then fills the entire land and hits a hard limit because there are no more cells to populate. \\
+If initially no lions are added to the land there are two different outcomes: Either the antelopes eat all the grass and then starve leaving an extinct land, or both species survive. The latter case is more probable in larger lands, whereas in smaller lands the species seldom survive.
 
-Removing one of the species impacts the population curves in the following way: Figures \ref{fig:removeAllGrass}, \ref{fig:removeAllAntelopes}, and \ref{fig:removeAllLions}. In the Lotka-Volterra model removing all grass leads to the extinction of all organisms, because all antelopes starve and therefore, also all lions die of hunger.
-When there are no antelopes, the food chain is broken and all the lions starve. The grass can flourish because it has no natural enemies. Therefore the grass population grows indefinitely.
-Removing only the lions simply reduces the Lotka-Volterra model for three species to the model with only 2 species and thus, the population of the grass and of the antelopes could be self regulating and the curves might oscillate. However, because the Lotka-Volterra equations for three species require a different parameter setting to show an oscillating behaviour, only removing the lions and keeping the parameters set for three species results in the antelopes eating the all the grass and then slowly starving.
+We applied the same modified initial conditions to the Lotka-Volterra model and compared the result.
+Removing one of the species impacts the population curves in the following way: Figures \ref{fig:removeAllGrass}, \ref{fig:removeAllAntelopes}, and \ref{fig:removeAllLions}. In the Lotka-Volterra model removing all grass unavoidably leads to the extinction of all organisms, because all antelopes starve and therefore, also all lions die of hunger.\\
+When there are no antelopes, the food chain is broken and all the lions starve. The grass can flourish because it has no natural enemies. Additionally, the missing capacity limit enables the grass population to grow indefinitely.\\
+Removing only the lions simply reduces the Lotka-Volterra model for three species to the model with only 2 species and thus, the population of the grass and of the antelopes could be self regulating and the curves might oscillate. However, because the Lotka-Volterra equations for three species require a different parameter setting to show an oscillating behaviour, only removing the lions and keeping the parameters set for three species results in the antelopes eating all the grass and then slowly starving.\\
 
 For the our model the situation is different in some ways, because we consider locations and neighborhoods rather than only advancing based on pure population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a indefinite population growth cannot occur in our model. The overall trends however match nicely between the two models.
 
 \subsection{Overfeeding}
 
 \subsection{Other}
-
-
-%TODO: add parameters in CircleOfLife Code for nicely oscillating curves
-%TODO: add Figure of nicely oscillating curves for CircleOfLife
-
 
 \begin{table}[htbp]
 \centering
@@ -589,6 +615,6 @@ The title image was taken from \cite{titleImage}.
 
 \bibliographystyle{plain}
 \bibliography{bibliography}
-\addcontentsline{toc}{chapter}{Bibliography}
+\addcontentsline{toc}{section}{Bibliography}
 
 \end{document}  
