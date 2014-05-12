@@ -17,6 +17,7 @@
 
 \begin{document}
 
+\graphicspath{{Images/}}
 
 \input{cover}
 \newpage
@@ -167,7 +168,7 @@ Once we have generated an initial map with random cells we start the time proces
 
 \thispagestyle{empty}
 \begin{figure}
-\includegraphics[angle=90,scale=0.33]{images/DayProtocol.png}
+\includegraphics[angle=90,scale=0.33]{DayProtocol.png}
 \caption{Protocol for each time-step}
 \label{fig:protocol}
 \end{figure}
@@ -239,7 +240,7 @@ We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to stor
 \end{itemize}
 The final plot is shown in figure \ref{fig:plotScreenshot}.
 \begin{figure}
-\includegraphics[scale=0.35]{images/plotScreenshot.png}
+\includegraphics[scale=0.35]{plotScreenshot.png}
 \caption{Four subplots}
 \label{fig:plotScreenshot}
 \end{figure}
@@ -290,7 +291,7 @@ This model could be further generalized in a similar manner to model $n$ organis
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.65]{LotkaVolterraThreeAllOnes.eps}
+\includegraphics[scale=0.65]{LotkaVolterraThreeAllOnes}
 \caption{Lotka-Volterra equations for $a=b=c=d=e=f=g=1,start_X=0,5, start_Y=1,$ and $start_Z=2$.}
 \label{fig:LotkaVolterraThreeAllOnes}
 \end{figure}
@@ -399,14 +400,16 @@ An increase in the considered neighborhood enlarges the oscillating structures.
 
 
 \subsubsection{Removal of one species}
+%TODO: check if correct
 When our Model is started without any grass, then the population still behaves the same as if grass was added at the beginning, because once a lion dies, it becomes grass. Therefore, the antelopes can potentially reach grass, survive and keep up the balance. However, since the antelopes need to go pass the lions to reach grass it is rather unlikely that lions and antelopes survive. The smaller the land is the smaller the probability that the land recovers from the initially strongly unbalanced situation.
 When no antelopes are added in the beginning, all lions starve for sure, because thy cannot reach there prey. The grass population then fills the entire land and hits a hard limit, because there are no more cells to populate. 
 If initially no lions are added to the land there are two different outcomes: Either the antelopes eat all the grass and then starve leaving an extinct land, or the both organisms survive. The latter case is more probable in larger lands, whereas in smaller lands the population seldom remains stable.
 
-Removing one of the species impacts the population curves in the following way: Figure \ref{fig:removingOneOrganism}. In the Lotka-Volterra model removing all grass leads to the extinction of all organisms, because all antelopes starve and therefore, also all lions die of hunger.
-When there are no antelopes, the food chain is broken and all the lions starve. The grass can flourish because it has no natural enemies. Therefore the grass population grows indefinitely. However, removing only the lions simply reduces the Lotka-Volterra model for three species to the model with only 2 species and thus, the population of the grass and of the antelopes are self regulating and the curves oscillate.
+Removing one of the species impacts the population curves in the following way: Figures \ref{fig:removeAllGrass}, \ref{fig:removeAllAntelopes}, and \ref{fig:removeAllLions}. In the Lotka-Volterra model removing all grass leads to the extinction of all organisms, because all antelopes starve and therefore, also all lions die of hunger.
+When there are no antelopes, the food chain is broken and all the lions starve. The grass can flourish because it has no natural enemies. Therefore the grass population grows indefinitely.
+Removing only the lions simply reduces the Lotka-Volterra model for three species to the model with only 2 species and thus, the population of the grass and of the antelopes could be self regulating and the curves might oscillate. However, because the Lotka-Volterra equations for three species require a different parameter setting to show an oscillating behaviour, only removing the lions and keeping the parameters set for three species results in the antelopes eating the all the grass and then slowly starving.
 
-For the our model the situation is different in some ways, because we consider locations and neighborhoods rather than only advancing based on pure population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a indefinite population growth cannot occur in our model. 
+For the our model the situation is different in some ways, because we consider locations and neighborhoods rather than only advancing based on pure population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a indefinite population growth cannot occur in our model. The overall trends however match nicely between the two models.
 
 \subsection{other}
 
@@ -449,32 +452,51 @@ The graphical result of the Lotka-Volterra equations for these parameters is sho
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.65]{LotkaVolterraThreeAdjusted.eps}
+\includegraphics[scale=0.7]{LotkaVolterraThreeAdjusted.pdf}
 \caption{Lotka-Volterra equations for the parameters as shown in Table \ref{tab:LotkaVolterraParametersFinal}.}
 \label{fig:LotkaVolterraThreeAdjusted}
 \end{figure}
 
-%TODO: add figures
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{LotkaVolterraNoGrass.eps}
+\caption{Result of removing all grass.}
+\label{fig:removeAllGrass}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{LotkaVolterraNoAntelopes.eps}
+\caption{Result of removing all antelopes.}
+\label{fig:removeAllAntelopes}
+\end{figure}
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth]{LotkaVolterraNoLions.eps}
+\caption{Result of removing all lions.}
+\label{fig:removeAllLions}
+\end{figure}
+
 \ifx
 \begin{figure}
 \centering
 \subfloat[Removing grass]
 {
-\includegraphics[width=0.3\textwidth]{removingGrass.eps}
+\includegraphics[width=0.9\textwidth]{LotkaVolterraNoGrass.eps}
 }
+\newline
 \subfloat[removing antelopes]
 {
-\includegraphics[width=0.3\textwidth]{removingAntelopes.eps}
+\includegraphics[width=0.9\textwidth]{LotkaVolterraNoAntelopes.eps}
 }
+\newline
 \subfloat[removing antelopes]
 {
-\includegraphics[width=0.3\textwidth]{removingLions.eps}
+\includegraphics[width=0.9\textwidth]{LotkaVolterraNoLions.eps}
 }
 \caption{Result of removing all instances of one organism.}
 \label{fig:removingOneOrganism}
 \end{figure}
 \fi
-
 
 \section{Summary and Outlook}
 

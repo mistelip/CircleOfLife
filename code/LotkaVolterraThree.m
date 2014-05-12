@@ -8,7 +8,7 @@ FONTSIZE = 15;
 
 X_START = 300;
 WAVELENGTH = 50;
-ENDTIME = 200;
+ENDTIME = 100;
 % timestep
 dt=0.00006*WAVELENGTH;
 % iterations
@@ -18,7 +18,7 @@ iter=333*ENDTIME;
 x=zeros(iter,1); y=zeros(iter,1); z=zeros(iter,1); t=zeros(iter,1);
 l = 0.05/WAVELENGTH;
 
-x(1)=1*X_START; y(1)=0.1*X_START; z(1)=0.1*X_START; t(1)=0; % starting point
+x(1)=1*X_START; y(1)=0.1*X_START*0; z(1)=0.1*X_START; t(1)=0; % starting point
 
 a=0.5*X_START*l; b=1*l; c=1*l; d=0.5*l; e=1*l; f=0.5*X_START*l; g=1*l;
 
@@ -31,19 +31,17 @@ for i=2:iter
     z(i)=z(i-1)+dt*dz;
     t(i)=t(i-1)+dt;
 end
-hold on;
-l1 = plot(t,x);
-l2 = plot(t,y);
-l3 = plot(t,z);
-set(l1,'Color',color_Grass);
-set(l2,'Color',color_Antelope);
-set(l3,'Color',color_Lion);
 
+%hold on;
+semilogy(t,x,'LineWidth',2,'Color',color_Grass);
+hold on;
+semilogy(t,y,'LineWidth',2,'Color',color_Antelope);
+semilogy(t,z,'LineWidth',2,'Color',color_Lion);
 %Legend
 legend('grass','antilopes','lions');
 legend(gca,'show');
-set(legend,'Color',[0,0,0]);
-set(legend,'TextColor',[1,1,1]);
+%set(legend,'Color',[0,0,0]);
+%set(legend,'TextColor',[1,1,1]);
 set(legend,'Location','NorthOutside');
 
 
@@ -55,8 +53,9 @@ set(ylab,'FontSize',FONTSIZE);
 set(gca, 'XColor', 'w');
 set(gca, 'YColor', 'w');
 
-set(gca,'Color',[0,0,0]);
-set(gcf,'Color',[0,0,0]);
+set(gca,'XColor',[0,0,0]);
+set(gca,'YColor',[0,0,0]);
+set(gcf,'Color',[1,1,1]);
 set(gca,'FontSize',FONTSIZE);
 grid on;
 hold off;
