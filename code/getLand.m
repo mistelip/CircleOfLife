@@ -60,8 +60,8 @@ switch landNumber
         organismMat(6,6,:) = LION;
         organismMat(15,16,:) = LION;
     case 3 %Randomized
-        X = 30;
-        Y = 30;
+        X = 40;
+        Y = 40;
         organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,0);
         
         %random Grass
@@ -364,7 +364,29 @@ switch landNumber
             x =  randi([1 X]);
             y =  randi([1 Y]);
             organismMat(x,y,:) = ANTELOPE;
-        end         
+        end  
+    case 20 %Chasing pattern forced
+        X = 40;
+        Y = 40;
+        organismMat = createFlatLand(X,Y,NUM_OF_VARIABLES,setupIndex,1);
+        
+        %Antelope
+        for i=20:30
+            for j=25:35
+                organismMat(i,j,:) = ANTELOPE;
+            end;
+        end
+        %Lion
+        for i=20:25
+            for j=25:35
+                organismMat(i,j,:) = LION;
+            end;
+        end
+        for i=20:30
+            for j=36:36
+                organismMat(i,j,:) = LION;
+            end;
+        end
 end
 
 %No one isOffpsring
