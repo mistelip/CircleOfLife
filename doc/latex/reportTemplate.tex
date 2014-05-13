@@ -312,12 +312,14 @@ This model could be further generalized in a similar manner to model $n$ organis
 \end{figure}
 
 \section{Simulation Results and Discussion}
-Running multiple simulations and adjusting the parameters and the initial map there were several dependencies we discovered. Additionally we compared the population results obtained form the simulation with the Lotka-Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. 
+Running multiple simulations and adjusting the parameters and the initial map there were several dependencies we discovered. Additionally we compared the population results obtained from the simulation with the Lotka-Volterra population curves detected strong similarities.
 
 \subsection{Chosen Parameters}
 A possibility of a simple parameter combination that produces a stable or oscillating population is given in table \ref{tab:ChosenParameters}.
 The death probability was calculated using the helper function $deathProb(a) = 1-(\frac{a}{a+1})$ which takes input $a$ = average life expectancy and outputs the corresponding death probability.\\
-We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. The reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce an offspring.
+We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. The reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce an offspring.\\
+using the values shown in Table \ref{tab:LotkaVolterraParametersFinal}.
+for three species, \cite{lotkaVolterraThreeSpecies}. Adjusting the parameters in the Lotka-Volterra formulas to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} results in  population curves similar to the ones obtained from our simulation. The graphical result of the Lotka-Volterra equations for these parameters is shown in Figure \ref{fig:LotkaVolterraThreeAdjusted}.
 
 \begin{table}[htbp]
 \centering
@@ -477,7 +479,7 @@ If initially {\bf no lions} are added to the land there are two different outcom
 Our results differs to the Lotka-Volterra model in some ways, because we consider locations and neighborhoods rather than purely basing our results on population count. Additionally the size of our land is limited to a fixed number of cells. Therefore a infinite population growth cannot occur in our model. The overall trends however match between the two models.
 
 \subsection{Overfeeding}
-As stated in the introduction we wanted to test our model by reproducing the disrespecting of the circle of life introduced by the main villain of the film "The Lion King". In our model this can be done by simply setting the MaxStomach attribute of the {\bf lions} to $\infty$. As expected the lions eat every antilope and die out themselves because of starvation. The resulting graph is shown in figure \ref{fig:lionOverfeed}. \\
+As stated in the introduction we wanted to test our model by reproducing the disrespecting of the circle of life introduced by the main villain of the film "The Lion King". In our model this can be done by simply setting the MaxStomach attribute of the {\bf lions} to $\infty$. As expected the lions eat every antelope and die out themselves because of starvation. The resulting graph is shown in figure \ref{fig:lionOverfeed}. \\
 We decided to stretch this concept by making the {\bf antelopes} very hungry instead of the lions. Our prediction was that the antelopes will eat all the grass, then die of either starvation or because the lions ate them. This will result in an overpopulation of the lions which will again lead to the starvation of the lions species. The results were only slightly surprising. The antelopes were unable to clear the land of grass instantly because the lions were able to eat a lot of antelopes in the process. This caused the population to oscillate a few times before the antelopes were able to eat all the grass. This result is dependent on the location of the organisms they are spawned in and the direction in which they put their offspring.  Our simulations all terminated after at most three oscillations (Shown in Figure \ref{fig:anteOverfeed}).\\
 Setting {\bf both} the antelopes and the lions MaxStomach to $\infty$ surprisingly results in an oscillation. This can be explained by looking closer at the reproduction. A cell {\it A} can only reproduce once in every time-step, but can be used for reproduction by every other cell that can reach cell {\it A}. Therefore, with our 12-connected-neighborhood an organism can be used as a mating partner by up to 12 organisms. Mating, however, results in 1 point of stomach reduction. Having a stomach limit of only 1 will enable the organism to only produce one offspring. Having no limit of stomach and accessible food within the neighborhood means an organism can fill its stomach, reproduce with one of its neighbors and be a future potential mating partner for multiple other organisms. The reproduction rate is thus higher with MaxStomach equal to $\infty$ and antelopes reproduce quick enough to balance out the hungry lions.
 
@@ -514,15 +516,11 @@ g & 0.0014\\
 \label{tab:LotkaVolterraParametersFinal}
 \end{table}
 
-The graphical result of the Lotka-Volterra equations for these parameters is shown in Figure \ref{fig:LotkaVolterraThreeAdjusted}.
-
-
-
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{circleOfLifeOscillating.png}
 \caption{Circle of life simulation with oscillating behavior.}
-\label{fig:noGrass}
+\label{fig:CircleOfLifeOscillating}
 \end{figure}
 \begin{figure}
 \centering
@@ -596,7 +594,7 @@ The graphical result of the Lotka-Volterra equations for these parameters is sho
 
 \section{Summary and Outlook}
 
-Adjusting the parameters in the Lotka-Volterra formulas to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} results in  population curves similar to the ones obtained from our simulation. Therefore, we conclude that our simulation which models the habitat of organisms is close to the Lotka-Volterra equations for the situation that all three species are present. The main difference was that we have a location factor which the Lotka-Volterra does not take into account. All organisms are required in order to sustain on one land. Furthermore we realized that the size of the given land matters. Every organism needs space to grow and pass away, which can be achieved by creating a large land or by setting a small neighborhood to make the predators weaker. If the land is too small or the neighborhood is too large the cycle can break because one organism is able to take over.  Not only the presence of each organism but the limits such as not overfeeding are vital for everyone's survival. Our organisms were forced to respect each other by the use of parameters. If we allowed one organism to disrespect others by for example always feeding when its prey is nearby the balance is broken.
+Therefore, we conclude that our simulation which models the habitat of organisms is close to the Lotka-Volterra equations for the situation that all three species are present. The main difference was that we have a location factor which the Lotka-Volterra does not take into account. All organisms are required in order to sustain on one land. Furthermore we realized that the size of the given land matters. Every organism needs space to grow and pass away, which can be achieved by creating a large land or by setting a small neighborhood to make the predators weaker. If the land is too small or the neighborhood is too large the cycle can break because one organism is able to take over.  Not only the presence of each organism but the limits such as not overfeeding are vital for everyone's survival. Our organisms were forced to respect each other by the use of parameters. If we allowed one organism to disrespect others by for example always feeding when its prey is nearby the balance is broken.
 \appendix
 
 \section{Appendix}

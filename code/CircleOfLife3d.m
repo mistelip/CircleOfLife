@@ -1,9 +1,8 @@
 % Simulate Circle Of life
 
 %------CONSTANTS---------------------------------
-SETUPINDEX = 2;
-LAND_NUMBER = 19;
-%LAND_NUMBER = 16;
+SETUPINDEX = 1;
+LAND_NUMBER = 3;
 
 neigh_8 = getNeighbourhood(1); % Define the Moore neighborhood
 neigh_8ext = [-1 -1; 0 -1; 1 -1; 1 0; 1 1; 0 1; -1 1; -1 0; 0 -2; 0 2; -2 0; 2 0];

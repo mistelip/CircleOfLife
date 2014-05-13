@@ -26,9 +26,9 @@ switch setupIndex
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(9),     8,      1,  0,      1,      1];
+                ret =   [2,   1,      0,      1/2,    6,      6,       expectedAgeToDeathProb(9),     8,      1,  0,      1,      1];
             case 3
-                ret =   [3,   2,      1,      1/1,    10,       10,      expectedAgeToDeathProb(5),     0,      1,  0,      1,     1];
+                ret =   [3,   2,      1,      1/3,    5,       5,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
     case 2 %Land 16 & neigh_8ext
         
@@ -40,7 +40,7 @@ switch setupIndex
             case 2
                 ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(9),     8,      1,  0,      1,      1];
             case 3
-                ret =   [3,   2,      1,      1/1,    10,       13,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
+                ret =   [3,   2,      1,      1/1,    10,       10,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
     case 3 %Land 18 & neigh_3
         
