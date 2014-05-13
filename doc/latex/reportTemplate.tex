@@ -94,10 +94,11 @@ In the film "The Lion King" from Disney the main character's father explains to 
 Patrick was responsible for the model, the parameters and the implementation in Matlab thereof. Ruben polished single aspects of the simulation and was responsible for the performance of the algorithm. Furthermore Ruben was responsible for the inclusion of the Lotka Volterra equation and finding papers thereof.
 
 \section{Introduction and Motivations}
-%Question 1: Is it possible to create a stable system? Yes
+%Question 1: Is it possible to create a stable system that closely resembles nature? Yes
 %Question 2: Is it possible for the system to remain stable if we were to remove one of the organisms? NO, Lotka Volterra: YES
-Having a clear food chain hierarchy defined by the given "circle of life", we were not only interested in whether it is possible to create a stable system, but also which parameters effect the system in what way. Changing a minor parameter, for example how fast animals are able to reproduce or how hungry they are could have a major effect on the balance. Is it possible for the system to remain stable if we were to remove one of the organisms? To the end of the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should be able to reproduce this effect when making the simulated lions "very hungry".
-%Question 3: Do the two models, the Lotka-Volterra model and our model match in the sense, that they show the same simulation results? YES, except when removing lions
+%Qustion 3: Does it remain stable if lions overfeed?
+Having a clear food chain hierarchy defined by the given "circle of life", we were interested in whether it is possible to create a stable population cycle that closely relates that of nature by having certain attributes and rules for each organism. Is it possible for the system to remain stable if we were to remove one of the organisms? To the end of the mentioned film "Lion King" the balance is destroyed when the lions start disrespecting the circle of life by overfeeding. Our model should be able to reproduce this effect when making the simulated lions "very hungry".
+%Question 4: Do the two models, the Lotka-Volterra model and our model match in the sense, that they show the same simulation results? YES, except when removing lions
 A very popular way of modeling the dynamics in populations is to use the Lotka-Volterra equations, \cite{lotkaVolterra}. Since we are using this model as a reference to our model, one of our fundamental research questions is whether it is possible to adjust our model to show similar results as the Lotka-Volterra model.
 
 \section{Description of the Model}
@@ -146,7 +147,7 @@ Name [Value Range]& Description\\
 \arabic{attCounter}. MaxStomach [0,inf]& Maximal amount of food an organism will eat. Organism will only eat if its stomach is below this number. A high number will cause the organism to eat anything it finds causing overfeeding while a low number will cause the organism to live on a strict diet \\ 
 \hline 
 \addtocounter{attCounter}{1}
-\arabic{attCounter}. DeathProb [0,1]& The probability of dying by age at the end of a time-step. Other death causes are discussed in section \ref{tab:deathCauses} \\ 
+\arabic{attCounter}. DeathProb [0,1]& The probability of dying by age at the end of a time-step. Other death causes are discussed in section \ref{sec:DeathCauses} \\ 
 \hline 
 \addtocounter{attCounter}{1}
 \arabic{attCounter}. Fatness [0,inf]& The number of predators that can be fed eating this organism (Note: as soon as one predator takes a bite the current organism will become Nothing at the end of the time-step)\\ 
@@ -216,7 +217,7 @@ As in game of life we inspect our neighborhood, see what kind of cells we find a
 We started off with the standard Moore-neighborhood and started testing the results of extending this neighborhood. This extension allows an organism to "see" further in the map and therefore not only eat more but reproduce with organism further away. Effects of this are discussed in section \ref{sec:DiscNeighbourhood}
 
 \subsection{Death Causes}
-\label{tab:deathCauses}
+\label{sec:DeathCauses}
 In our model there are multiple ways a single organism can cease to exist. Depending on the cause the resulting cell differs too. Table \ref{tab:deathCauses} shows all possible death causes.
 \begin{table}[htbp]
 \centering
@@ -231,17 +232,18 @@ Hunger & When an organism's stomach reaches a negative number it dies of hunger 
 Eaten & An organism can be eaten by its predator (or multiple predators in one time-step). If this is the case the cell becomes Nothing after the time-step is completed. We chose not to let the cell become the type that is set in its {\it Becomes} attribute because after being eaten an organism mainly resides in the stomach of its predator and does not contribute to the outside land anymore\\  
 \end{tabular}
 \caption{All death causes considered in our model.}
+\label{tab:deathCauses}
 \end{table}
 
 \subsection{Known limits}
 \label{sec:knownLimits}
 Our model has certain limits due to abstraction of the concept. One major limit is the inability to move. In nature a herd of antelopes would escape the danger if detected. Since our organisms are unable switch places with another cell, the only way to move is by producing an offspring in a cell within the neighborhood. This of course requires a second organism of the same type. Thus, a single organism is unable to move while multiple organisms may create the illusion of moving. This does not differ much from Conway's Game of Life, where cells are also unable to move but patterns (such as a "glider", \cite{gameOfLife}) create the visual illusion that it is moving across the land.
 \section{Implementation}
-We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to store the data where X and Y correspond to the size of the map (Discussion about map sizes in section \ref{sec:DiscMapSize}. Having a 3d matrix allowed us to keep multiple attributes for each cell. Each layer of the 3d Matrix corresponds to one of the 12 attributes. For visual representation we used the following four subplots:
+We used Matlab to create our simulation and an X-by-Y-by-12 sized matrix to store the data where X and Y correspond to the size of the map (Discussion about map sizes in section \ref{sec:DiscMapSize}). Having a 3d matrix allowed us to keep multiple attributes for each cell. Each layer of the 3d Matrix corresponds to one of the 12 attributes. For visual representation we used the following four subplots:
 \begin{itemize}
 \item A color coded 2d matrix of the current land. This was obtained by taking the matrix at level 1 of the 3d matrix, which shows the type of organism for each location on the land
 \item A stacked bar plot to show the amount of deaths for each organism and the cause thereof.
-\item  A second stacked bar plot showing the previous stacked bar plot with normalized numbers. This gives a better view of the percentages of each death cause for each organism. 
+\item  A second stacked bar plot showing the previous stacked bar plot with normalized numbers. This gives a better view of the percentages of each death cause for each organism independent of the total number of deaths. 
 \item A line plot with a line for each of the 3 organisms (Grass, Antelope, Lion). The x-axis represents the time where the unit is "timestep" and the y-axis represents the quantity of the organism. This graph shows the current population on the land.
 \end{itemize}
 The final plot is shown in figure \ref{fig:plotScreenshot}.\\
@@ -310,12 +312,12 @@ This model could be further generalized in a similar manner to model $n$ organis
 \end{figure}
 
 \section{Simulation Results and Discussion}
-Running multiple simulations and adjusting the parameters and initial map there were several dependencies we discovered. Additionally we compared the population results obtained form the simulation with the Lotka-Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. 
+Running multiple simulations and adjusting the parameters and the initial map there were several dependencies we discovered. Additionally we compared the population results obtained form the simulation with the Lotka-Volterra population curves for three species, \cite{lotkaVolterraThreeSpecies}. 
 
 \subsection{Chosen Parameters}
 A possibility of a simple parameter combination that produces a stable or oscillating population is given in table \ref{tab:ChosenParameters}.
 The death probability was calculated using the helper function $deathProb(a) = 1-(\frac{a}{a+1})$ which takes input $a$ = average life expectancy and outputs the corresponding death probability.\\
-We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. The reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce.
+We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. The reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means an organism will always be fed enough to reproduce an offspring.
 
 \begin{table}[htbp]
 \centering
@@ -394,8 +396,8 @@ In this section we introduce the patterns encountered during the simulations and
 
 \subsubsection{Oscillating or Stable population}
 There are two types of population variation. A stable population is one where all organisms remain their numbers. It is important to note that organisms still reproduce and pass away, but the rate of reproduction and dying are almost equal at every time-step.\\
-The second type of population we discovered was an oscillating population. Here the ratio from death rate to birthrate oscillates from one side to the other. Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created by deaths of lions. At some point the grass population starts to grow as there are not enough antelopes to eat them. The more grass there is the better for the antelopes because they can feed themselves and their offspring. This results a decrease of grass organisms and an increase in antelopes. An increase in antelopes means a better life set up for lions since now they are able to feed themselves and their offspring. This results in an increase of lions and decrease of antelopes. Having no food left, the lions start dying and becoming grass. This results an increase of grass since not only the lions generate it but there are little antelopes left to prevent the growth of the grass population. More grass and less lions is a good life set up for antelopes to start growing again and so forth.\\
-This oscillation can have different sizes. A large size of oscillation means animals go from overpopulation to almost extinction. A very small oscillation could be regarded as almost stable. if the oscillation is too large one organism takes over and wipes the entire land. Reasons for this are discussed in section \ref{sec:DiscNeighbourhood} and section \ref{sec:DiscMapSize}.\\
+The second type of population we discovered was an oscillating population. Here the ratio from death rate to birthrate oscillates from one side to the other. Populations tend to oscillate because the different species depend on each other. Lions need to eat antelopes, antelopes need to eat grass and grass needs to have space to grow or be created by the deaths of lions. At some point the grass population starts to grow as there are not enough antelopes to eat them. The more grass there is the better for the antelopes because they can feed themselves and their offspring. This results in a decrease of grass organisms and an increase in antelopes. An increase in antelopes means a better life set up for lions since now they are able to feed themselves and their offspring. This results in an increase of lions and decrease of antelopes. Having no food left, the lions start dying and becoming grass. This results an increase of grass since not only the lions generate it but there are little antelopes left to prevent the growth of the grass population. More grass and less lions is a good life set up for antelopes to start growing again and so forth.\\
+This oscillation can have different sizes. A large size of oscillation means animals go from overpopulation to almost extinction. A very small oscillation could be regarded as almost stable. If the oscillation is too large one organism takes over and wipes the entire land. Further reasons for "wipeouts" of the land are the neighborhood size (discussed in section \ref{sec:DiscNeighbourhood}) and the size of the land (discussed in section \ref{sec:DiscMapSize}).\\
 In addition it is possible that an oscillating map will find an almost stable state, while an almost stable state may start oscillating again. Figure \ref{fig:plotScreenshot} shows an oscillating state between the time-steps 0-120. An almost stable state follows till time-step 180 after which the oscillation is re-initiated. 
 
 
