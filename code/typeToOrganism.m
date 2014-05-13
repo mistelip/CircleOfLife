@@ -50,7 +50,7 @@ switch setupIndex %land 3 & neigh_8ext
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     2,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/5,    2,      2,       expectedAgeToDeathProb(9),     8,      1,  1,      1,      1];
+                ret =   [2,   1,      0,      1/5,    2,      2,       expectedAgeToDeathProb(10),     8,      1,  1,      1,      1];
             case 3
                 ret =   [3,   2,      1,      1/3,    2,       2,      expectedAgeToDeathProb(10),     0,      1,  1,      0.6,     1];
         end
@@ -64,7 +64,7 @@ switch setupIndex %land 3 & neigh_8ext
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     2,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1,    2,      2,       expectedAgeToDeathProb(9),     8,      1,  1,      1,      1];
+                ret =   [2,   1,      0,      1,    2,      2,       expectedAgeToDeathProb(10),     8,      1,  1,      1,      1];
             case 3
                 ret =   [3,   2,      1,      1/3,    2,       2,      expectedAgeToDeathProb(10),     0,      1,  1,      0.6,     1];
         end
@@ -77,7 +77,7 @@ switch setupIndex %land 3 & neigh_8ext
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(9),     12,      1,  0,      1,      1];
+                ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(10),     12,      1,  0,      1,      1];
             case 3
                 ret =   [3,   2,      1,      1/1,    10,       inf,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
@@ -89,7 +89,7 @@ switch setupIndex %land 3 & neigh_8ext
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/2,    10,      inf,       expectedAgeToDeathProb(9),     12,      1,  0,      1,      1];
+                ret =   [2,   1,      0,      1/2,    10,      inf,       expectedAgeToDeathProb(10),     12,      1,  0,      1,      1];
             case 3
                 ret =   [3,   2,      1,      1/1,    10,       13,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
@@ -101,7 +101,7 @@ switch setupIndex %land 3 & neigh_8ext
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/2,    10,      inf,       expectedAgeToDeathProb(9),     12,      1,  0,      1,      1];
+                ret =   [2,   1,      0,      1/2,    10,      inf,       expectedAgeToDeathProb(10),     12,      1,  0,      1,      1];
             case 3
                 ret =   [3,   2,      1,      1/1,    10,       inf,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
@@ -114,7 +114,7 @@ switch setupIndex %land 3 & neigh_8ext
             case 1
                 ret =   [1,   -1,     0,      0,      inf,      0,      expectedAgeToDeathProb(5),     8,      1,  0,      0.7,      1];
             case 2
-                ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(9),     8,      1,  0,      1,      1];
+                ret =   [2,   1,      0,      1/2,    10,      10,       expectedAgeToDeathProb(10),     8,      1,  0,      1,      1];
             case 3
                 ret =   [3,   2,      1,      1/1,    10,       11,      expectedAgeToDeathProb(10),     0,      1,  0,      1,     1];
         end
