@@ -275,10 +275,12 @@ Add Prey to deathlist<y:LabelModel>
         <node id="n4::n1">
           <data key="d6">
             <y:ShapeNode>
-              <y:Geometry height="92.8649056603773" width="221.51661886792448" x="1543.2718492961965" y="556.1453739072799"/>
+              <y:Geometry height="171.7594238216745" width="221.51661886792448" x="1543.2718492961965" y="477.2508557459827"/>
               <y:Fill color="#FF5B5B" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Arial" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="21.875" modelName="custom" textColor="#000000" visible="true" width="159.625" x="30.945809433962268" y="35.494952830188595">Prey still has fatness?<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Arial" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="57.625" modelName="custom" textColor="#000000" visible="true" width="155.171875" x="33.17237193396227" y="57.067211910837216">Prey still has fatness 
+AND
+isOffspring == 0?<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -989,13 +991,13 @@ END<y:LabelModel>
     <edge id="e14" source="n4::n1" target="n2">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="55.37917182280171" sy="23.213702830194734" tx="79.49081660377351" ty="-28.832452830188686">
+          <y:Path sx="55.37917182280171" sy="42.935188428054744" tx="79.49081660377351" ty="-28.832452830188686">
             <y:Point x="1709.409126984127" y="907.7076380582233"/>
             <y:Point x="1310.6019277148846" y="907.7076380582233"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="21.796875" x="-10.898441303271511" y="33.30935183328222">no<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="21.796875" x="-10.898452483826532" y="53.03267947000086">no<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -1090,13 +1092,13 @@ END<y:LabelModel>
     <edge id="n4::e0" source="n4::n1" target="n4::n0">
       <data key="d10">
         <y:PolyLineEdge>
-          <y:Path sx="-55.37915471698102" sy="23.213702830188595" tx="0.0" ty="-52.032452830188674">
+          <y:Path sx="-55.37915471698102" sy="42.935188428043375" tx="0.0" ty="-52.032452830188674">
             <y:Point x="1598.6510040131777" y="669.6102795676572"/>
             <y:Point x="1591.5261904761905" y="669.6102795676572"/>
           </y:Path>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="28.8984375" x="-14.449215713384774" y="26.23764773171979">yes<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="28.8984375" x="-14.449215713384774" y="45.975196559844676">yes<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
@@ -1108,7 +1110,7 @@ END<y:LabelModel>
           <y:Path sx="110.75830943396224" sy="0.0" tx="-110.75830943396224" ty="0.0"/>
           <y:LineStyle color="#000000" type="line" width="1.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="28.8984375" x="10.076122786516862" y="-11.800774336750237">yes<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
+          <y:EdgeLabel alignment="center" backgroundColor="#FFFFFF" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" height="23.6015625" lineColor="#000000" modelName="center_slider" preferredPlacement="on_edge" ratio="0.0" textColor="#000000" visible="true" width="28.8984375" x="10.100536849016862" y="-31.169241203100455">yes<y:PreferredPlacementDescriptor angle="0.0" angleOffsetOnRightSide="0" angleReference="absolute" angleRotationOnRightSide="co" distance="-1.0" placement="anywhere" side="on_edge" sideReference="relative_to_edge_flow"/>
           </y:EdgeLabel>
           <y:BendStyle smoothed="false"/>
         </y:PolyLineEdge>
