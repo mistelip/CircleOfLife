@@ -6,9 +6,9 @@ color_Antelope = [244/255, 164/255, 96/255];
 color_Grass = [0 1 0];
 FONTSIZE = 15;
 
-X_START = 300;
-WAVELENGTH = 35;
-ENDTIME = 132;
+X_START = 600;
+WAVELENGTH = 73;
+ENDTIME = 225;
 
 % timestep
 dt=0.00006*WAVELENGTH;

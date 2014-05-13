@@ -483,34 +483,31 @@ As stated in the introduction we wanted to test our model by reproducing the dis
 We decided to stretch this concept by making the {\bf antelopes} very hungry instead of the lions. Our prediction was that the antelopes will eat all the grass, then die of either starvation or because the lions ate them. This will result in an overpopulation of the lions which will again lead to the starvation of the lions species. The results were only slightly surprising. The antelopes were unable to clear the land of grass instantly because the lions were able to eat a lot of antelopes in the process. This caused the population to oscillate a few times before the antelopes were able to eat all the grass. This result is dependent on the location of the organisms they are spawned in and on the direction in which they put their offspring.  Our simulations all terminated after at most three oscillations (Shown in Figure \ref{fig:anteOverfeed}).\\
 Setting {\bf both} the antelopes and the lions MaxStomach to $\infty$ surprisingly results in an oscillation. This can be explained by looking closer at the reproduction. A cell {\it A} can only reproduce once in every time-step, but can be used for reproduction by every other cell that can reach cell {\it A}. Therefore, with our 12-connected-neighborhood an organism can be used as a mating partner by up to 12 organisms. Mating, however, results in 1 point of stomach reduction. Having a stomach limit of only 1 will enable the organism to only produce one offspring. Having no limit of stomach and accessible food within the neighborhood means an organism can fill its stomach, reproduce with one of its neighbors and be a future potential mating partner for multiple other organisms. The reproduction rate is thus higher with MaxStomach equal to $\infty$ and antelopes reproduce quick enough to balance out the hungry lions.
 
-
-
-
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l|l}
 Parameter & Value \\ 
 \hline 
 \hline
-start\_X & 300\\
+start\_X & 600\\
 \hline
-start\_Y & 30\\
+start\_Y & 60\\
 \hline
-start\_Z & 30\\
+start\_Z & 60\\
 \hline
-a & 0.2143\\ 
+a & 0.2055\\ 
 \hline 
-b & 0.0014\\ 
+b & 6.8493e-04\\ 
 \hline 
-c & 0.0014\\  
+c & 6.8493e-04\\  
 \hline 
-d & 7.1492e-04\\
+d & 3.4247e-04\\
 \hline 
-e & 0.0014\\
+e & 6.8493e-04\\
 \hline 
-f & 0.2143\\
+f & 0.2055\\
 \hline 
-g & 0.0014\\
+g & 6.8493e-04\\
 \end{tabular}
 \caption{The choice of constant values for the comparison with the simulation results}
 \label{tab:LotkaVolterraParametersFinal}
@@ -524,7 +521,7 @@ g & 0.0014\\
 \end{figure}
 \begin{figure}
 \centering
-\includegraphics[scale=0.7]{LotkaVolterraThreeAdjusted}
+\includegraphics[scale=0.85]{LotkaVolterraThreeAdjusted}
 \caption{Lotka-Volterra equations for the parameters as shown in Table \ref{tab:LotkaVolterraParametersFinal}.}
 \label{fig:LotkaVolterraThreeAdjusted}
 \end{figure}
