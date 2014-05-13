@@ -315,11 +315,12 @@ This model could be further generalized in a similar manner to model $n$ species
 Running multiple simulations and adjusting the parameters and the initial map, we discovered several dependencies. Additionally we compared the population results obtained from the simulation with the Lotka-Volterra population curves detected strong similarities.
 
 \subsection{Chosen Parameters}
-A possibility of a simple parameter combination that produces a stable or oscillating population is given in table \ref{tab:ChosenParameters}.
+A possibility of a simple parameter combination that produces a stable or oscillating population is given in Table \ref{tab:ChosenParameters}.
 The death probability was calculated using the helper function $deathProb(a) = 1-(\frac{a}{a+1})$ which takes input $a$ = average life expectancy and outputs the corresponding death probability.\\
 We have decided NOT to let antelopes become grass when they die of age or hunger but rather become nothing. The reason for this is the dedication to a {\it Circle} of life. Antelopes get eaten by lions which become grass after they die which can then again be eaten by the antelopes. If antelopes were to become grass too after passing away there would be an additional arrow from antelope to grass. For the purpose of our model we decided against this addition. For simplicity we have left the minimum stomach to reproduce at 0, which means a living organism will always be fed enough to reproduce an offspring.\\
-Using our attribute parameterization from table \ref{tab:ChosenParameters} in a randomized 40 by 40 land generates the population curve depicted in Figure \ref{fig:CircleOfLifeOscillating}. Adjusting the values in the Lotka-Volterra formulas for three species to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} a plot shown in Figure \ref{fig:LotkaVolterraThreeAdjusted} can be generated. 
-There are some clear similarities visible when comparing the two resulting graph. The graph from our simulation is less smooth and will not oscillate forever due to the randomness in our model and the location dependency (discussed in Section \ref{sec:DiscLocationDep}). Clearly visible are the three peaks of population from each type in reverse order of the food hierarchy with peaks getting smaller the higher we move up the food chain. 
+Using our attribute parameterization from Table \ref{tab:ChosenParameters} in a randomized 40 by 40 land generates the population curve depicted in Figure \ref{fig:CircleOfLifeOscillating}.\\
+Adjusting the values in the Lotka-Volterra formulas for three species to the values shown in Table \ref{tab:LotkaVolterraParametersFinal} a plot shown in Figure \ref{fig:LotkaVolterraThreeAdjusted} can be generated. 
+There are some clear similarities visible when comparing the two resulting graphs. The graph from our simulation is less smooth and will not oscillate forever due to the randomness in our model and the location dependency (discussed in Section \ref{sec:DiscLocationDep}). Clearly visible are the three peaks of population from each type in reverse order of the food hierarchy with peaks getting smaller the higher we move up the food chain. 
 
 \begin{table}[htbp]
 \centering
@@ -590,8 +591,13 @@ g & 6.8493e-04\\
 
 
 \section{Summary and Outlook}
-
-Therefore, we conclude that our simulation which models the habitat of organisms is close to the Lotka-Volterra equations for the situation that all three species are present. The main difference was that we have a location factor which the Lotka-Volterra does not take into account. All organisms are required in order to sustain on one land. Furthermore we realized that the size of the given land matters. Every organism needs space to grow and pass away, which can be achieved by creating a large land or by setting a small neighborhood to make the predators weaker. If the land is too small or the neighborhood is too large the cycle can break because one organism is able to take over.  Not only the presence of each organism but the limits such as not overfeeding are vital for everyone's survival. Our organisms were forced to respect each other by the use of parameters. If we allowed one organism to disrespect others by for example always feeding when its prey is nearby the balance is broken.
+%Question 1: Is it possible to create a stable system that closely resembles nature? Yes
+%Question 2: Is it possible for the system to remain stable if we were to remove one of the organisms? NO, Lotka Volterra: YES
+%Qustion 3: Does it remain stable if lions overfeed?
+%Question 4: Do the two models, the Lotka-Volterra model and our model match in the sense, that they show the same simulation results? YES, except when removing lions
+We have shown that using a cellular automaton we can closely reproduce a stable system that simulates the concept of the "Circle of life". We further conclude that our simulation resembles the Lotka-Volterra equations for the situation that all three species are present. Removing one species makes our results slightly differ from the Lotka-Volterra equation due to design choices such as lions becoming grass after death and having a map limit. The main difference however was that we have a location factor which the Lotka-Volterra does not take into account.
+All organisms are required in order to sustain on one land. Removing one organism causes the balance to be disturbed and usually means the extinction of another organism.
+Furthermore we realized that the size of the given land matters. Every organism needs space to grow and pass away, which can be achieved by creating a large land or by setting a small neighborhood to make the predators weaker. If the land is too small or the neighborhood is too large the cycle can break because one organism is able to take over.  Not only the presence of each organism but the limits such as not overfeeding are vital for everyone's survival. We forced our organisms to respect each other by the use of parameters. If we allowed one organism to disrespect others by for example always feeding when its prey is nearby the balance is broken.
 \appendix
 
 \section{Appendix}
