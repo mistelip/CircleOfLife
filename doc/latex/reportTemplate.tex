@@ -91,7 +91,7 @@
 In the film "The Lion King" from Disney the main character's father explains to his son the concept of what he calls "the circle of life" and how all animals in the food chain hierarchy are needed in order for every species to survive, \cite{lionKing}. He abstracts the concept by explaining that lions become grass after they die. This grass is eaten by the antelopes, which are again eaten by the lions to complete the circle. We wanted to see if this concept is sound and said three organisms are able to survive within a cellular automaton simulation.
 
 \section{Individual contributions}
-Patrick was responsible for the model, the parameters and the implementation in Matlab thereof. Ruben polished single aspects of the simulation and was responsible for the performance of the algorithm. Furthermore Ruben was responsible for the inclusion of the Lotka Volterra equation and finding papers thereof.
+Patrick was responsible for the model, the parameters and the implementation in Matlab thereof. Ruben polished single aspects of the simulation and was responsible for the performance of the algorithm. Furthermore, Ruben was responsible for the inclusion of the Lotka Volterra equation and finding papers thereof.
 
 \section{Introduction and Motivations}
 %Question 1: Is it possible to create a stable system that closely resembles nature? Yes
@@ -199,7 +199,7 @@ If all the pre checks return positive we are able to eat the prey. We do this by
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mate}
-If we find an organism who's type is equal to the current organisms type we check if it is possible to mate with it. This is done by ensuring the neighbor organism is alive ({\it Alive} attribute == 1) and that it has a high enough {\it Stomach} attribute in order to reproduce. I.e. the {\it Stomach} attribute must be equal or higher to the amount of the {\it MinStomachRep} attribute. Furthermore we ensure that the neighboring organism is not an offspring since a freshly born organism is unable to reproduce. We are aware that there exist animals that are able to reproduce within the first day they are born (for example a {\it Caenorhabditis Elegans} \cite{caenorhabditisElegans}), but antelopes and lions are not amongst those. If all these conditions are met the neighboring animal is set as a potential mate. An organism can only have one potential mate per timestep in order to keep a realistic reproduction rate.
+If we find an organism who's type is equal to the current organisms type we check if it is possible to mate with it. This is done by ensuring the neighbor organism is alive ({\it Alive} attribute == 1) and that it has a high enough {\it Stomach} attribute in order to reproduce. I.e. the {\it Stomach} attribute must be equal or higher to the amount of the {\it MinStomachRep} attribute. Furthermore, we ensure that the neighboring organism is not an offspring since a freshly born organism is unable to reproduce. We are aware that there exist animals that are able to reproduce within the first day they are born (for example a {\it Caenorhabditis Elegans} \cite{caenorhabditisElegans}), but antelopes and lions are not amongst those. If all these conditions are met the neighboring animal is set as a potential mate. An organism can only have one potential mate per timestep in order to keep a realistic reproduction rate.
 
 \addtocounter{protocolCounter}{1}
 \subsubsection{(\arabic{protocolCounter}) Found Mating Location}
@@ -448,7 +448,7 @@ The following two patterns were observed
 The main difference between our model and the Lotka-Volterra equation is that Lotka-Volterra only takes into account the quantity of the population, but not the location thereof. In a land where antelopes and lions are separated too far away it is not possible for them to have any effect on each other. This was already mentioned as a known limit of our model (Section \ref{sec:knownLimits}). In our simulation we experienced extinctions of a species simply because they were unable to reach its food source in time before dying of age or hunger. Species may not only be unable to reach a food source but may also be unable to reach a potential mate, which makes reproduction impossible. When having one species gone extinct it is usually only a matter of time until another species will go extinct as well. This is further elucidated in Section \ref{sec:DiscRemovalOfOne}.
 
 \subsubsection{Random Selection vs Sequential Selection}
-We have designed to randomly select a cell in one time-step to update while making sure that every cell gets updated exactly once per time-step. Furthermore the selection of the neighboring cell is also randomly selected from the defined neighborhood. In an initial attempt we had both selections running in sequential order. This caused certain patterns to always move to the top left since those cell are updated first. By being updated first they are able to feed first before the others get a chance. Furthermore if no empty cells are in the neighborhood, the first grass cell on the top left will always be selected to turn into an offspring. By making it random we ensure that no predefined pattern and pattern-direction can occur due to the updating order.
+We have designed to randomly select a cell in one time-step to update while making sure that every cell gets updated exactly once per time-step. Furthermore, the selection of the neighboring cell is also randomly selected from the defined neighborhood. In an initial attempt we had both selections running in sequential order. This caused certain patterns to always move to the top left since those cell are updated first. By being updated first they are able to feed first before the others get a chance. Furthermore, if no empty cells are in the neighborhood, the first grass cell on the top left will always be selected to turn into an offspring. By making it random we ensure that no predefined pattern and pattern-direction can occur due to the updating order.
 
 \subsubsection{Map Size}
 \label{sec:DiscMapSize}
@@ -514,6 +514,21 @@ g & 6.8493e-04\\
 \label{tab:LotkaVolterraParametersFinal}
 \end{table}
 
+
+
+
+\section{Summary and Outlook}
+%Question 1: Is it possible to create a stable system that closely resembles nature? Yes
+%Question 2: Is it possible for the system to remain stable if we were to remove one of the organisms? NO, Lotka Volterra: YES
+%Qustion 3: Does it remain stable if lions overfeed?
+%Question 4: Do the two models, the Lotka-Volterra model and our model match in the sense, that they show the same simulation results? YES, except when removing lions
+We have shown that using a cellular automaton we can closely reproduce a stable system that simulates the concept of the "Circle of life". We further conclude that our simulation resembles the Lotka-Volterra equations for the situation that all three species are present. Removing one species makes our results slightly differ from the Lotka-Volterra equation due to design choices such as lions becoming grass after death and having a map limit. The main difference however was that we have a location factor which the Lotka-Volterra does not take into account.
+All organisms are required in order to sustain on one land. Removing one organism causes the balance to be disturbed and usually means the extinction of another organism.
+Furthermore, we realized that the size of the given land matters. Every organism needs space to grow and pass away, which can be achieved by creating a large land or by setting a small neighborhood to make the predators weaker. If the land is too small or the neighborhood is too large the cycle can break because one organism is able to take over.  Not only the presence of each organism but the limits such as not overfeeding are vital for everyone's survival. We forced our organisms to respect each other by the use of parameters. If we allowed one organism to disrespect others by for example always feeding when its prey is nearby the balance is broken.
+\appendix
+
+\section{Appendix}
+The title image was taken from \cite{titleImage}.
 \begin{figure}
 \centering
 \includegraphics[width=0.8\textwidth]{circleOfLifeOscillating.png}
@@ -588,21 +603,6 @@ g & 6.8493e-04\\
 \caption{Simulation where lions overfeed.}
 \label{fig:lionOverfeed}
 \end{figure}
-
-
-\section{Summary and Outlook}
-%Question 1: Is it possible to create a stable system that closely resembles nature? Yes
-%Question 2: Is it possible for the system to remain stable if we were to remove one of the organisms? NO, Lotka Volterra: YES
-%Qustion 3: Does it remain stable if lions overfeed?
-%Question 4: Do the two models, the Lotka-Volterra model and our model match in the sense, that they show the same simulation results? YES, except when removing lions
-We have shown that using a cellular automaton we can closely reproduce a stable system that simulates the concept of the "Circle of life". We further conclude that our simulation resembles the Lotka-Volterra equations for the situation that all three species are present. Removing one species makes our results slightly differ from the Lotka-Volterra equation due to design choices such as lions becoming grass after death and having a map limit. The main difference however was that we have a location factor which the Lotka-Volterra does not take into account.
-All organisms are required in order to sustain on one land. Removing one organism causes the balance to be disturbed and usually means the extinction of another organism.
-Furthermore we realized that the size of the given land matters. Every organism needs space to grow and pass away, which can be achieved by creating a large land or by setting a small neighborhood to make the predators weaker. If the land is too small or the neighborhood is too large the cycle can break because one organism is able to take over.  Not only the presence of each organism but the limits such as not overfeeding are vital for everyone's survival. We forced our organisms to respect each other by the use of parameters. If we allowed one organism to disrespect others by for example always feeding when its prey is nearby the balance is broken.
-\appendix
-
-\section{Appendix}
-The title image was taken from \cite{titleImage}.
-
 \section{Code}
 \subsection{Main file}
 \lstinputlisting{../../code/CircleOfLife3d.m}
